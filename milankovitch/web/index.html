@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Milankovitch Cycles: Earth's Orbit and Sunlight</title>
+<meta name="description" content="Explore how slow changes in Earth's orbit change the Sunlight that reaches each latitude in each season. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a></p>
+<h1>Milankovitch Cycles: Earth's Orbit and Sunlight</h1>
+<p class="intro standalone-only">Earth's orbit changes slowly as the other planets tug on it. The changes move Sunlight between seasons and latitudes, and they set the rhythm of the ice ages. Use the three views to see how.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-timeseries" aria-controls="panel-timeseries" aria-selected="true">Through time</button>
+<button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1">Compare two times</button>
+<button type="button" role="tab" id="tab-sensitivity" aria-controls="panel-sensitivity" aria-selected="false" tabindex="-1">Change the orbit</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<p id="loading" role="status">Loading the orbital data…</p>
+
+<section id="panel-timeseries" role="tabpanel" aria-labelledby="tab-timeseries" tabindex="0">
+<h2>Earth's orbit through time</h2>
+<div class="layout">
+<form class="controls" aria-label="Time span">
+<div class="control">
+<label for="start">Start (thousands of years from now; negative is the past)</label>
+<div class="pair"><input type="range" id="start-range" min="-20000" max="10000" step="10" aria-label="Start, slider"><input type="number" id="start" min="-20000" max="10000" step="10"></div>
+</div>
+<div class="control">
+<label for="duration">Length (thousands of years)</label>
+<div class="pair"><input type="range" id="duration-range" min="10" max="10000" step="10" aria-label="Length, slider"><input type="number" id="duration" min="10" max="10000" step="10"></div>
+</div>
+<div class="presets" role="group" aria-label="Quick choices">
+<button type="button" data-start="-400" data-duration="400">Last 400,000 years</button>
+<button type="button" data-start="-1000" data-duration="1050">Last million years</button>
+<button type="button" data-start="-5000" data-duration="5000">Last 5 million years</button>
+<button type="button" data-start="-100" data-duration="200">100,000 years each way</button>
+</div>
+<p><button type="button" id="download">Download these data (CSV)</button></p>
+</form>
+<figure>
+<canvas id="timeseries" tabindex="0" role="img" aria-label="Four stacked line graphs through time: eccentricity, tilt, precession index, and mid-July Sunlight at 65 degrees north. The summary below gives the numbers. With the graph selected, the left and right arrow keys step through time."></canvas>
+<p id="timeseries-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="timeseries-summary" class="summary"></figcaption>
+</figure>
+</div>
+<p class="note">The bottom graph is the daily-average Sunlight at the top of the atmosphere at 65 °N in mid-July, the measure used in Figures 5.13 and 5.15 of the book. Northern ice sheets grow when these summers are weak, because winter snow survives the summer.</p>
+</section>
+
+<section id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" tabindex="0" hidden>
+<h2>Sunlight by latitude and season at two times</h2>
+<div class="layout">
+<form class="controls" aria-label="Two times">
+<div class="control">
+<label for="t1">First time (thousands of years from now)</label>
+<div class="pair"><input type="range" id="t1-range" min="-1000" max="1000" step="1" aria-label="First time, slider"><input type="number" id="t1" min="-1000" max="1000" step="1"></div>
+</div>
+<div class="control">
+<label for="t2">Second time (thousands of years from now)</label>
+<div class="pair"><input type="range" id="t2-range" min="-1000" max="1000" step="1" aria-label="Second time, slider"><input type="number" id="t2" min="-1000" max="1000" step="1"></div>
+</div>
+<div class="presets" role="group" aria-label="Quick choices">
+<button type="button" data-t1="0" data-t2="-21">Today and the last ice age (21,000 years ago)</button>
+<button type="button" data-t1="0" data-t2="-10">Today and 10,000 years ago</button>
+<button type="button" data-t1="0" data-t2="10">Today and 10,000 years from now</button>
+<button type="button" data-t1="-116" data-t2="-127">116,000 and 127,000 years ago</button>
+</div>
+</form>
+<figure>
+<canvas id="compare" role="img" aria-label="Two maps of Sunlight by latitude and season: the first time, and the change from the first time to the second. The summary below gives the numbers."></canvas>
+<p id="compare-readout" class="readout">Move over a map to read values.</p>
+<figcaption id="compare-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+</section>
+
+<section id="panel-sensitivity" role="tabpanel" aria-labelledby="tab-sensitivity" tabindex="0" hidden>
+<h2>Change the orbit yourself</h2>
+<div class="layout">
+<form class="controls" aria-label="Orbit">
+<div class="control">
+<label for="ecc">Eccentricity (how stretched the orbit is)</label>
+<div class="pair"><input type="range" id="ecc-range" min="0" max="0.06" step="0.001" aria-label="Eccentricity, slider"><input type="number" id="ecc" min="0" max="0.06" step="0.001"></div>
+</div>
+<div class="control">
+<label for="obl">Tilt of Earth's axis (degrees)</label>
+<div class="pair"><input type="range" id="obl-range" min="22" max="24.6" step="0.01" aria-label="Tilt, slider"><input type="number" id="obl" min="22" max="24.6" step="0.01"></div>
+</div>
+<div class="control">
+<label for="peri">Longitude of perihelion (degrees)</label>
+<div class="pair"><input type="range" id="peri-range" min="0" max="360" step="1" aria-label="Longitude of perihelion, slider"><input type="number" id="peri" min="0" max="360" step="0.1"></div>
+<p class="hint" id="peri-hint" aria-live="polite"></p>
+</div>
+<p><button type="button" id="reset-orbit">Back to today's orbit</button></p>
+<canvas id="orbit" role="img" aria-label="Earth's orbit seen from above the North Pole, with the Sun, the four seasons and the point where Earth is closest to the Sun. The shape is exaggerated."></canvas>
+<p class="hint">The orbit from above the North Pole, with the Sun in yellow. The orange line points to where Earth is closest to the Sun. The stretch is drawn 10 times too big.</p>
+</form>
+<figure>
+<canvas id="sensitivity" role="img" aria-label="Two maps of Sunlight by latitude and season: today's orbit, and the change with your orbit. The summary below gives the numbers."></canvas>
+<p id="sensitivity-readout" class="readout">Move over a map to read values.</p>
+<figcaption id="sensitivity-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>Gravity from the other planets and the Moon slowly changes three things about Earth's orbit. The <strong>eccentricity</strong> is how stretched the orbit is; it rises and falls about every 100,000 and 400,000 years. The <strong>tilt</strong> of Earth's axis (its obliquity) swings between about 22° and 24.5° every 41,000 years. And the axis wobbles like a top, so the season when Earth is closest to the Sun drifts through the year about every 23,000 years (<strong>precession</strong>). The Serbian mathematician Milutin Milankovitch proposed in the early 1900s that these cycles pace the ice ages.</p>
+<p>The cycles barely change the total Sunlight Earth receives in a year. They move Sunlight between seasons and between latitudes.</p>
+<nav class="jump" aria-label="On this tab">
+<ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-orbit">Where the orbit comes from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul>
+</nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The first three tabs are three views of the same orbit.</p>
+<ul>
+<li><strong>Through time</strong> graphs the eccentricity, the tilt, the precession index and mid-July Sunlight at 65&nbsp;°N. Set the start and the length, or pick one of the quick choices. Move over the graph to read the values, or select the graph and step through time with the left and right arrow keys. The "Download these data (CSV)" button saves the numbers in a file that opens in any spreadsheet.</li>
+<li><strong>Compare two times</strong> maps Sunlight by latitude and season at the first time, and the change from the first time to the second. The times can be up to a million years from today, either way. Move over a map to read the values.</li>
+<li><strong>Change the orbit</strong> lets you set the eccentricity, the tilt and the longitude of perihelion yourself. The maps show Sunlight with today's orbit, and the change your orbit makes. The small drawing shows your orbit from above the North Pole.</li>
+</ul>
+<p>Under every graph and map, a few lines say in words what it shows. <span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Everything is calculated in your browser, from a table of Earth's orbit every 1,000 years.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 5, "Past Climate Change".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the model is small, and you can follow all of it with a calculator. It's six short steps of trigonometry.</p>
+<p>Every graph and map on this page answers one question, many times over. On a given day, at a given latitude, how much Sunlight reaches the top of the atmosphere, averaged over the 24 hours?</p>
+<p>You choose two things:</p>
+<ul>
+<li><var>φ</var> (phi) is the latitude. North is positive and south is negative.</li>
+<li><var>λ</var> (lambda) is the season, as an angle: how far around the Sun Earth has gone since the March equinox. It's 0° at the March equinox, 90° at the June solstice, 180° at the September equinox and 270° at the December solstice.</li>
+</ul>
+<p>Four numbers describe the orbit and the Sun:</p>
+<table class="symbols">
+<thead>
+<tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Today</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row"><var>e</var></th><td>Eccentricity: how stretched the orbit is. A circle has 0.</td><td>0.0167</td></tr>
+<tr><th scope="row"><var>ε</var> (epsilon)</th><td>Tilt of Earth's axis.</td><td>23.44°</td></tr>
+<tr><th scope="row"><var>ϖ</var> (a form of pi)</th><td>Longitude of perihelion. Perihelion is the point on the orbit where Earth comes closest to the Sun. This angle says where that point is, counted from Earth's place at the September equinox, the way Earth moves. At 90°, Earth is closest at the December solstice. At 270°, it's closest at the June solstice. Today it's closest in early January.</td><td>102.9°</td></tr>
+<tr><th scope="row"><var>S</var></th><td>The Sun's brightness at Earth's average distance (the solar constant).</td><td>1,361&nbsp;W/m²</td></tr>
+</tbody>
+</table>
+
+<h4>1. How far away is the Sun?</h4>
+<div class="eq" data-eq="anomaly"><math displaystyle="true"><mrow><mi mathvariant="normal">θ</mi><mo>=</mo><mi mathvariant="normal">λ</mi><mo>+</mo><mn>180°</mn><mo>−</mo><mi mathvariant="normal">ϖ</mi></mrow></math></div>
+<p>Take the season angle, add half a turn and subtract the longitude of perihelion. The answer, <var>θ</var> (theta), is how far Earth has gone past its closest point to the Sun, as an angle seen from the Sun. The 180° is there because <var>λ</var> and <var>ϖ</var> are counted from starting points half a turn apart.</p>
+<div class="eq" data-eq="distance"><math displaystyle="true"><mrow><mfrac><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mfrac><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mi mathvariant="normal">e</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">θ</mi></mrow></mrow><mrow><mn>1</mn><mo>−</mo><msup><mi mathvariant="normal">e</mi><mn>2</mn></msup></mrow></mfrac></mrow></math></div>
+<p>Here <var>a</var> is Earth's average distance from the Sun, halfway between its closest and its farthest, and <var>r</var> is its distance on the day you chose. When <var>θ</var> is zero, Earth is at its closest. Half an orbit later it's at its farthest. Sunlight spreads out as it travels, so its strength goes as (<var>a</var>/<var>r</var>)².</p>
+<p>Today Earth is 1.7% closer than average in early January and 1.7% farther in early July. That makes Sunlight about 7% stronger in early January than in early July, for the planet as a whole.</p>
+
+<h4>2. Where is the Sun overhead?</h4>
+<div class="eq" data-eq="declination"><math displaystyle="true"><mrow><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">δ</mi></mrow><mo>=</mo><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">ε</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">λ</mi></mrow></mrow></math></div>
+<p><var>δ</var> (delta) is the latitude where the Sun is straight overhead at noon. Astronomers call it the Sun's declination. It's zero at the equinoxes. At the June solstice it equals the tilt, so the Sun is overhead at 23.44&nbsp;°N, the Tropic of Cancer. At the December solstice the Sun is overhead at 23.44&nbsp;°S.</p>
+
+<h4>3. How high is the Sun?</h4>
+<div class="eq" data-eq="zenith"><math displaystyle="true"><mrow><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">Z</mi></mrow><mo>=</mo><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">φ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">δ</mi></mrow><mo>+</mo><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">φ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">δ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">h</mi></mrow></mrow></math></div>
+<p><var>Z</var> is the Sun's angle from straight overhead, and <var>h</var> is the angle Earth has turned since noon. Slanting Sunlight is spread over a bigger patch of level ground, so each square meter gets the beam's strength times cos <var>Z</var>. At noon <var>h</var> is zero, and <var>Z</var> is just the difference between your latitude and <var>δ</var>.</p>
+
+<h4>4. How long is the day?</h4>
+<p>The Sun sets when <var>Z</var> reaches 90°, where cos <var>Z</var> is zero. Put zero into the last equation and you get:</p>
+<div class="eq" data-eq="daylength"><math displaystyle="true"><mrow><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">h</mi><mn>0</mn></msub></mrow><mo>=</mo><mrow><mo form="prefix">−</mo><mrow><mi>tan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">φ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>tan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">δ</mi></mrow></mrow></mrow></math></div>
+<p><var>h</var><sub>0</sub> is the angle Earth turns between noon and sunset. Earth turns 15° an hour, so divide <var>h</var><sub>0</sub> by 15 to get the hours from noon to sunset. Daylight lasts twice that.</p>
+<p>Near the poles the right side can fall outside the range from −1 to 1. Below −1, the Sun never sets and <var>h</var><sub>0</sub> is 180°. Above 1, the Sun never rises and <var>h</var><sub>0</sub> is zero. At the equator tan <var>φ</var> is zero, so <var>h</var><sub>0</sub> is 90° and every day lasts 12 hours.</p>
+
+<h4>5. Add up the day</h4>
+<div class="eq" data-eq="daymean"><math displaystyle="true"><mrow><mi mathvariant="normal">C</mi><mo>=</mo><mfrac><mrow><msub><mi mathvariant="normal">h</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">φ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">δ</mi></mrow><mo>+</mo><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">φ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">δ</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>sin</mi><mo>&#x2061;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">h</mi><mn>0</mn></msub></mrow></mrow><mi mathvariant="normal">π</mi></mfrac></mrow></math></div>
+<p><var>C</var> is the average of cos <var>Z</var> over the whole 24 hours, counting zero while the Sun is down. Here <var>h</var><sub>0</sub> is in radians: degrees × π ÷ 180. This is the one step that takes calculus. It adds up cos <var>Z</var> from sunrise to sunset.</p>
+
+<h4>6. Put it together</h4>
+<div class="eq" data-eq="insolation"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><mi mathvariant="normal">S</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">a</mi><mo lspace="0" rspace="0">/</mo><mi mathvariant="normal">r</mi></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">C</mi></mrow></math></div>
+<p><var>Q</var> is the daily-average Sunlight on a level surface at the top of the atmosphere, in watts per square meter. It's what the maps show. Three things multiply: how bright the Sun is, how close it is, and how long and how high it stands in the sky.</p>
+<p>Averaged over the whole globe, <var>C</var> is exactly one quarter on any day of the year. That's the factor of four in Chapter 3 of the book that turns 1,361&nbsp;W/m² into 340.</p>
+
+<h4>A worked example</h4>
+<p>Take 65&nbsp;°N in mid-July with today's orbit, so <var>φ</var> = 65° and <var>λ</var> = 120°. The six lines follow the six steps.</p>
+<ol class="worked">
+<li><var>θ</var> = 120° + 180° − 102.9° = 197.1°. Then <var>a</var>/<var>r</var> = (1 + 0.0167 × cos 197.1°) ÷ (1 − 0.0167²) = 0.9843, and (<var>a</var>/<var>r</var>)² = 0.969. Earth is near its farthest, and Sunlight is about 3% weaker than at the average distance.</li>
+<li>sin <var>δ</var> = sin 23.44° × sin 120° = 0.3445, so <var>δ</var> = 20.15°. The Sun is overhead at about 20&nbsp;°N.</li>
+<li>At noon the Sun is 65° − 20.15° = 44.85° from overhead, about halfway up the sky.</li>
+<li>cos <var>h</var><sub>0</sub> = −tan 65° × tan 20.15° = −0.787, so <var>h</var><sub>0</sub> = 141.9°. Daylight lasts 2 × 141.9 ÷ 15 = 18.9 hours.</li>
+<li>In radians, <var>h</var><sub>0</sub> = 141.9 × π ÷ 180 = 2.477. Then <var>C</var> = (2.477 × sin 65° × sin 20.15° + cos 65° × cos 20.15° × sin 141.9°) ÷ π = (0.773 + 0.245) ÷ π = 0.324.</li>
+<li><var>Q</var> = 1,361 × 0.969 × 0.324 = 427&nbsp;W/m². That's the number Through time gives for today.</li>
+</ol>
+
+<h4>A few details</h4>
+<ul>
+<li>Mid-July here means <var>λ</var> = 120°, a third of the way around the orbit from the March equinox. That's about July 22 on today's calendar. It's the marker Berger and Loutre (1991) used for their July values.</li>
+<li>The precession index graphed on Through time is <var>e</var> sin <var>ϖ</var>. It's above zero when Earth is far from the Sun in northern summer, as it is today (+0.016). It's lowest when Earth is closest to the Sun at the June solstice, which last happened about 11,500 years ago.</li>
+<li>The orbit table has one row every 1,000 years, so times are rounded to the nearest thousand years. The maps are computed every 2° of latitude and every 2° of <var>λ</var>.</li>
+<li>Seasons are measured by Earth's position in its orbit, so the solstices and equinoxes stay at fixed places on the maps.</li>
+<li>The maps show the top of the atmosphere. They leave out clouds, air and ice.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<p>Open Change the orbit and try these three. Press "Back to today's orbit" before each one. The lines under the maps give the numbers.</p>
+<ol>
+<li>Set the eccentricity to 0. The orbit is now a circle, so <var>a</var>/<var>r</var> is always 1. Move the perihelion slider and the maps don't change, because a circle has no closest point. At their summer solstices, 65&nbsp;°N and 65&nbsp;°S both get 494&nbsp;W/m². Today they get 478 and 510.</li>
+<li>Raise the tilt from 23.44° to 24.6°, the top of the slider. At their summer solstices, 65&nbsp;°N and 65&nbsp;°S both gain about 20&nbsp;W/m², and both lose in winter. At the equinoxes nothing changes anywhere, because sin <var>λ</var> is zero there and the tilt drops out of step 2. Tilt works the same way in both hemispheres at once.</li>
+<li>Move the longitude of perihelion from 102.9° to 270°. Earth is now closest to the Sun at the June solstice instead of in early January. 65&nbsp;°N gains about 33&nbsp;W/m² at the June solstice, and 65&nbsp;°S loses as much at the December solstice. Precession gives to one hemisphere's summer what it takes from the other's.</li>
+</ol>
+<p>Ten thousand years ago the real orbit had both: more tilt (24.23°) and Earth closest to the Sun in July. Pick "Today and 10,000 years ago" on Compare two times to see the two add up. At 65&nbsp;°N on the June solstice, Sunlight was 48&nbsp;W/m² stronger than it is today.</p>
+
+<h3 id="about-orbit">Where the orbit comes from</h3>
+<p>The orbit is the solution of Laskar and colleagues, who computed the motion of the Solar System for millions of years into the past and future. This page uses their values every 1,000 years, from 20 million years ago to 20 million years from now. Beyond a few tens of millions of years the orbit can't be computed reliably.</p>
+<p>The timing of tilt and precession is less certain than the shape of the orbit, because it also depends on how fast the tides have slowed Earth's spin. For the last few million years that hardly matters. Ten million years from today, the date of a given cycle may be off by a few thousand years. Twenty million years from today, it may be off by as much as half a cycle. The rhythm and the size of the cycles are still right.</p>
+<p class="cite">Laskar, J., Robutel, P., Joutel, F., Gastineau, M., Correia, A. C. M., and Levrard, B. (2004). A long-term numerical solution for the insolation quantities of the Earth. <em>Astronomy &amp; Astrophysics</em> 428, 261–285. <a href="https://doi.org/10.1051/0004-6361:20041335">doi:10.1051/0004-6361:20041335</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>Mid-July Sunlight at 65&nbsp;°N from this page matches the series of Berger and Loutre (1991), the one in the book's Figures 5.13 and 5.15, to within about 3&nbsp;W/m² over the last 400,000 years. The small gap comes from the inputs, not the equations: the two use slightly different orbits, and Berger and Loutre set the Sun's brightness at 1,360&nbsp;W/m². Given their orbit and their Sun, the equations above return their Sunlight to within 0.02&nbsp;W/m².</p>
+<p>The calendar is a second check. Earth moves fastest when it's closest to the Sun, so the seasons aren't equally long. Counting from the March equinox, this page's orbit makes them 92.76, 93.65, 89.84 and 88.99 days long. The US Naval Observatory's dates for 2026 and 2027 make them 92.73, 93.65, 89.86 and 88.98 days.</p>
+<p class="cite">Berger, A., and Loutre, M. F. (1991). Insolation values for the climate of the last 10 million years. <em>Quaternary Science Reviews</em> 10(4), 297–317. <a href="https://doi.org/10.1016/0277-3791(91)90033-Q">doi:10.1016/0277-3791(91)90033-Q</a></p>
+
+<h3 id="about-code">The code</h3>
+<p>The model is small enough to read. Two files do all the work, and they use no outside software.</p>
+<details class="code" data-src="model.js">
+<summary><code>model.js</code> is the science: the equations above, in a short file you can read from top to bottom.</summary>
+<pre tabindex="0" role="region" aria-label="The code in model.js"></pre>
+</details>
+<details class="code" data-src="app.js">
+<summary><code>app.js</code> is the page: the graphs, the maps and the controls.</summary>
+<pre tabindex="0" role="region" aria-label="The code in app.js"></pre>
+</details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/milankovitch">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
