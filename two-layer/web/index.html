@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaky and Stirred: Two Layers of Air over Warm Ground</title>
+<meta name="description" content="Two layers of air over black ground. Let the layers leak Earthlight, let rising air carry heat upward, and see what happens to the temperature of the ground. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>Leaky and Stirred: Two Layers of Air over Warm Ground</h1>
+<p class="intro standalone-only">The real air isn't a perfect pane of glass. Some Earthlight leaks straight through it, and rising air carries heat up past it. Make two layers of air leak, stir them, and see what that does to the ground.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-flows" aria-controls="panel-flows" aria-selected="true">The flows</button>
+<button type="button" role="tab" id="tab-profile" aria-controls="panel-profile" aria-selected="false" tabindex="-1">The temperatures</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div id="work">
+<h2>Two layers of air over black ground</h2>
+<div class="layout">
+<form class="controls" aria-label="The air and the Sun">
+<div class="control">
+<label for="upper">Upper layer: the share of the Earthlight it absorbs (%)</label>
+<div class="pair"><input type="range" id="upper-range" min="1" max="100" step="1" aria-label="Upper layer's share, slider"><input type="number" id="upper" min="1" max="100" step="1"></div>
+</div>
+<div class="control">
+<label for="lower">Lower layer: the share of the Earthlight it absorbs (%)</label>
+<div class="pair"><input type="range" id="lower-range" min="1" max="100" step="1" aria-label="Lower layer's share, slider"><input type="number" id="lower" min="1" max="100" step="1"></div>
+<p class="hint">At 100% a layer is a perfect pane. Below that it leaks: the rest of the Earthlight passes straight through.</p>
+</div>
+<div class="control">
+<label for="fromground">Rising air: heat carried from the ground into the lower layer (W/m²)</label>
+<div class="pair"><input type="range" id="fromground-range" min="0" max="375" step="1" aria-label="Heat carried from the ground, slider"><input type="number" id="fromground" min="0" max="375" step="1"></div>
+<p class="hint" id="fromground-hint"></p>
+</div>
+<div class="control">
+<label for="fromlower">Rising air: heat carried on from the lower layer into the upper layer (W/m²)</label>
+<div class="pair"><input type="range" id="fromlower-range" min="0" max="375" step="1" aria-label="Heat carried from the lower layer, slider"><input type="number" id="fromlower" min="0" max="375" step="1"></div>
+<p class="hint" id="fromlower-hint"></p>
+</div>
+<div class="control">
+<label for="sun">Sunlight on a square meter that faces the Sun (W/m²)</label>
+<div class="pair"><input type="range" id="sun-range" min="800" max="1500" step="1" aria-label="Sunlight, slider"><input type="number" id="sun" min="800" max="1500" step="1"></div>
+<p class="hint" id="sun-hint"></p>
+</div>
+<div class="control">
+<label for="albedo">Albedo: the share of the Sunlight that's reflected (%)</label>
+<div class="pair"><input type="range" id="albedo-range" min="0" max="90" step="1" aria-label="Albedo, slider"><input type="number" id="albedo" min="0" max="90" step="1"></div>
+<p class="hint">The Earth reflects about 30% of the Sunlight that reaches it.</p>
+</div>
+<div class="presets" role="group" aria-label="Quick choices">
+<button type="button" id="preset-panes">Two perfect panes, still air</button>
+<button type="button" id="preset-leaky">Leaky layers, still air</button>
+<button type="button" id="reset">Back to the start: leaky and stirred</button>
+</div>
+</form>
+<div class="views">
+<section id="panel-flows" role="tabpanel" aria-labelledby="tab-flows" tabindex="0">
+<figure>
+<ul class="key">
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="sunlight" d="M1 6 H26"/><path class="sunlight head" d="M33 6 L24 1.5 V10.5 Z"/></svg>Sunlight</li>
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="earthlight" d="M1 6 q3 -6 6 0 t6 0 t6 0 t6 0"/><path class="earthlight head" d="M33 6 L24 1.5 V10.5 Z"/></svg>Earthlight</li>
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="rising" d="M2 6 H25"/><path class="rising head" d="M33 6 L23 0.5 V11.5 Z"/></svg>Heat carried by rising air</li>
+<li>The numbers beside the arrows are in W/m².</li>
+</ul>
+<canvas id="flows" role="img" aria-label="A drawing of the model, seen from the side: two layers of air over black ground, with space above. A straight arrow shows Sunlight passing down through both layers to the ground. Wavy arrows show Earthlight in three columns: what the ground emits, what the lower layer emits and what the upper layer emits, each followed up or down through the layers it passes. Broad dashed arrows show the heat that rising air carries up from the ground and from the lower layer. Each arrow has its flow in watts per square meter beside it, and each level has its temperature. The lines and the table below give the same numbers."></canvas>
+<p id="flows-summary" class="summary" aria-live="polite"></p>
+<table id="levels" class="levels">
+<caption>Each level's heat budget, from the top down. A flow with no other name is Earthlight. Each number is rounded to a whole W/m², so a sum can be 1 off.</caption>
+<thead><tr><th scope="col">Level</th><th scope="col">Temperature</th><th scope="col">Takes in (W/m²)</th><th scope="col">Gives off (W/m²)</th></tr></thead>
+<tbody id="levels-rows"></tbody>
+</table>
+</figure>
+</section>
+<section id="panel-profile" role="tabpanel" aria-labelledby="tab-profile" tabindex="0" hidden>
+<figure>
+<ul class="key">
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="yours" d="M1 6 H33"/><circle class="yours dot" cx="17" cy="6" r="4"/></svg>Your settings</li>
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="still" d="M1 6 H33"/><circle class="still dot" cx="17" cy="6" r="3.2"/></svg>The same air with no heat carried by rising air</li>
+</ul>
+<canvas id="profile" role="img" aria-label="A graph of the temperatures of the ground, the lower layer and the upper layer, with the ground at the bottom and temperature along the bottom. A solid line joins the three temperatures for your settings. A dashed line joins the temperatures the same air would have with no heat carried by rising air. A thin upright line marks 288 kelvins, about the average temperature of the Earth's surface. The lines below give the numbers."></canvas>
+<p id="profile-summary" class="summary" aria-live="polite"></p>
+</figure>
+</section>
+</div>
+</div>
+<p class="note"><strong>Heat in equals heat out.</strong> Each layer and the ground settle at the temperature where they give off as much as they take in. A layer emits Earthlight from both of its sides, and it emits as strongly as it absorbs.</p>
+<p class="note"><strong>You choose how much heat the rising air carries.</strong> The model moves that much, whatever the temperatures are. The real air decides for itself. The simpler model, <a href="../layers/">Panes of Glass</a>, has perfect panes and still air. The About tab has every equation.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This model starts where the <strong>layer model</strong> of Chapter 3 stops. In the layer model, panes of glass absorb every bit of the Earthlight that reaches them, and nothing but light moves heat. One pane warms the ground to 303&nbsp;K, and the real Earth's surface averages about 288&nbsp;K. Chapter 3 gives the reason: the real atmosphere is more like one pane that's leaky and stirred.</p>
+<p>Here the panes are two layers of air over black ground, and you can make them leak and stir them.</p>
+<ul>
+<li><strong>Leaky:</strong> a layer absorbs only a share of the <strong>Earthlight</strong> (thermal infrared radiation) that reaches it. The rest passes straight through.</li>
+<li><strong>Stirred:</strong> rising air carries heat upward, from the ground into the lower layer and from the lower layer into the upper layer. Chapter 3 calls this vertical mixing. In the model it stands for everything but light that moves heat upward: warm air rising, and water that evaporates at the ground and condenses higher up.</li>
+</ul>
+<p>The rule for every level is still the book's: <strong>heat in equals heat out</strong>. Each layer and the ground settle at the temperature where they give off as much as they take in. With layers that absorb all of the Earthlight and with no rising air, this is the layer model with two panes, and the ground is at 335&nbsp;K (62&nbsp;°C, 143&nbsp;°F), as in Figure 3.3 of the book. The page opens with layers that absorb 75% of the Earthlight and with rising air that carries 103&nbsp;W/m² up from the ground. With those the ground is at 288&nbsp;K (15&nbsp;°C, 59&nbsp;°F).</p>
+<p>The simpler model, <a href="../layers/">Panes of Glass</a>, has the perfect panes and the still air. It's the place to start.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has two views of the same model. "The flows" draws the two layers and the ground from the side, with space at the top. The straight arrow is Sunlight, on its way down through the air to the ground. The wavy arrows are Earthlight, and they stand in three columns: the ground's Earthlight, then the lower layer's, then the upper layer's. Follow a column through a layer and you can see how much of that Earthlight is left on the other side. The broad dashed arrows are the heat that rising air carries. The number beside an arrow is the flow of energy in W/m². Each layer's temperature is at its right-hand end, and the ground's is written on the ground.</p>
+<p>"The temperatures" is a graph of the three temperatures, with the ground at the bottom. The solid line is for your settings. The dashed line is the same air with nothing carried by rising air, so the space between the two lines is what the stirring does. A thin upright line marks 288&nbsp;K. The model has no heights in it, so the graph spaces the three levels evenly.</p>
+<p>You can change six things:</p>
+<ul>
+<li><strong>How much each layer absorbs,</strong> from 1% to 100% of the Earthlight that reaches it. The page opens with 75% for both layers.</li>
+<li><strong>The heat that rising air carries from the ground</strong> into the lower layer, from 0 up to all the Sunlight the ground takes in. The page opens at 103&nbsp;W/m².</li>
+<li><strong>The heat that rising air carries on from the lower layer</strong> into the upper layer, from 0 up to what it carries from the ground. The page opens at 86&nbsp;W/m².</li>
+<li><strong>The Sunlight</strong> on a square meter that faces the Sun, from 800 to 1,500&nbsp;W/m². The page opens at 1,361&nbsp;W/m², the Earth's.</li>
+<li><strong>The albedo,</strong> which is the share of the Sunlight that the planet reflects, from 0% to 90%. The page opens at 30%, the Earth's.</li>
+</ul>
+<p>The two sliders for rising air stop where the model does, and the lines under them say where that is. If you change something else so that a slider is past its new stop, the page moves it back to the stop.</p>
+<p>Three buttons set the air for you. "Two perfect panes, still air" makes both layers absorb 100% and stops the rising air. "Leaky layers, still air" sets both layers to 75% and stops the rising air. "Back to the start: leaky and stirred" puts every control back where it started.</p>
+<p>Under each view, a few lines give the temperatures in words. Under the drawing of the flows, a table gives each level's heat budget: its temperature, what it takes in and what it gives off.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 3, "How Climate Works".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is seven short steps, and you can follow every one of them with a calculator.</p>
+<p>The model asks one question of every level: <strong>how warm does it have to be to give off as much heat as it takes in?</strong> A level that takes in more than it gives off warms up, and a warmer level emits more. So each level ends up at the one temperature where the two are equal. The model goes straight to those temperatures.</p>
+<p>You choose six things:</p>
+<ul>
+<li>the <strong>Sunlight</strong>, <var>S</var>, on a square meter that faces the Sun. For the Earth it's the solar constant of Chapter 2.</li>
+<li>the <strong>albedo</strong>, <var>α</var> (the Greek letter alpha), which is the share of the Sunlight that the planet reflects.</li>
+<li>the <strong>share of the Earthlight that each layer absorbs</strong>: <var>ε</var><sub>1</sub> for the upper layer and <var>ε</var><sub>2</sub> for the lower (<var>ε</var> is the Greek letter epsilon). A share of 75% is an <var>ε</var> of 0.75. Physicists call <var>ε</var> a layer's emissivity, for a reason that step 2 gives.</li>
+<li>the <strong>heat that rising air carries</strong>, in W/m²: <var>C</var><sub><var>g</var></sub> from the ground into the lower layer, and <var>C</var><sub>2</sub> from the lower layer into the upper layer. The <var>C</var> is for carried, and for <strong>convection</strong>, which is Chapter 3's word for heat carried by moving air.</li>
+</ul>
+<p>One number never changes:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>σ</var></th><td>the Stefan–Boltzmann constant of Chapter 2 (the Greek letter sigma), in W/m² per K⁴</td><td>5.67&nbsp;×&nbsp;10⁻⁸</td></tr>
+</tbody>
+</table>
+<p>The layers are numbered from the top, as the panes are in the simpler model. Layer 1 is the upper layer and layer 2 is the lower. A letter with a number under it belongs to that layer, so <var>T</var><sub>1</sub> is the temperature of the upper layer. A letter with a small <var>g</var> under it belongs to the ground, as in <var>T</var><sub><var>g</var></sub>. A <var>C</var> is named for the level the heat leaves. Temperatures are in kelvins, and every flow of energy is in W/m².</p>
+
+<h4>1. How much Sunlight does the ground take in?</h4>
+<p>Averaged over the whole planet, day and night, the ground takes in</p>
+<div class="eq" data-eq="sunlight"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">S</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">α</mi><mo stretchy="false">)</mo></mrow></mrow><mn>4</mn></mfrac></mrow></math></div>
+<p>in W/m². This is Section 3.1 of the book. A planet catches Sunlight on a disk, the area of its shadow, and its whole surface has four times that area. So each square meter gets a quarter of <var>S</var> on average, and that's the 4. The (1 − <var>α</var>) is the share that isn't reflected. For the Earth, a quarter of 1,361 is about 340&nbsp;W/m², and 70% of that is 238&nbsp;W/m². In this model the air is clear to Sunlight, so all of <var>Q</var> reaches the ground.</p>
+
+<h4>2. How much Earthlight does a level emit?</h4>
+<p>A level at temperature <var>T</var> emits</p>
+<div class="eq" data-eq="emitted"><math displaystyle="true"><mrow><mi mathvariant="normal">E</mi><mo>=</mo><mi mathvariant="normal">ε</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">σ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">T</mi><mn>4</mn></msup></mrow></math></div>
+<p>in W/m². For the black ground <var>ε</var> is 1, and this is the Stefan–Boltzmann law of Chapter 2, which writes it with the letter <var>F</var>. Here it's <var>E</var>, for emitted.</p>
+<p>A layer of air isn't black. It absorbs a share <var>ε</var> of the Earthlight that reaches it and lets the rest, a share of 1 − <var>ε</var>, pass straight through. And it emits <var>ε</var> times as much as a black surface at its temperature would. That's a law of physics, Kirchhoff's law: whatever absorbs a kind of light weakly emits it just as weakly. A layer emits <var>E</var> from each of its two sides, so it gives off 2<var>E</var> of Earthlight in all.</p>
+
+<h4>3. How much does the upper layer emit?</h4>
+<p>Start at the top, as the simpler model does. The Earthlight that leaves for space has two parts. One is what the upper layer emits upward, <var>E</var><sub>1</sub>. The other is what leaks through it from below. Call the Earthlight that comes up to the upper layer <var>U</var>. The layer absorbs <var>ε</var><sub>1</sub><var>U</var> of it and lets the rest through. The stack as a whole takes in <var>Q</var>, and it has to send the same amount out:</p>
+<div class="eq" data-eq="top"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>+</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">U</mi></mrow></math></div>
+<p>Now do the upper layer's own budget. It takes in the Earthlight it absorbs and the heat that rising air brings up from the lower layer. It emits <var>E</var><sub>1</sub> up and <var>E</var><sub>1</sub> down. Heat in equals heat out:</p>
+<div class="eq" data-eq="upper-budget"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">ε</mi><mn>1</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">U</mi><mo>+</mo><msub><mi mathvariant="normal">C</mi><mn>2</mn></msub><mo>=</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub></mrow></math></div>
+<p>That's two equations with two unknowns, <var>E</var><sub>1</sub> and <var>U</var>. Put the second into the first to get rid of <var>U</var>, and you have</p>
+<div class="eq" data-eq="upper"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><msub><mi mathvariant="normal">ε</mi><mn>1</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi><mo>+</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">C</mi><mn>2</mn></msub></mrow><mrow><mn>2</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>1</mn></msub></mrow></mfrac></mrow></math></div>
+<p>Look at what isn't in it: the lower layer and the ground. The upper layer has to make up what the whole stack owes to space, so what it emits depends only on <var>Q</var>, on its own <var>ε</var><sub>1</sub> and on the heat that rising air brings it. If the layer absorbs everything, <var>ε</var><sub>1</sub> is 1 and <var>E</var><sub>1</sub> is just <var>Q</var>. That's the top pane of the simpler model.</p>
+
+<h4>4. How much Earthlight comes up to the upper layer?</h4>
+<p>Step 3's two equations each account for a part of <var>U</var>. The first says how much of it gets through the upper layer: (1 − <var>ε</var><sub>1</sub>)<var>U</var> is <var>Q</var> − <var>E</var><sub>1</sub>. The second says how much of it the layer absorbs: <var>ε</var><sub>1</sub><var>U</var> is 2<var>E</var><sub>1</sub> − <var>C</var><sub>2</sub>. The two parts make up all of <var>U</var>, so add them:</p>
+<div class="eq" data-eq="reaching"><math displaystyle="true"><mrow><mi mathvariant="normal">U</mi><mo>=</mo><mi mathvariant="normal">Q</mi><mo>+</mo><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">C</mi><mn>2</mn></msub></mrow></math></div>
+<p>You can read this one straight off the drawing. Look at the gap between the two layers. Going up through it are <var>U</var> and the rising air's <var>C</var><sub>2</sub>. Coming down through it are the Sunlight, <var>Q</var>, and the upper layer's <var>E</var><sub>1</sub>. What goes up has to equal what comes down, or everything under the gap would be warming or cooling.</p>
+
+<h4>5. How much does the ground emit?</h4>
+<p><var>U</var> has two parts as well: the share of the ground's Earthlight that the lower layer lets through, and what the lower layer emits upward:</p>
+<div class="eq" data-eq="parts"><math displaystyle="true"><mrow><mi mathvariant="normal">U</mi><mo>=</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub><mo>+</mo><msub><mi mathvariant="normal">E</mi><mn>2</mn></msub></mrow></math></div>
+<p>Then do the ground's budget. The ground takes in the Sunlight, what the lower layer emits downward, and the part of the upper layer's Earthlight that leaks down through the lower layer. It gives off its own Earthlight, <var>E</var><sub><var>g</var></sub>, and the heat that rising air carries away, <var>C</var><sub><var>g</var></sub>:</p>
+<div class="eq" data-eq="ground-budget"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>+</mo><msub><mi mathvariant="normal">E</mi><mn>2</mn></msub><mo>+</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>=</mo><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub><mo>+</mo><msub><mi mathvariant="normal">C</mi><mi mathvariant="normal">g</mi></msub></mrow></math></div>
+<p>Two more equations and two more unknowns, <var>E</var><sub><var>g</var></sub> and <var>E</var><sub>2</sub>. Put in the <var>U</var> of step 4, get rid of <var>E</var><sub>2</sub>, and you have</p>
+<div class="eq" data-eq="ground"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub><mo>=</mo><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>+</mo><mfrac><mrow><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi><mo>−</mo><msub><mi mathvariant="normal">C</mi><mi mathvariant="normal">g</mi></msub><mo>−</mo><msub><mi mathvariant="normal">C</mi><mn>2</mn></msub></mrow><mrow><mn>2</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>2</mn></msub></mrow></mfrac></mrow></math></div>
+<p>The rising air comes in with minus signs. Every W/m² that rising air carries up is one the ground doesn't have to emit, so stirring cools the ground. With perfect panes and still air, <var>ε</var><sub>2</sub> is 1, the two <var>C</var>s are 0 and <var>E</var><sub>1</sub> is <var>Q</var>, so the ground emits 3<var>Q</var>. That's the simpler model with two panes.</p>
+
+<h4>6. How much does the lower layer emit?</h4>
+<p>Turn the first equation of step 5 around:</p>
+<div class="eq" data-eq="lower"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mn>2</mn></msub><mo>=</mo><mi mathvariant="normal">U</mi><mo>−</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi mathvariant="normal">ε</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub></mrow></math></div>
+<p>The lower layer's own budget hasn't been used yet, so it makes a good check. The layer absorbs a share <var>ε</var><sub>2</sub> of the ground's Earthlight and of the upper layer's, and rising air brings it <var>C</var><sub><var>g</var></sub>. It emits <var>E</var><sub>2</sub> from each side and gives <var>C</var><sub>2</sub> to the rising air:</p>
+<div class="eq" data-eq="lower-budget"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">ε</mi><mn>2</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub><mo>+</mo><msub><mi mathvariant="normal">ε</mi><mn>2</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>+</mo><msub><mi mathvariant="normal">C</mi><mi mathvariant="normal">g</mi></msub><mo>=</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>2</mn></msub><mo>+</mo><msub><mi mathvariant="normal">C</mi><mn>2</mn></msub></mrow></math></div>
+<p>The numbers from the steps above always fit it.</p>
+
+<h4>7. How warm is each level?</h4>
+<p>Turn step 2 around to get the temperature of a level that emits <var>E</var>:</p>
+<div class="eq" data-eq="temperature"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">E</mi><mo lspace="0" rspace="0">/</mo><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">ε</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">σ</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">)</mo></mrow><mrow><mn>1</mn><mo lspace="0" rspace="0">/</mo><mn>4</mn></mrow></msup></mrow></math></div>
+<p>in kelvins. For the ground, <var>ε</var> is 1. The power 1/4 is a fourth root. On a calculator, press the square-root key twice.</p>
+<p>A leaky layer is warmer than its Earthlight suggests. A layer with an <var>ε</var> of 0.75 that emits 160&nbsp;W/m² is at 248&nbsp;K. A black surface that emitted as much would be 17&nbsp;K colder.</p>
+
+<h4>Where the equations stop</h4>
+<p>This is still a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>You choose the rising air.</strong> In the real atmosphere, the heat that rising air carries depends on the temperatures: warm air rises only while the air above it is cooler. Here <var>C</var><sub><var>g</var></sub> and <var>C</var><sub>2</sub> are yours to set, and the model carries what you ask for. Ask for enough and a layer comes out warmer than the level under it, which rising air couldn't do. The page tells you when that happens.</li>
+<li><strong>One share for all of the Earthlight.</strong> A real gas absorbs some wavelengths strongly and lets others through, and that's the window of Section 3.4. This model has one number for the whole spectrum. <a href="../infrared/">Earthlight Seen from Space</a> shows the real spectrum.</li>
+<li><strong>Two layers.</strong> The real air has no layers. Its temperature changes smoothly with height.</li>
+<li><strong>Air that's clear to Sunlight.</strong> The real air absorbs some of the Sunlight on its way down (Figure 3.10 of the book). Here all of <var>Q</var> reaches the ground.</li>
+<li><strong>One square meter for the whole planet.</strong> There's no day and night, no summer and winter, and no tropics and poles.</li>
+</ul>
+<p>So the model can match the real surface's 288&nbsp;K, but it doesn't match every flow. As the page opens, 24&nbsp;W/m² of the ground's Earthlight goes straight out to space, and Figure 3.10 has 22. But the model's sky sends 255&nbsp;W/m² down to the ground, and Figure 3.10 has 342.</p>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the controls alone. Both layers absorb 75%, so <var>ε</var><sub>1</sub> and <var>ε</var><sub>2</sub> are 0.75. Rising air carries 103&nbsp;W/m² from the ground and 86&nbsp;W/m² from the lower layer. The Sunlight is 1,361&nbsp;W/m² and the albedo is 30%, so <var>α</var> is 0.3.</p>
+<ol class="worked">
+<li><strong>Sunlight taken in (step 1).</strong> <var>Q</var> = 1,361 × (1 − 0.3) ÷ 4 = 238&nbsp;W/m². That's the number beside the Sunlight in the drawing.</li>
+<li><strong>The upper layer (step 3).</strong> <var>E</var><sub>1</sub> = (0.75 × 238 + 0.25 × 86) ÷ (2 − 0.75) = 200 ÷ 1.25 = 160&nbsp;W/m². That's the number on the upper layer's arrow to space, and on its arrow down.</li>
+<li><strong>What comes up to the upper layer (step 4).</strong> <var>U</var> = 238 + 160 − 86 = 312&nbsp;W/m².</li>
+<li><strong>The ground (step 5).</strong> <var>E</var><sub><var>g</var></sub> = 160 + (2 × 238 − 103 − 86) ÷ (2 − 0.75) = 160 + 287 ÷ 1.25 = 390&nbsp;W/m², to the nearest whole number. That's the number on the arrow going up from the ground.</li>
+<li><strong>The lower layer (step 6).</strong> The lower layer lets through 0.25 × 390 = 97.5&nbsp;W/m² of the ground's Earthlight. So <var>E</var><sub>2</sub> = 312 − 97.5 = 214.5&nbsp;W/m². The page prints 215 on each of the lower layer's two arrows, because it carries every number from step to step without rounding it. Use 215.</li>
+<li><strong>The temperatures (step 7).</strong> For the ground, divide 390 by 5.67&nbsp;×&nbsp;10⁻⁸ and you get about 6.9&nbsp;billion. Take the square root of that twice and you have 288&nbsp;K. For each layer, <var>ε</var><var>σ</var> is 0.75 × 5.67&nbsp;×&nbsp;10⁻⁸. Divide 215 by that and take the square root twice, and the lower layer is at 267&nbsp;K. Do the same with 160, and the upper layer is at 248&nbsp;K.</li>
+<li><strong>The other scales.</strong> 288 − 273.15 = 14.85, which the page prints as 15&nbsp;°C. And 14.85 × 1.8 + 32 = 58.73, which it prints as 59&nbsp;°F.</li>
+</ol>
+<p>Those are the numbers in the drawing and in the table under it: 160, 215 and 390&nbsp;W/m², and 248&nbsp;K, 267&nbsp;K and 288&nbsp;K.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Rounding.</strong> The page prints each flow to a whole W/m² and each temperature to a whole kelvin. It works out the Celsius and the Fahrenheit from the whole kelvins, as the last line of the worked example does. Each number is rounded by itself, so a sum in the table can be 1 off.</li>
+<li><strong>Why a layer can't absorb 0%.</strong> A layer that absorbs none of the Earthlight emits none, and then nothing fixes its temperature. Step 7 would divide by zero. So the sliders stop at 1%.</li>
+<li><strong>Why the rising air has limits.</strong> Rising air can carry from the ground no more than the Sunlight the ground takes in, and it can carry from the lower layer no more than it brings up from the ground. Inside those limits every level emits more than nothing, so every level has a temperature. Past them, the equations can ask a level to emit less than nothing.</li>
+<li><strong>The settings the page opens with.</strong> The 103&nbsp;W/m² from the ground is the book's: Figure 3.10 has 82&nbsp;W/m² leaving the surface by evaporation and 21 in rising warm air. The two shares of 75% and the 86&nbsp;W/m² aren't measurements. They were chosen so that the ground comes out at 288&nbsp;K, and other choices do that just as well.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<p>Keep the Earth's Sunlight and albedo for all of these.</p>
+<ol>
+<li><strong>Two perfect panes.</strong> Press "Two perfect panes, still air". The upper layer is at 255&nbsp;K, the lower at 303&nbsp;K and the ground at 335&nbsp;K (62&nbsp;°C, 143&nbsp;°F). Those are the numbers of the simpler model with two panes, and of Figure 3.3.</li>
+<li><strong>Let them leak.</strong> Press "Leaky layers, still air". Each layer now lets a quarter of the Earthlight through, and 33&nbsp;W/m² of the ground's Earthlight goes straight out to space. The ground cools to 310&nbsp;K (37&nbsp;°C, 98&nbsp;°F). That's still much warmer than the real Earth.</li>
+<li><strong>Stir the lower air.</strong> Set the heat carried from the ground to 103&nbsp;W/m², and leave the heat carried from the lower layer at 0. The ground cools to 297&nbsp;K and the lower layer warms from 277&nbsp;K to 282&nbsp;K. The upper layer stays at 241&nbsp;K: nothing about the ground or the lower layer is in step 3.</li>
+<li><strong>Stir the upper air too.</strong> Now set the heat carried from the lower layer to 86&nbsp;W/m². The ground cools to 288&nbsp;K, the lower layer cools to 267&nbsp;K and the upper layer warms to 248&nbsp;K. As Chapter 3 says, vertical mixing cools the surface and warms the upper air. The view "The temperatures" shows it as the space between the two lines.</li>
+<li><strong>More than one way to 288&nbsp;K.</strong> Set the upper layer to 60%, the lower layer to 85% and the heat carried from the lower layer to 63&nbsp;W/m². The ground is at 288&nbsp;K again, with different air over it. The model has four dials for the air, and one temperature can't tell you where to set them.</li>
+<li><strong>Thicken the greenhouse.</strong> Press "Back to the start: leaky and stirred", then raise both layers from 75% to 85%. Less of the ground's Earthlight leaks out to space, 10&nbsp;W/m² where it was 24, and the ground warms from 288&nbsp;K to 296&nbsp;K.</li>
+<li><strong>Ask too much of the rising air.</strong> Set both layers to 50% and both flows of rising air to 100&nbsp;W/m². The upper layer comes out at 251&nbsp;K, over a lower layer at 245&nbsp;K. Real air wouldn't rise into warmer air above it, and the page says so under the drawing.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The solar constant, 1,361&nbsp;W/m², is Chapter 2's, from Kopp and Lean (2011). The Earth's albedo, about 30%, and the Stefan–Boltzmann constant are in Chapter 2 as well. The 288&nbsp;K for the Earth's surface is Chapter 3's. The 103&nbsp;W/m² that rising air carries from the ground is the sum of two numbers in Figure 3.10 of the book, as the details above explain. The other three settings the page opens with were chosen to give 288&nbsp;K.</p>
+<p>The model is Scott Denning's, written for teaching. It grows out of the layer model, and the book's source for that is David Archer's textbook.</p>
+<p class="cite">Kopp, G., and Lean, J. L. (2011). A new, lower value of total solar irradiance: Evidence and climate significance. <em>Geophysical Research Letters</em> 38(1). <a href="https://doi.org/10.1029/2010GL045777">doi:10.1029/2010GL045777</a></p>
+<p class="cite">Archer, D. (2012). <em>Global Warming: Understanding the Forecast</em> (2nd ed.). John Wiley &amp; Sons.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the seven steps written out a second time, in another programming language. At 339 settings of the six controls, the two copies give the same temperatures to a millionth of a kelvin.</li>
+<li><strong>The short way, against the long way.</strong> The steps above solve the budgets one level at a time. The tests also take the budgets of the ground and the two layers and solve all three at once, as a set of simultaneous equations. The two ways agree to a millionth of a kelvin.</li>
+<li><strong>The page, against the first versions.</strong> Scott Denning's first version of this model was a web app written in R, and it solved the budgets the long way. A later version is in Python. Run as they were left, at the same 339 settings, both agree with this page's code to a millionth of a kelvin.</li>
+<li><strong>The model, against the simpler one.</strong> With layers that absorb everything and with still air, the temperatures are 255&nbsp;K, 303&nbsp;K and 335&nbsp;K, the same as two panes in <a href="../layers/">Panes of Glass</a>.</li>
+<li><strong>Heat in, against heat out.</strong> At every setting, the Earthlight that leaves the top equals the Sunlight the ground takes in, and each level gives off what it takes in.</li>
+<li><strong>The limits.</strong> The tests try the corners of the controls and thousands of settings in between. Inside the limits, every level emits more than nothing.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the seven steps, and a list of every flow between the levels.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the drawing, the graph and the table.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/two-layer">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The page began as Scott Denning's web app, written in R, and a second version in Python that he made with Codex, from OpenAI. Claude, from Anthropic, rebuilt it to run in your browser, worked the three budgets into the seven steps above, drew every flow and checked it against both earlier versions.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

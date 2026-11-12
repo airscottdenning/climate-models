@@ -110,4 +110,4 @@ Laskar's table is posted for scientific use, with no stated licence. `web/orbit.
 
 ## Still to do
 
-- Embed the model in Chapter 5, with a still image and a short address for the PDF.
+- Nothing is waiting. The models aren't embedded in the book's chapters (Scott, 12 November 2026); the compact layout (`?embed=1`) is there if that changes.

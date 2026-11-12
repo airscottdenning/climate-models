@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Push and the Response: Forcing, Feedback and Warming</title>
+<meta name="description" content="Set how hard carbon dioxide, methane and reflective smog push on the climate, how strong the feedbacks are and how fast the deep ocean takes up heat. See the warming since 1850 beside the measurements, and the warming to 2100 in five scenarios. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>The Push and the Response: Forcing, Feedback and Warming</h1>
+<p class="intro standalone-only">Something pushes the Earth's heat in and heat out apart. Feedbacks make the world's response to that push bigger, and the ocean makes it slow. Set the strength of each, and see how much the world has warmed and how much more it could.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-forcing" aria-controls="panel-forcing" aria-selected="true">1. Forcing</button>
+<button type="button" role="tab" id="tab-feedback" aria-controls="panel-feedback" aria-selected="false" tabindex="-1">2. Feedback</button>
+<button type="button" role="tab" id="tab-response" aria-controls="panel-response" aria-selected="false" tabindex="-1">3. Response</button>
+<button type="button" role="tab" id="tab-future" aria-controls="panel-future" aria-selected="false" tabindex="-1">4. The future</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<p id="loading" role="status">Loading the data…</p>
+
+<section id="panel-forcing" role="tabpanel" aria-labelledby="tab-forcing" tabindex="0">
+<h2>The push: climate forcing since 1850</h2>
+<div class="layout">
+<div class="slot">
+<form class="controls" id="controls" aria-label="The model's settings">
+<details class="group" id="group-forcing" open>
+<summary><span class="group-name">How hard each one pushes</span> <span class="group-now" id="forcing-now"></span></summary>
+<div class="control">
+<label for="co2">Carbon dioxide, CO₂ (% of the IPCC's best estimate)</label>
+<div class="pair"><input type="range" id="co2-range" min="75" max="125" step="1" aria-label="Carbon dioxide, slider"><input type="number" id="co2" min="75" max="125" step="1"></div>
+<p class="hint" id="co2-hint"></p>
+</div>
+<div class="control">
+<label for="methane">Methane (% of the IPCC's best estimate)</label>
+<div class="pair"><input type="range" id="methane-range" min="60" max="140" step="1" aria-label="Methane, slider"><input type="number" id="methane" min="60" max="140" step="1"></div>
+<p class="hint" id="methane-hint"></p>
+</div>
+<div class="control">
+<label for="smog">Reflective smog (% of the IPCC's best estimate)</label>
+<div class="pair"><input type="range" id="smog-range" min="40" max="160" step="1" aria-label="Reflective smog, slider"><input type="number" id="smog" min="40" max="160" step="1"></div>
+<p class="hint" id="smog-hint"></p>
+</div>
+</details>
+<details class="group" id="group-feedback" hidden>
+<summary><span class="group-name">The gain of each feedback</span> <span class="group-now" id="feedback-now"></span></summary>
+<div class="control">
+<label for="ice">Ice and snow</label>
+<div class="pair"><input type="range" id="ice-range" min="0.03" max="0.19" step="0.01" aria-label="Ice and snow, slider"><input type="number" id="ice" min="0.03" max="0.19" step="0.01"></div>
+<p class="hint">The IPCC's central value is 0.11, and its very likely range is 0.03 to 0.19.</p>
+</div>
+<div class="control">
+<label for="clouds">Clouds</label>
+<div class="pair"><input type="range" id="clouds-range" min="-0.15" max="0.41" step="0.01" aria-label="Clouds, slider"><input type="number" id="clouds" min="-0.15" max="0.41" step="0.01"></div>
+<p class="hint">The IPCC's central value is 0.13, and its very likely range is −0.03 to 0.29. Clouds are the least certain of the feedbacks.</p>
+</div>
+<div class="control">
+<label for="water">Water vapor</label>
+<div class="pair"><input type="range" id="water-range" min="0.40" max="0.75" step="0.01" aria-label="Water vapor, slider"><input type="number" id="water" min="0.40" max="0.75" step="0.01"></div>
+</div>
+<div class="control">
+<label for="mixing">Vertical mixing</label>
+<div class="pair"><input type="range" id="mixing-range" min="-0.35" max="0" step="0.01" aria-label="Vertical mixing, slider"><input type="number" id="mixing" min="-0.35" max="0" step="0.01"></div>
+<p class="check"><input type="checkbox" id="tie"> <label for="tie">Keep these two adding up to 0.40</label></p>
+<p class="hint">The same moist air drives both, so a model with more of one has more of the other. The IPCC assesses them together: 0.40, very likely between 0.34 and 0.47. With the box ticked, moving one moves the other, and the total gain stays put.</p>
+</div>
+</details>
+<details class="group" id="group-ocean" hidden>
+<summary><span class="group-name">The deep ocean</span> <span class="group-now" id="ocean-now"></span></summary>
+<div class="control">
+<label for="ocean">Heat passing down to the deep ocean (W/m² for each °C the surface is warmer than the deep)</label>
+<div class="pair"><input type="range" id="ocean-range" min="0" max="1.5" step="0.05" aria-label="Heat passing down to the deep ocean, slider"><input type="number" id="ocean" min="0" max="1.5" step="0.05"></div>
+<p class="hint">The page opens with 0.7, about the average of what the big climate models do. At zero, no heat goes down at all.</p>
+</div>
+</details>
+<p><button type="button" id="reset">Back to the opening settings</button></p>
+</form>
+</div>
+<figure>
+<ul class="key">
+<li><span class="line co2"></span>Carbon dioxide</li>
+<li><span class="line smog"></span>Reflective smog</li>
+<li><span class="line"></span>All of them together</li>
+<li><span class="line quiet"></span>Each of the others</li>
+</ul>
+<canvas id="forcing-graph" tabindex="0" role="img" aria-label="A graph of climate forcing for each year from 1850 to 2019, in watts per square meter, counted from 1750. Heavy lines show carbon dioxide, reflective smog and all the forcings together. Thin gray lines show methane, other gases, land and soot, volcanoes and the Sun. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="forcing-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="forcing-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>A forcing is a push.</strong> Something changes the heat coming in to the Earth or the heat going out, by so many watts per square meter (W/m²). That number is the climate forcing. It's the push itself, before the temperature responds. These are counted from 1750, as the IPCC counts them.</p>
+<p class="note"><strong>Greenhouse gases push toward warming. Reflective smog pushes back.</strong> Smog is the haze of tiny particles that comes mostly from burning coal and oil. Scientists call the particles aerosols. They reflect Sunlight and brighten clouds, and how hard they push is much less certain than it is for CO₂. The sharp dips in the graph are big volcanic eruptions, which fill the upper air with reflective haze for a year or two.</p>
+<p class="note"><strong>The sliders don't change the world.</strong> They change how hard the model takes each push to be, as a percentage of the IPCC's best estimate for every year. Leave them at 100% for now. They matter most on the third tab.</p>
+<p class="next"><button type="button" data-view="feedback">Next: 2. Feedback</button></p>
+</section>
+
+<section id="panel-feedback" role="tabpanel" aria-labelledby="tab-feedback" tabindex="0" hidden>
+<h2>The amplifier: feedbacks and climate sensitivity</h2>
+<div class="layout">
+<div class="slot"></div>
+<figure>
+<canvas id="feedback-graph" tabindex="0" role="img" aria-label="Two drawings that share a scale of feedback gain, from below zero to more than 1. In the upper one, a bar for each feedback starts where the one before it ended, so the last bar ends at the total gain. The lower one is a curve of the warming from doubling carbon dioxide against the total gain. It rises faster and faster and leaves the top of the graph before the gain reaches 1. A dot marks the gain you've set, and a band marks the IPCC's range. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move along the curve."></canvas>
+<p id="feedback-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="feedback-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>A feedback's gain</strong> is the share of each round of warming that comes back as more warming. A gain of 0.11 for ice and snow means that for every degree the world warms, the melting adds another 0.11 of a degree, and then 0.11 of that, and so on. A negative gain takes warming away. Start with ice and snow, or clouds: move one and watch the total gain and the dot.</p>
+<p class="note"><strong>The curve bends upward.</strong> The gains add together, but the warming doesn't just add. Each step of gain counts for more than the one before it. That's why a little uncertainty about clouds turns into a lot of uncertainty about warming. And it's why a total gain of 1 would mean a climate with no stable temperature at all. The Earth's is well short of that.</p>
+<p class="note"><strong>Water vapor and vertical mixing come as a pair.</strong> Open them last. Water vapor is the strongest amplifier and vertical mixing is a damper, and the box under them ties them together. Move one with the box ticked, and then with it clear.</p>
+<p class="next"><button type="button" data-view="response">Next: 3. Response</button></p>
+</section>
+
+<section id="panel-response" role="tabpanel" aria-labelledby="tab-response" tabindex="0" hidden>
+<h2>The response: warming since 1850, beside the measurements</h2>
+<div class="layout">
+<div class="slot"></div>
+<figure>
+<ul class="key">
+<li><span class="line"></span>The model's surface</li>
+<li><span class="line measured"></span>Measured, with its 95% range</li>
+<li><span class="line deep"></span>The model's deep ocean</li>
+<li><span class="line bar"></span>The measured imbalance, 2006 to 2018</li>
+</ul>
+<canvas id="response-graph" tabindex="0" role="img" aria-label="Two graphs that share the years from 1850 to 2025. The upper graph shows temperature, in degrees Celsius above the average of 1850 to 1900: the model's surface, the model's deep ocean and the measured temperature of the world with its range. The lower graph shows the model's energy imbalance in watts per square meter, with a bar for the imbalance that was measured over 2006 to 2018. The lines of text and the table below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="response-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<table id="response-budget" class="budget" hidden>
+<caption id="response-budget-caption">The model's sum for this year</caption>
+<tbody>
+<tr><th scope="row">Climate forcing, <var>F</var></th><td id="budget-f"></td></tr>
+<tr><th scope="row">The surface's warming as the year begins, <var>T</var></th><td id="budget-t"></td></tr>
+<tr><th scope="row">Paid back to space by that warming, <var>T</var> ÷ <var>S</var></th><td id="budget-paid"></td></tr>
+<tr><th scope="row">Energy imbalance, <var>N</var></th><td id="budget-n"></td></tr>
+<tr><th scope="row">The deep ocean's warming as the year begins, <var>D</var></th><td id="budget-d"></td></tr>
+<tr><th scope="row">Heat passing down to the deep ocean, <var>H</var></th><td id="budget-h"></td></tr>
+<tr class="result"><th scope="row">The surface's warming during the year, Δ<var>T</var></th><td id="budget-dt"></td></tr>
+<tr class="result"><th scope="row">The deep ocean's warming during the year, Δ<var>D</var></th><td id="budget-dd"></td></tr>
+</tbody>
+</table>
+<p id="response-budget-note" class="hint" hidden></p>
+<figcaption id="response-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>The ocean makes the response slow.</strong> A push doesn't warm the world all at once. The air, the land and the top of the ocean warm within a few years, but they keep passing heat down to the deep ocean, which takes centuries to catch up. Set the heat passing down to zero, and the model's surface runs far ahead of the measurements.</p>
+<p class="note"><strong>The lower graph is the energy imbalance:</strong> the part of the push that the warming hasn't paid back yet. It's heat still piling up, nearly all of it in the ocean. Floats in the ocean and satellites measure it, and the bar shows what they found.</p>
+<p class="note"><strong>More than one setting fits the past.</strong> Open the other two sets of controls. Stronger smog cools the model's past, and stronger feedbacks warm it back up. The next tab shows why it matters which is right.</p>
+<p class="next"><button type="button" data-view="future">Next: 4. The future</button></p>
+</section>
+
+<section id="panel-future" role="tabpanel" aria-labelledby="tab-future" tabindex="0" hidden>
+<h2>The future: five scenarios to 2100</h2>
+<div class="layout">
+<div class="slot"></div>
+<figure>
+<ul class="key">
+<li><span class="line"></span>The model, to 2014</li>
+<li><span class="line measured"></span>Measured</li>
+<li><span class="line s119"></span>SSP1-1.9</li>
+<li><span class="line s126"></span>SSP1-2.6</li>
+<li><span class="line s245"></span>SSP2-4.5</li>
+<li><span class="line s370"></span>SSP3-7.0</li>
+<li><span class="line s585"></span>SSP5-8.5</li>
+</ul>
+<canvas id="future-graph" tabindex="0" role="img" aria-label="A graph of temperature from 1850 to 2100, in degrees Celsius above the average of 1850 to 1900. One line is the measured temperature of the world to 2025. One is the model to 2014. From 2015 the model splits into five lines, one for each scenario, from SSP1-1.9 at the bottom to SSP5-8.5 at the top. At the right, a bar for each scenario shows the IPCC's own range for 2081 to 2100. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="future-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="future-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>Five futures.</strong> Each scenario is a story about the rest of this century: how many people, how much energy and where it comes from. From each story the IPCC worked out the forcing, year by year. In SSP1-1.9 and SSP1-2.6 the world cuts its emissions quickly. In SSP3-7.0 and SSP5-8.5 it burns more coal, oil and gas every decade. The model takes each scenario's forcing and does the same sum it did for the past.</p>
+<p class="note"><strong>The bars at the right are the IPCC's own answers</strong> for the average of 2081 to 2100: its best estimate and its very likely range. They come from far bigger models and from many lines of evidence. This model has two numbers for the whole planet, so read its lines as a sketch.</p>
+<p class="note"><strong>The same sliders reach into the future.</strong> A setting that fits the past with strong smog and strong feedbacks warms much more by 2100 than one that fits it with weak smog and weak feedbacks. Whatever the settings, the scenario matters most: how much more we burn is the biggest thing the graph shows.</p>
+<p class="next"><button type="button" data-view="about">Next: About the model</button></p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of the temperature of the whole Earth. It follows three ideas from Chapter 4 of the book. A <strong>climate forcing</strong> is a push: something changes the heat coming in or the heat going out, by so many watts per square meter. The <strong>climate sensitivity</strong> is how much the world warms for each W/m² of push, once it has had time to settle. And <strong>feedbacks</strong> set the sensitivity. Warming changes the water vapor in the air, the snow and ice on the ground and the clouds, and those changes warm the world some more.</p>
+<p>The model adds one thing that the chapter describes in words: time. The ocean takes a long while to warm, so the <strong>response</strong> lags the push. The model keeps two temperatures, one for the surface and one for the deep ocean, and moves them along a year at a time.</p>
+<p>Its forcing is the IPCC's, year by year from 1850. Its answers sit beside the measured temperature of the world, and beside the IPCC's own projections to 2100. It's a toy: the whole planet is two numbers. But the IPCC's authors used a model of this same kind, with its numbers fitted to the big climate models, to work out how much of the warming so far came from each forcing.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the data come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has four views, and they're numbered because each builds on the one before.</p>
+<ul>
+<li><strong>"1. Forcing"</strong> shows the push for each year from 1850 to 2019. Three sliders set how hard the model takes CO₂, methane and reflective smog to push, as a percentage of the IPCC's best estimate. At 100% a slider changes nothing. Under each slider is the forcing it gives in 2019 and the IPCC's range for that year.</li>
+<li><strong>"2. Feedback"</strong> has a slider for the gain of each of four feedbacks: ice and snow, clouds, water vapor and vertical mixing. Its upper drawing lays the four gains end to end, so you can see what they add up to. Its lower drawing is the curve that turns the total gain into warming, with a dot at your setting. The box "Keep these two adding up to 0.40" ties water vapor to vertical mixing, and the page opens with it ticked.</li>
+<li><strong>"3. Response"</strong> runs the model from 1850 to 2019 and draws its surface temperature beside the measurements. A new slider sets how fast heat passes down to the deep ocean. The sliders from the first two views are here too, folded away on a phone until you open them. The lower graph is the model's energy imbalance.</li>
+<li><strong>"4. The future"</strong> runs the model on to 2100 for five of the IPCC's scenarios, with all the same sliders.</li>
+</ul>
+<p>"Back to the opening settings" puts every slider back where it started. The page opens with every forcing at 100% and every gain at the IPCC's central value.</p>
+<p>Move over a graph to read its numbers for one year. Or select the graph and press the left or right arrow key. The first press reads the last year the model has. After that, each press moves a year, or ten years with Shift. On the second view the keys move along the curve. Under each graph, a few lines of text say what it shows for your settings. Under the third graph, a table shows the model's whole sum for the year you're reading.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 4, "How Climate Changes".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is eight short equations, and you can follow every one of them with a calculator.</p>
+<p>The model asks one question: <strong>when something pushes on the climate, how much does the world warm, and how fast?</strong> Steps 1 to 4 answer the first half, with no time in them at all. Steps 5 to 7 put the ocean in, and they're done over again for every year.</p>
+<p>You choose eight things:</p>
+<ul>
+<li>how hard three of the forcings push: <var>a</var><sub>c</sub> for CO₂, <var>a</var><sub>m</sub> for methane and <var>a</var><sub>s</sub> for reflective smog. Each is your slider's percentage as a number, so 100% is 1 and 160% is 1.6.</li>
+<li>the gain of each of four feedbacks: <var>g</var><sub>w</sub> for water vapor, <var>g</var><sub>v</sub> for vertical mixing, <var>g</var><sub>i</sub> for ice and snow and <var>g</var><sub>c</sub> for clouds</li>
+<li>how fast heat passes down to the deep ocean, <var>γ</var> (the Greek letter gamma)</li>
+</ul>
+<p>Four numbers never change:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>S</var><sub>0</sub></th><td>the baseline climate sensitivity, with no feedbacks: the warming for each W/m² when the only thing that answers a push is that hotter things glow more. It's 1 ÷ 3.22, in °C per W/m².</td><td>0.3106</td></tr>
+<tr><th scope="row"><var>F</var><sub>2×</sub></th><td>the forcing from doubling the CO₂ in the air, in W/m²</td><td>3.93</td></tr>
+<tr><th scope="row"><var>C</var></th><td>the heat capacity of the surface layer: the W/m² it takes, kept up for a year, to warm it by 1&nbsp;°C</td><td>7.3</td></tr>
+<tr><th scope="row"><var>C</var><sub>d</sub></th><td>the same for the deep ocean</td><td>110</td></tr>
+</tbody>
+</table>
+<p>The rest comes from the data: for each year, the forcing from CO₂ (<var>F</var><sub>c</sub>), from methane (<var>F</var><sub>m</sub>), from reflective smog (<var>F</var><sub>s</sub>) and from everything else together (<var>F</var><sub>o</sub>), all in W/m².</p>
+
+<h4>1. How hard is the push?</h4>
+<p>The forcing in one year is the four pieces added up, with your three sliders on the first three:</p>
+<div class="eq" data-eq="forcing"><math displaystyle="true"><mrow><mi mathvariant="normal">F</mi><mo>=</mo><msub><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">F</mi><mi mathvariant="normal">c</mi></msub><mo>+</mo><msub><mi mathvariant="normal">a</mi><mi mathvariant="normal">m</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">F</mi><mi mathvariant="normal">m</mi></msub><mo>+</mo><msub><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">F</mi><mi mathvariant="normal">s</mi></msub><mo>+</mo><msub><mi mathvariant="normal">F</mi><mi mathvariant="normal">o</mi></msub></mrow></math></div>
+<p>in W/m². Everything else, <var>F</var><sub>o</sub>, is the other greenhouse gases, changes to the land, soot on snow, volcanoes and the Sun. Smog's forcing is negative, so it takes away from the total. In 2019 the four pieces were 2.16, 0.54, −1.06 and 1.20&nbsp;W/m². Reflective smog was hiding about half of the push from CO₂.</p>
+
+<h4>2. How strong are the feedbacks together?</h4>
+<p>Box 4.1 in Chapter 4 says that the gains of the separate feedbacks add together:</p>
+<div class="eq" data-eq="gain"><math displaystyle="true"><mrow><mi mathvariant="normal">g</mi><mo>=</mo><msub><mi mathvariant="normal">g</mi><mi mathvariant="normal">w</mi></msub><mo>+</mo><msub><mi mathvariant="normal">g</mi><mi mathvariant="normal">v</mi></msub><mo>+</mo><msub><mi mathvariant="normal">g</mi><mi mathvariant="normal">i</mi></msub><mo>+</mo><msub><mi mathvariant="normal">g</mi><mi mathvariant="normal">c</mi></msub></mrow></math></div>
+<p>A gain has no units. It's the share of each round of warming that comes back as more warming. Water vapor, ice and snow are amplifiers, so their gains are positive. Vertical mixing is a damper, so <var>g</var><sub>v</sub> is negative. Clouds do some of each, and on balance they amplify. As the page opens, <var>g</var> is 0.64, close to the two-thirds of Box 4.1.</p>
+
+<h4>3. How sensitive is the climate?</h4>
+<p>A push warms the Earth a little. The feedbacks add <var>g</var> times that, then <var>g</var> times the extra, and so on. Box 4.1 adds up all those rounds: 1 + <var>g</var> + <var>g</var>² + … comes to 1 ÷ (1 − <var>g</var>). So the climate sensitivity is the baseline, made that many times bigger:</p>
+<div class="eq" data-eq="sensitivity"><math displaystyle="true"><mrow><mi mathvariant="normal">S</mi><mo>=</mo><mfrac><msub><mi mathvariant="normal">S</mi><mn>0</mn></msub><mrow><mn>1</mn><mo>−</mo><mi mathvariant="normal">g</mi></mrow></mfrac></mrow></math></div>
+<p>in °C per W/m². With <var>g</var> at 0.64, the feedbacks make the response 2.8 times the baseline. This is the curve on the second view. Because <var>g</var> is on the bottom of the fraction, the curve gets steeper as <var>g</var> grows. Going from 0.5 to 0.6 adds less than going from 0.6 to 0.7.</p>
+<p><strong>Where it stops.</strong> At a gain of 1 the bottom of the fraction is zero. Every round of warming would be as big as the one before, and the rounds would never add up to anything. So when your gains add up to 1 or more, the page says there's no stable climate and draws nothing. The real climate is nowhere near that. Chapter 4 explains why positive feedback isn't a runaway.</p>
+
+<h4>4. How much warming for doubled CO₂?</h4>
+<p>Scientists usually give the sensitivity as the warming from doubling CO₂, once the ocean has caught up. Chapter 4 calls it the equilibrium climate sensitivity. It's the forcing from a doubling, times the sensitivity:</p>
+<div class="eq" data-eq="doubling"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">T</mi><mn>2×</mn></msub><mo>=</mo><msub><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">F</mi><mn>2×</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">S</mi></mrow></math></div>
+<p>in °C. Your slider for CO₂ is in here, because it changes how hard a doubling pushes. As the page opens, <var>T</var><sub>2×</sub> is 3.4&nbsp;°C. That's what the IPCC got when it added up the feedbacks one at a time, as Chapter 4 says. Its best estimate from all the evidence together is 3&nbsp;°C, and the second view marks that and its ranges.</p>
+
+<h4>5. How much of the push is still unpaid?</h4>
+<p>Now time comes in. Call the warming of the surface so far <var>T</var>. A warmer Earth sends more energy to space, and that pays back part of the push: <var>T</var> ÷ <var>S</var> of it. What's left is the <strong>energy imbalance</strong>:</p>
+<div class="eq" data-eq="imbalance"><math displaystyle="true"><mrow><mi mathvariant="normal">N</mi><mo>=</mo><mi mathvariant="normal">F</mi><mo>−</mo><mfrac><mi mathvariant="normal">T</mi><mi mathvariant="normal">S</mi></mfrac></mrow></math></div>
+<p>in W/m². This is heat that's still piling up. When <var>T</var> reaches <var>F</var> × <var>S</var>, the imbalance is zero and the warming stops. That's all the sensitivity means. A more sensitive climate pays back less for each degree, so it has to warm more before the books balance.</p>
+
+<h4>6. How much heat goes down into the deep ocean?</h4>
+<p>The model's surface layer is the air, the land and the top of the ocean, which the wind keeps stirred. Under it is the deep ocean, with its own warming so far, <var>D</var>. Heat passes from the warmer one to the cooler one:</p>
+<div class="eq" data-eq="uptake"><math displaystyle="true"><mrow><mi mathvariant="normal">H</mi><mo>=</mo><mi mathvariant="normal">γ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">T</mi><mo>−</mo><mi mathvariant="normal">D</mi><mo stretchy="false">)</mo></mrow></mrow></math></div>
+<p>in W/m². The bigger the difference, the faster the heat goes down. Your slider is <var>γ</var>: the W/m² that pass down for each °C of difference. The page opens with it at 0.7.</p>
+
+<h4>7. How much do the two layers warm in a year?</h4>
+<p>The surface layer keeps the heat that's piling up, less what it passes down. The deep ocean keeps what comes down to it:</p>
+<div class="eq" data-eq="surface"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">T</mi></mrow><mo>=</mo><mfrac><mrow><mi mathvariant="normal">N</mi><mo>−</mo><mi mathvariant="normal">H</mi></mrow><mi mathvariant="normal">C</mi></mfrac></mrow></math></div>
+<div class="eq" data-eq="deep"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">D</mi></mrow><mo>=</mo><mfrac><mi mathvariant="normal">H</mi><msub><mi mathvariant="normal">C</mi><mi mathvariant="normal">d</mi></msub></mfrac></mrow></math></div>
+<p>both in °C for the year. The two heat capacities set the pace. The surface layer's is as much as a layer of water about 55&nbsp;m deep over the whole globe, so it warms within a few years. The deep ocean's is 15 times that, like 830&nbsp;m of water, so it takes centuries. That's why the response lags the push. If a push were held steady, the warming would go on for a long time before it leveled off.</p>
+<p>The model starts in 1850 with <var>T</var> and <var>D</var> both at zero. Each year it works out <var>N</var> and <var>H</var> from the temperatures the year began with, then adds Δ<var>T</var> and Δ<var>D</var> to them.</p>
+
+<h4>Where the equations stop</h4>
+<p>This is a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>One sensitivity for all time.</strong> The model's feedbacks are the same in 1900 as in 2100. In the real world they change a little as the pattern of warming over the oceans changes. Chapter 4 says that pattern has let the planet shed heat a little more easily so far than it will later on. That may be part of why the model, at its opening settings, runs warmer than the measurements in recent decades.</li>
+<li><strong>Every W/m² counts the same.</strong> A watt of forcing from a volcano warms or cools the model exactly as much as a watt from CO₂.</li>
+<li><strong>No weather and no El Niño.</strong> The measured temperature wobbles from year to year by itself. The model's doesn't, so don't expect it to match every bump.</li>
+<li><strong>No carbon cycle.</strong> The model is handed its forcing. It doesn't work out how much CO₂ stays in the air, and nothing in it thaws or burns. So it can't show what happens when emissions stop. Then the CO₂ in the air falls and the push shrinks, and Chapter 9 explains why the warming stops.</li>
+<li><strong>The world as two numbers.</strong> There's no map here: no land and sea, no poles and tropics. The deep ocean is one layer with one temperature.</li>
+<li><strong>Time in steps of a year.</strong> That's coarse for the surface layer after a big eruption, when the forcing changes sharply. At the opening settings, taking 100 steps a year instead moves the model's temperature by 0.04&nbsp;°C at most.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the sliders alone. Go to "3. Response", select the graph and press the left arrow key once. You're reading 2019, the last year of the forcing data. Here's the model's sum for that year.</p>
+<ol class="worked">
+<li><strong>The push (step 1).</strong> Every slider is at 100%, so each <var>a</var> is 1. <var>F</var> = 1 × 2.16 + 1 × 0.54 + 1 × (−1.06) + 1.20 = 2.84&nbsp;W/m².</li>
+<li><strong>The gain (step 2).</strong> <var>g</var> = 0.56 + (−0.16) + 0.11 + 0.13 = 0.64.</li>
+<li><strong>The sensitivity (step 3).</strong> <var>S</var> = 0.3106 ÷ (1 − 0.64) = 0.863&nbsp;°C per W/m².</li>
+<li><strong>Doubled CO₂ (step 4).</strong> <var>T</var><sub>2×</sub> = 1 × 3.93 × 0.863 = 3.39&nbsp;°C, the 3.4&nbsp;°C on the second view.</li>
+<li><strong>The imbalance (step 5).</strong> As 2019 begins, the model's surface has warmed by 1.493&nbsp;°C since its start. That pays back 1.493 ÷ 0.863 = 1.73&nbsp;W/m². <var>N</var> = 2.84 − 1.73 = 1.11&nbsp;W/m².</li>
+<li><strong>Heat passing down (step 6).</strong> The deep ocean has warmed by 0.270&nbsp;°C. <var>H</var> = 0.7 × (1.493 − 0.270) = 0.86&nbsp;W/m².</li>
+<li><strong>The year's warming (step 7).</strong> Δ<var>T</var> = (1.11 − 0.86) ÷ 7.3 = 0.034&nbsp;°C, and Δ<var>D</var> = 0.86 ÷ 110 = 0.008&nbsp;°C.</li>
+</ol>
+<p>Those are the numbers in the table under the graph. More than three-quarters of the heat that's piling up goes on down into the deep ocean, and what's left warms the surface by 0.034&nbsp;°C in the year. That brings the surface to 1.53&nbsp;°C above its start. The graph shows 1.43&nbsp;°C, because it counts from the model's average over 1850 to 1900, which is 0.10&nbsp;°C above its start.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Counting from 1850 to 1900.</strong> The measurements are given as the difference from their own average over 1850 to 1900, a stand-in for the time before industry. So the graphs take the model's average over the same years away from the model. The table under the third graph doesn't: it counts from the model's start, because that's what the equations use.</li>
+<li><strong>Starting in 1850.</strong> The forcing is counted from 1750, but the model starts a century later, with the surface and the deep ocean in balance and a push of 0.33&nbsp;W/m² in its first year. At the opening settings, starting in 1750 instead lifts the graphs' first years by as much as 0.08&nbsp;°C. After 1855 it changes them by 0.01&nbsp;°C or less.</li>
+<li><strong>The year a number belongs to.</strong> For each year the page shows the imbalance and the heat passing down as the year's sum used them, and the two temperatures as the year left them.</li>
+<li><strong>The gain as a whole number of hundredths.</strong> The sliders move in steps of 0.01, so the page rounds the total gain to two places before it uses it. Then a total of exactly 1 is treated as 1.</li>
+<li><strong>The fit.</strong> The text under the third graph gives the typical difference between the model and the measurements. It's the square root of the average squared difference, over 1850 to 2019.</li>
+<li><strong>Joining the past to the future.</strong> Each scenario's own forcing starts in 2015. Before that, every scenario uses the same history, and in 2015 the two agree to within 0.01&nbsp;W/m². After that the scenarios go their own way. By 2019 their forcing is 0.01 to 0.13&nbsp;W/m² less than what happened, so the fourth view's lines for 2015 to 2019 aren't quite the third view's.</li>
+<li><strong>The scenarios' names.</strong> The second number in a name, such as the 7.0 in SSP3-7.0, is roughly the forcing in 2100 that the scenario was designed for, in W/m². The IPCC calls these labels approximate. Its own later estimates, which the model uses, run higher for the high scenarios: 8.2&nbsp;W/m² for SSP3-7.0 and 10.0 for SSP5-8.5.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Each step of gain counts for more.</strong> On "2. Feedback", leave the box ticked and raise clouds from 0.13 to 0.23. The total gain goes from 0.64 to 0.74, and the warming for doubled CO₂ goes from 3.4&nbsp;°C to 4.7. Raise clouds by the same amount again, to 0.33, and it goes to 7.6&nbsp;°C. That's the fraction in step 3.</li>
+<li><strong>A pair that cancels.</strong> With the box ticked, raise water vapor from 0.56 to 0.70. Vertical mixing moves from −0.16 to −0.30 and the total gain stays at 0.64. Now clear the box and put vertical mixing back to −0.16. The gain jumps to 0.78, and doubled CO₂ gives 5.5&nbsp;°C. Climate models differ a good deal in each of these two feedbacks, and much less in the two together.</li>
+<li><strong>No stable climate.</strong> Clear the box and set water vapor to 0.75, vertical mixing to 0, ice and snow to 0.19 and clouds to 0.41. The gains add up to 1.35. Step 3 has no answer, and the page says so. Every one of those settings is at the far end of its slider, and the first two don't go together in the real world.</li>
+<li><strong>A world without a deep ocean.</strong> Press "Back to the opening settings". On "3. Response", set the heat passing down to zero. With nowhere else for the heat to go, the surface warms at once: the model reaches 2.03&nbsp;°C in 2019, where the measured temperature was 1.24&nbsp;°C. And its energy imbalance over 2006 to 2018 is only 0.35&nbsp;W/m², less than half of what was measured.</li>
+<li><strong>Two pasts that look alike.</strong> Go back to the opening settings and open all the controls on "3. Response". Set reflective smog to 40% and clouds to −0.15. Doubled CO₂ now gives only 1.9&nbsp;°C, and the model's average for 2010 to 2019 is 1.11&nbsp;°C. Now set smog to 160% and clouds to 0.29. Doubled CO₂ gives 6.1&nbsp;°C, and the average for 2010 to 2019 is 1.09&nbsp;°C. The measured average was 1.09&nbsp;°C. Weak smog with a sluggish climate and strong smog with a touchy one both land on the last decade. This is why Chapter 4 calls smog the biggest source of error in working out the sensitivity from the measured record.</li>
+<li><strong>Two futures that don't.</strong> Take those same two settings to "4. The future". For SSP2-4.5, the first gives 2.1&nbsp;°C for 2081 to 2100 and the second gives 4.2&nbsp;°C. The past alone can't easily tell them apart, but they aren't equally good. The second one is too cold through the middle of the last century: its typical difference from the measurements is 0.34&nbsp;°C, against 0.12&nbsp;°C for the first. And other evidence rules out both. The IPCC's very likely range for doubled CO₂ is 2 to 5&nbsp;°C, from the ice ages and from physics as well as from the measured record, and both of these settings fall outside it.</li>
+<li><strong>The part that's a choice.</strong> Back at the opening settings, read 2081 to 2100 under the last graph: 2.0&nbsp;°C for SSP1-2.6 and 4.2&nbsp;°C for SSP3-7.0. That's 2.2&nbsp;°C between two futures with the same climate. The sliders are about what scientists don't know yet. The scenarios are about what people do.</li>
+</ol>
+
+<h3 id="about-data">Where the data come from</h3>
+<p><strong>The forcing</strong> is from the IPCC's Sixth Assessment Report, published in 2021. Chapter 7 of its first volume worked out the forcing from each cause for every year from 1750 to 2019, and for each scenario to 2500. The page uses the best estimates for 1850 to 2019 and for five scenarios to 2100. The chapter's authors share the numbers and the code that made them, under the MIT license.</p>
+<p class="cite">Smith, C., Forster, P., Palmer, M., Collins, B., Leach, N., Watanabe, M., Berger, S., Hall, B., Zelinka, M., Lunt, D., Cain, M., Harris, G., and Ringer, M. (2021). IPCC WGI AR6 Chapter 7 (v.1.0). Zenodo. <a href="https://doi.org/10.5281/zenodo.5211358">doi:10.5281/zenodo.5211358</a></p>
+<p class="cite">Forster, P., Storelvmo, T., Armour, K., Collins, W., Dufresne, J.-L., Frame, D., Lunt, D. J., Mauritsen, T., Palmer, M. D., Watanabe, M., Wild, M., and Zhang, H. (2021). The Earth's energy budget, climate feedbacks, and climate sensitivity. In <em>Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change</em>, 923–1054. Cambridge University Press. <a href="https://doi.org/10.1017/9781009157896.009">doi:10.1017/9781009157896.009</a></p>
+<p>The same chapter is the source of the model's fixed numbers and its opening settings. Its Table 7.10 gives each feedback in W/m² per °C: 1.30 for water vapor and vertical mixing together, 0.35 for ice and snow and 0.42 for clouds, against 3.22 for the baseline. Each gain on this page is the feedback divided by 3.22. The IPCC assesses water vapor and vertical mixing as a pair. The split between them on this page, 0.56 and −0.16, uses the chapter's value for vertical mixing alone. The forcing from doubled CO₂, 3.93&nbsp;W/m², is the chapter's too.</p>
+<p>The two heat capacities and the opening value of <var>γ</var> come from the files the chapter's authors share with the forcing. They're the averages of the values that make this kind of model behave like each of the big climate models of the report. The kind of model is Held and colleagues' and Geoffroy and colleagues'.</p>
+<p class="cite">Held, I. M., Winton, M., Takahashi, K., Delworth, T., Zeng, F., and Vallis, G. K. (2010). Probing the fast and slow components of global warming by returning abruptly to preindustrial forcing. <em>Journal of Climate</em> 23(9), 2418–2427. <a href="https://doi.org/10.1175/2009JCLI3466.1">doi:10.1175/2009JCLI3466.1</a></p>
+<p class="cite">Geoffroy, O., Saint-Martin, D., Olivié, D. J. L., Voldoire, A., Bellon, G., and Tytéca, S. (2013). Transient climate response in a two-layer energy-balance model. Part I: Analytical solution and parameter calibration using CMIP5 AOGCM experiments. <em>Journal of Climate</em> 26(6), 1841–1857. <a href="https://doi.org/10.1175/JCLI-D-12-00195.1">doi:10.1175/JCLI-D-12-00195.1</a></p>
+<p><strong>The measured temperature</strong> is HadCRUT5, from the Met Office Hadley Centre and the University of East Anglia: the average temperature of the whole Earth's surface for each year from 1850 to 2025, with its 95% range. It was 1.41&nbsp;°C above the 1850 to 1900 average in 2025. It contains public sector information licensed under the Open Government Licence v3.0, © Crown copyright, Met Office.</p>
+<p class="cite">Morice, C. P., Kennedy, J. J., Rayner, N. A., Winn, J. P., Hogan, E., Killick, R. E., Dunn, R. J. H., Osborn, T. J., Jones, P. D., and Simpson, I. R. (2021). An updated assessment of near-surface temperature change from 1850: The HadCRUT5 data set. <em>Journal of Geophysical Research: Atmospheres</em> 126(3), e2019JD032361. <a href="https://doi.org/10.1029/2019JD032361">doi:10.1029/2019JD032361</a></p>
+<p><strong>The IPCC's own answers,</strong> drawn beside the model's: the warming for 2081 to 2100 in each scenario is from Table SPM.1 of the report's Summary for Policymakers. The sensitivity of 3&nbsp;°C with its ranges, the measured energy imbalance of 0.79&nbsp;W/m² over 2006 to 2018 and the ranges under the forcing sliders are from Chapter 7.</p>
+<p class="cite">IPCC (2021). Summary for policymakers. In <em>Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change</em>, 3–32. Cambridge University Press. <a href="https://doi.org/10.1017/9781009157896.001">doi:10.1017/9781009157896.001</a></p>
+<p><strong>What's newer than this.</strong> The forcing data stop in 2019. Chapter 4 uses an update to 2025, in which the total push is about 3.1&nbsp;W/m². The model's total for 2019 is 2.84.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the eight equations written out a second time, in another programming language. For the past and for all five futures, at the opening settings and at eleven others, the two copies give the same temperatures to a billionth of a degree.</li>
+<li><strong>Step 3, the long way.</strong> The second copy adds up the rounds of feedback one at a time, as Box 4.1 describes them, until they stop growing. The total matches 1 ÷ (1 − <var>g</var>).</li>
+<li><strong>The end of the story.</strong> Hold the forcing at 3.93&nbsp;W/m², the push from doubled CO₂, and let the model run. After 100 years the surface has warmed by 2.50&nbsp;°C, and after 1,000 years by 3.36&nbsp;°C. In the end it settles at 3.39&nbsp;°C, which is what step 4 says.</li>
+<li><strong>Heat in, against heat kept.</strong> Add up the energy imbalance for every year from 1850 to 2019. It has to equal the heat the two layers have gained, and it does. About 73% of it is in the deep ocean.</li>
+<li><strong>The model, against the measurements.</strong> At the opening settings the model's typical difference from the measured temperature is 0.14&nbsp;°C. It runs warm in recent decades: its average for 2010 to 2019 is 1.25&nbsp;°C, and the measured average is 1.09&nbsp;°C. Its energy imbalance over 2006 to 2018 is 0.94&nbsp;W/m². The measured imbalance is 0.79, with a very likely range of 0.52 to 1.06.</li>
+<li><strong>The model, against the IPCC.</strong> For 2081 to 2100 the model gives 1.5, 2.0, 3.1, 4.2 and 5.2&nbsp;°C for the five scenarios, from SSP1-1.9 to SSP5-8.5. The IPCC's best estimates are 1.4, 1.8, 2.7, 3.6 and 4.4&nbsp;°C. Every one of the model's is inside the IPCC's very likely range, and every one is above its best estimate. Most of that gap is the opening sensitivity of 3.4&nbsp;°C, where the IPCC's best estimate is 3. With clouds at 0.07, which makes it 2.9&nbsp;°C, the model gives 1.4, 1.8, 2.8, 3.8 and 4.7&nbsp;°C.</li>
+<li><strong>A standard test.</strong> Raise the CO₂ in the air by 1% a year, and it doubles in 70 years. The warming at that moment is called the transient climate response. The model's is 2.2&nbsp;°C. The IPCC's best estimate is 1.8&nbsp;°C, likely between 1.4 and 2.2.</li>
+<li><strong>The data, against its sources.</strong> The forcing and the temperatures were downloaded again on November 12, 2026, and made into the page's data a second time. Every number matched.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the eight equations, and the loop that runs them a year at a time.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graphs and the lines under them.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a>, <a href="app.js" download><code>app.js</code></a> or the data, <a href="data.json" download><code>data.json</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/forcing-feedback">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>. The forcing is the work of the authors of Chapter 7 of the IPCC's Sixth Assessment Report, who made this possible by sharing it. The temperatures are the work of the Met Office Hadley Centre and the Climatic Research Unit at the University of East Anglia.</p>
+<p>The model is Scott Denning's, and he built its first version with OpenAI Codex. Claude, from Anthropic, rebuilt it for the book and checked it against the IPCC's report and the measurements. The rebuild gave the model its deep ocean. The first version had a single delay in place of steps 5 to 7, and it warmed too fast.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

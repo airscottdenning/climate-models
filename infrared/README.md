@@ -109,4 +109,4 @@ It reads the ARTS results (not in Git) from the frozen copy of the first version
 
 ## Still to do
 
-- Embed the model in Chapter 3, with a still image and a short address for the PDF.
+- The models aren't embedded in the book's chapters (Scott, 12 November 2026); the compact layout (`?embed=1`) is there if that changes.

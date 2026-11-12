@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Day on the Moon: Sunlight, Crushed Rock and No Air</title>
+<meta name="description" content="Follow the temperature of the ground at the Moon's equator through one day. Change the length of the day, the albedo and the model's time step. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>A Day on the Moon: Sunlight, Crushed Rock and No Air</h1>
+<p class="intro standalone-only">The Moon has no air and no water, and its day lasts a month. Its surface is crushed rock that bakes at noon and is bitterly cold before sunrise. Change the length of the day and see what a world with no greenhouse effect does between noon and midnight.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-day" aria-controls="panel-day" aria-selected="true">The Moon's day</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<section id="panel-day" role="tabpanel" aria-labelledby="tab-day" tabindex="0">
+<h2>One day in the ground at the Moon's equator</h2>
+<div class="layout">
+<form class="controls" aria-label="The day">
+<div class="control">
+<label for="day-range">Length of the day</label>
+<div class="pair"><input type="range" id="day-range" min="0" max="16" step="1"><output id="day-value" for="day-range"></output></div>
+<p class="hint" id="day-hint"></p>
+</div>
+<div class="presets" role="group" aria-label="Quick choices">
+<button type="button" data-day="1">A day as long as the Earth's</button>
+<button type="button" data-day="365">A day as long as an Earth year</button>
+</div>
+<div class="control">
+<label for="albedo">Albedo: the share of the Sunlight that's reflected (%)</label>
+<div class="pair"><input type="range" id="albedo-range" min="5" max="30" step="1" aria-label="Albedo, slider"><input type="number" id="albedo" min="5" max="30" step="1"></div>
+<p class="hint">The Moon reflects about 11% of the Sunlight that reaches it.</p>
+</div>
+<div class="control">
+<label for="step">Time step (minutes)</label>
+<div class="pair"><input type="range" id="step-range" min="1" max="20" step="1" aria-label="Time step, slider"><input type="number" id="step" min="1" max="20" step="1"></div>
+<p class="hint" id="step-hint"></p>
+</div>
+<p><button type="button" id="reset">Back to the Moon as it is</button></p>
+<p><button type="button" id="keep">Keep this day to compare</button></p>
+<p id="kept-line" hidden><button type="button" id="unkeep">Let the kept day go</button></p>
+</form>
+<figure>
+<ul class="key">
+<li><span class="line"></span>The surface (the top 5&nbsp;mm of the ground)</li>
+<li><span class="line cm3"></span>3&nbsp;cm down</li>
+<li><span class="line cm10"></span>10&nbsp;cm down</li>
+<li><span class="line cm30"></span>30&nbsp;cm down</li>
+<li id="key-kept" hidden><span class="line kept"></span>The day you kept</li>
+</ul>
+<canvas id="day" tabindex="0" role="img" aria-label="Two graphs of one day at the Moon's equator, from midnight to midnight. The upper graph shows the temperature of the surface and of the ground 3, 10 and 30 centimeters down. The lower graph shows the heat going into the ground. The lines and the table below give the numbers. With the graph selected, the left and right arrow keys move through the day a quarter of an hour at a time, or an hour at a time with Shift."></canvas>
+<p id="day-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<table id="day-budget" class="budget" hidden>
+<caption>The top layer in this one step</caption>
+<tbody>
+<tr><th scope="row">Sunlight taken in, <var>Q</var></th><td id="budget-q"></td></tr>
+<tr><th scope="row">Infrared radiation emitted, <var>E</var></th><td id="budget-e"></td></tr>
+<tr><th scope="row">Heat flowing down to the next layer, <var>F</var><sub>1</sub></th><td id="budget-f"></td></tr>
+<tr><th scope="row">Left over, <var>Q</var> − <var>E</var> − <var>F</var><sub>1</sub></th><td id="budget-left"></td></tr>
+<tr class="result"><th scope="row">The top layer's warming in this step, Δ<var>T</var><sub>1</sub></th><td id="budget-warming"></td></tr>
+</tbody>
+</table>
+<figcaption id="day-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>The clock is the Sun's.</strong> The graph runs from one midnight to the next. The Sun rises at 6&nbsp;a.m., it's straight overhead at noon and it sets at 6&nbsp;p.m., however long the day is. On the Moon that takes 29.53 Earth days, so every hour on this clock lasts more than one of our days.</p>
+<p class="note"><strong>This is a very simple model.</strong> It's just one-dimensional heat transfer through crushed rock. Sunlight heats the surface, and the infrared radiation the surface emits cools it. The Moon has no atmosphere, so there's no greenhouse effect, no wind and no weather. The About tab has every equation.</p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of ground temperatures on the Moon's equator. It's just one-dimensional heat transfer through crushed rock. Sunlight heats the surface, the infrared radiation the surface emits cools it, and heat soaks down into the ground by day and comes back up at night.</p>
+<p>The Moon has no atmosphere, so there's no greenhouse effect, no wind and no water to move heat around. And its day is long: 29.53 Earth days from one noon to the next, which is about two weeks of Sunlight and then about two weeks of night. At noon the model's surface reaches 381.5&nbsp;K (108.4&nbsp;°C, 227.1&nbsp;°F), hotter than boiling water. Just before sunrise it's down to 94.1&nbsp;K (−179.1&nbsp;°C, −290.3&nbsp;°F).</p>
+<p>There's no soil on the Moon. Soil is a mixture of chemically altered rock fragments, organic matter, air and water. It hosts complex ecosystems of living things, and they maintain it. The Moon's surface is bedrock that's been blasted to smithereens by billions of years of impacts. What's left is a much simpler mixture of rock fragments and hard vacuum. Scientists call it <strong>regolith</strong>, a word coined in 1897 from the Greek for blanket and stone. It's a blanket of loose rock on top of the bedrock. This page just calls it crushed rock.</p>
+<p>With nothing but vacuum between the fragments, heat flows through crushed rock much more slowly than through soil on Earth. The daily heating and cooling reaches only a little way down. In the model, the ground 30&nbsp;cm (a foot) down stays near 217&nbsp;K (−56&nbsp;°C, −69&nbsp;°F) all day and all night.</p>
+<p>Box 2.2 in Chapter 2, "Energy and Radiation", asks how cold the ground would get in one night on Earth if its own glow were its only energy transfer. Worked out one hour at a time, the ground ends up around −50&nbsp;°C (−58&nbsp;°F) by sunrise. A real morning on Earth is far warmer than that, and Chapter 3 has the reason. On the Moon nothing rescues the night. This model does the box's sum a few minutes at a time, through a whole day, with layers of crushed rock under the surface.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has one view, "The Moon's day". Its graph follows one day at the Moon's equator, from one midnight to the next. The clock is the Sun's: the Sun rises at 6&nbsp;a.m., it's straight overhead at noon and it sets at 6&nbsp;p.m., however long the day is. The upper part shows the temperature of the surface and of the ground 3, 10 and 30&nbsp;cm down. The lower part shows the heat going into the ground, which is the Sunlight the surface takes in less the infrared radiation it emits. It's above zero while the ground takes heat in, from sunrise until the middle of the afternoon. It's below zero while the ground gives heat back, for the rest of the afternoon and all night.</p>
+<p>You can change three things:</p>
+<ul>
+<li><strong>The length of the day,</strong> from 1 Earth day to 365. The page opens on the Moon's own day. The two buttons under the slider go to its two ends.</li>
+<li><strong>The albedo,</strong> which is the share of the Sunlight that the surface reflects, from 5% to 30%. The page opens at 11%.</li>
+<li><strong>The time step,</strong> which is how far the model moves the clock between one sum and the next, from 1 minute to 20. The page opens at 5&nbsp;minutes. Too long a step breaks the model, and step 6 below says why.</li>
+</ul>
+<p>Move over the graph to read the temperatures at that time of day. Or select the graph and press the left or right arrow key. The first press starts at noon, and each press after it moves a quarter of an hour, or an hour with Shift. Under the graph, a table shows the top layer's sum for that one step: the Sunlight it takes in, the infrared radiation it emits, the heat flowing down, and how much it warms. Below the table, a few lines give the day's hottest, coldest and average surface temperatures.</p>
+<p>"Keep this day to compare" leaves the day you're looking at on the graph as a dashed line while you change the controls. "Let the kept day go" takes it away, and "Back to the Moon as it is" puts every control back where it started.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 2, "Energy and Radiation".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is six short equations, and you can follow every one of them with a calculator.</p>
+<p>The model cuts the top meter of the ground into 13 layers, thin at the top and thicker farther down, and gives each layer one temperature. Then it asks one question, over and over: <strong>how much does each layer warm or cool in the next few minutes?</strong> It adds the answer to the layer's temperature, moves the clock on and asks again. It goes around the day like that until one day comes out the same as the day before. That day is the one on the graph.</p>
+<p>You choose three things:</p>
+<ul>
+<li>the <strong>length of the day</strong>, <var>P</var>, from one noon to the next</li>
+<li>the <strong>albedo</strong>, <var>α</var> (the Greek letter alpha), which is the share of the Sunlight that the surface reflects</li>
+<li>the <strong>time step</strong>, Δ<var>t</var>, which is how far the clock moves each time. Δ is the Greek capital letter delta. Here it means a small piece of something, or a small change in it, so Δ<var>t</var> is a small piece of time.</li>
+</ul>
+<p>Five numbers never change:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>S</var></th><td>the solar constant of Chapter 2: the Sunlight on a square meter that faces the Sun, in W/m²</td><td>1,361</td></tr>
+<tr><th scope="row"><var>σ</var></th><td>the Stefan–Boltzmann constant of Chapter 2 (the Greek letter sigma), in W/m² per K⁴</td><td>5.67&nbsp;×&nbsp;10⁻⁸</td></tr>
+<tr><th scope="row"><var>k</var></th><td>the crushed rock's conductivity, which is how well it carries heat, in W/m per K</td><td>0.003</td></tr>
+<tr><th scope="row"><var>c</var></th><td>the crushed rock's heat capacity: the joules it takes to warm a cubic meter of it by 1&nbsp;K</td><td>1,000,000</td></tr>
+<tr><th scope="row">Δ<var>z</var><sub>1</sub></th><td>the thickness of the top layer, in meters. Each layer is 1.4 times as thick as the one above it, so Δ<var>z</var><sub>2</sub> is 0.007.</td><td>0.005</td></tr>
+</tbody>
+</table>
+<p>The layers are numbered from the top. <var>T</var><sub>1</sub> is the temperature of the top layer, which the page calls the surface. <var>T</var><sub>2</sub> is the temperature of the layer under it, and so on down to <var>T</var><sub>13</sub>. They're all in kelvins.</p>
+
+<h4>1. Where is the Sun?</h4>
+<p>The model counts the time since midnight, <var>t</var>, in the same units as the length of the day. It turns that into the Sun's angle from straight overhead, <var>θ</var> (the Greek letter theta):</p>
+<div class="eq" data-eq="angle"><math displaystyle="true"><mrow><mi mathvariant="normal">θ</mi><mo>=</mo><mn>360°</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">t</mi><mi mathvariant="normal">P</mi></mfrac><mo>−</mo><mn>180°</mn></mrow></math></div>
+<p>At midnight <var>θ</var> is −180°. At sunrise it's −90°, at noon it's 0° and at sunset it's 90°. The model's Sun passes straight overhead every day, so there are no seasons.</p>
+
+<h4>2. How much Sunlight does the surface take in?</h4>
+<p>While the Sun is up, the surface takes in</p>
+<div class="eq" data-eq="sunlight"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><mi mathvariant="normal">S</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">α</mi><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>cos</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">θ</mi></mrow></mrow></math></div>
+<p>in W/m². The (1 − <var>α</var>) is the share that isn't reflected. The cos <var>θ</var> is the slant: Sunlight that comes in at an angle is spread over more ground, as Chapter 2 says, so each square meter gets less of it. With the Sun straight overhead cos <var>θ</var> is 1, and at sunrise and sunset it's 0. At night <var>Q</var> is zero.</p>
+
+<h4>3. How much infrared radiation does the surface emit?</h4>
+<p>This is the Stefan–Boltzmann law, the equation Chapter 2 says is worth memorizing:</p>
+<div class="eq" data-eq="emitted"><math displaystyle="true"><mrow><mi mathvariant="normal">E</mi><mo>=</mo><mi mathvariant="normal">σ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mn>4</mn></msup></mrow></math></div>
+<p>in W/m². Chapter 2 writes it with the letter <var>F</var>. Here it's <var>E</var>, for emitted, because step 4 needs the <var>F</var>. The fourth power makes a hot surface emit far more than a cold one. At noon the model's surface emits about 1,200&nbsp;W/m², and just before sunrise it emits about 4.</p>
+
+<h4>4. How much heat flows down through the ground?</h4>
+<p>Heat flows from a warmer layer to a cooler one. From the top layer into the second layer, it flows at</p>
+<div class="eq" data-eq="flow"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">F</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">k</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">T</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>1</mn></msub></mrow><mo>+</mo><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>2</mn></msub></mrow></mrow></mfrac></mrow></math></div>
+<p>in W/m². A bigger difference in temperature makes a faster flow, and a longer way to go makes a slower one. The middles of the two layers are half of Δ<var>z</var><sub>1</sub> + Δ<var>z</var><sub>2</sub> apart, and that half is where the 2 on top comes from. When the second layer is the warmer one, as it is at night, <var>F</var><sub>1</sub> is negative and the heat flows up. The same equation with the next two layers' numbers in it gives <var>F</var><sub>2</sub>, the flow from the second layer into the third, and so on down.</p>
+
+<h4>5. How much does a layer warm in one step?</h4>
+<p>The top layer keeps what's left over: the Sunlight it takes in, less what it emits, less what flows on down. In one time step that warms it by</p>
+<div class="eq" data-eq="warming"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub></mrow><mo>=</mo><mfrac><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">t</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">Q</mi><mo>−</mo><mi mathvariant="normal">E</mi><mo>−</mo><msub><mi mathvariant="normal">F</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><mi mathvariant="normal">c</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>1</mn></msub></mrow></mrow></mfrac></mrow></math></div>
+<p>kelvins. The top of the fraction is the energy left over in the step, in joules for each square meter. The bottom is the energy it takes to warm a square meter of the layer by 1&nbsp;K. When more goes out than comes in, Δ<var>T</var><sub>1</sub> is negative and the layer cools.</p>
+<p>A layer farther down gets no Sunlight and emits nothing to space. It keeps what flows in from above, less what flows out below:</p>
+<div class="eq" data-eq="warming-below"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">T</mi><mn>2</mn></msub></mrow><mo>=</mo><mfrac><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">t</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">F</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">F</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><mi mathvariant="normal">c</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>2</mn></msub></mrow></mrow></mfrac></mrow></math></div>
+<p>Nothing flows out of the bottom of the lowest layer. The model works out every flow from the temperatures at the start of the step, and only then changes the temperatures.</p>
+
+<h4>6. How long can a time step be?</h4>
+<p>Each step takes the rate at which the surface emits at the start of the step and holds it for the whole step. That's fine when the step is short. When it's long, there's trouble. Say the surface is a little too warm. It emits a little extra, so it cools toward where it should be. Over a long step it goes on cooling at that same rate, and it goes past where it should be and ends up too cold. If it overshoots by more than it was off to begin with, the next step throws it back farther still, and the temperature zig-zags wider and wider. That happens when the step is longer than about</p>
+<div class="eq" data-eq="longest"><math displaystyle="true"><mrow><mi mathvariant="normal">L</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">c</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>1</mn></msub></mrow></mrow><mrow><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">σ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mn>3</mn></msup></mrow></mfrac></mrow></math></div>
+<p>seconds. Here's where <var>L</var> comes from. A surface at 381.5&nbsp;K that's 1&nbsp;K too warm emits an extra 4<var>σ</var><var>T</var><sub>1</sub>³, which is 12.6&nbsp;W/m². Over one step that extra cools the top layer by Δ<var>t</var> × 4<var>σ</var><var>T</var><sub>1</sub>³ ÷ (<var>c</var>Δ<var>z</var><sub>1</sub>) kelvins. If that's more than 2&nbsp;K, the layer ends up more than 1&nbsp;K too cold, which is farther off than it started. A step of <var>L</var> makes it 2&nbsp;K exactly.</p>
+<p>The hotter the surface, the shorter <var>L</var> is, so the trouble starts near noon. On the page as it opens, the surface reaches 381.5&nbsp;K, which makes <var>L</var> 794&nbsp;seconds, or 13.2&nbsp;minutes. A time step of 13&nbsp;minutes works, and one of 14 zig-zags. With a longer step still you get crazy values, such as temperatures below zero kelvins. The page works <var>L</var> out for the day you've chosen and prints it under the time step.</p>
+
+<h4>Where the equations stop</h4>
+<p>This is a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>The same crushed rock all the way down.</strong> The real regolith is fluffy at the top and packed tighter below, and it carries heat better the deeper you go. The model uses one conductivity and one heat capacity for every layer, at every temperature.</li>
+<li><strong>One flat place.</strong> The model is level ground on the equator, with no rocks, no slopes and no shadows. Its Sun passes straight overhead and is always the same distance away.</li>
+<li><strong>One plain surface.</strong> It reflects the same share of the Sunlight whatever the Sun's angle, and it emits infrared radiation as a black surface does.</li>
+<li><strong>Nothing from below.</strong> No heat flows in or out through the bottom of the lowest layer, almost a meter down.</li>
+<li><strong>Time in steps.</strong> Real time doesn't move in steps. With a time step longer than <var>L</var> the arithmetic fails, and the page says so when it does. The real Moon doesn't zig-zag.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the controls alone. Select the graph and press the right arrow key once, which puts you at noon. Then hold Shift and press the left arrow key four times. You're at 8:00&nbsp;a.m., and the page says the surface is at 318.98&nbsp;K and the layer under it is at 285.30&nbsp;K. Here's the top layer's next step.</p>
+<ol class="worked">
+<li><strong>The Sun (step 1).</strong> At 8:00&nbsp;a.m., 8 of the day's 24 hours have gone by, so <var>t</var> ÷ <var>P</var> is 8 ÷ 24. Then <var>θ</var> = 360° × 8 ÷ 24 − 180° = −60°. The Sun is 60° from straight overhead.</li>
+<li><strong>Sunlight taken in (step 2).</strong> The albedo is 11%, so <var>α</var> is 0.11, and cos(−60°) is 0.5. <var>Q</var> = 1,361 × (1 − 0.11) × 0.5 = 605.6&nbsp;W/m².</li>
+<li><strong>Infrared radiation emitted (step 3).</strong> <var>E</var> = 5.67&nbsp;×&nbsp;10⁻⁸ × 318.98⁴ = 587.0&nbsp;W/m².</li>
+<li><strong>Heat flowing down (step 4).</strong> <var>F</var><sub>1</sub> = 2 × 0.003 × (318.98 − 285.30) ÷ (0.005 + 0.007) = 16.8&nbsp;W/m².</li>
+<li><strong>What's left over (step 5).</strong> 605.6 − 587.0 − 16.8 = 1.8&nbsp;W/m². The surface is taking in over 600&nbsp;W/m² and keeping less than 2.</li>
+<li><strong>The warming (step 5).</strong> The time step is 5&nbsp;minutes, which is 300&nbsp;seconds. Δ<var>T</var><sub>1</sub> = 300 × 1.8 ÷ (1,000,000 × 0.005) = 0.11&nbsp;K.</li>
+</ol>
+<p>Those are the five numbers in the table under the graph. The last one, 0.11&nbsp;K, is how much the surface warms in the next 5&nbsp;minutes.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>The layers.</strong> There are 13. The top one is 5&nbsp;mm thick and the lowest one ends 0.98&nbsp;m down. The graph's lines for 3, 10 and 30&nbsp;cm are the layers whose middles are 2.9, 10.0 and 29.7&nbsp;cm down.</li>
+<li><strong>Reaching a day that repeats.</strong> The model starts every layer at 250&nbsp;K and runs day after day. It stops when the surface's average for the day is within 0.002&nbsp;K of the day before, and every layer's average is within 0.002&nbsp;K of the surface's. That takes about 8 days. If 40 days aren't enough, it stops anyway and the page says so.</li>
+<li><strong>A shortcut for the deep layers.</strong> Left to itself, the ground a meter down would take decades to settle. But over a day that repeats, no layer gains or loses heat on balance, and that means every layer has the same average temperature. So after each day the model moves each layer by the difference between the surface's average and its own.</li>
+<li><strong>A whole number of steps.</strong> The steps have to fit the day exactly, so the model trims the time step a little when they don't. A step of 14&nbsp;minutes becomes 839.9&nbsp;seconds on the Moon's day. The page prints the number of steps under the time step.</li>
+<li><strong>The Moon's day.</strong> The model's is 29 days, 12 hours and 45 minutes, which is 29.53 Earth days.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>A night fed from below.</strong> On the page as it opens, move to midnight and read the table. There's no Sunlight. The surface emits 6.4&nbsp;W/m², and <var>F</var><sub>1</sub> is −6.3&nbsp;W/m²: heat that soaked into the ground by day is coming back up, and it supplies nearly all of what the surface emits. That's why the surface cools so slowly through the long night.</li>
+<li><strong>A day as long as the Earth's.</strong> Press "A day as long as the Earth's". Noon hardly changes: 378.8&nbsp;K, against 381.5&nbsp;K on the Moon's own day. The night changes a lot. The surface is never colder than 139.7&nbsp;K, against 94.1&nbsp;K, because a night of 12 hours is too short for it to cool much further. And the heating and cooling don't reach as far down: the lines for 10 and 30&nbsp;cm are flat.</li>
+<li><strong>The same Sunlight, a warmer average.</strong> With a day as long as the Earth's, the surface's average temperature is 240.2&nbsp;K. On the Moon's own day it's 217.2&nbsp;K. The Sunlight taken in over a day is the same in both, and so is the infrared radiation emitted, which has to match it. The reason is the fourth power in step 3. A surface that swings between very hot and very cold emits more than a steady surface with the same average temperature. So the bigger the swing, the lower the average temperature at which the surface emits as much as it takes in.</li>
+<li><strong>A day as long as an Earth year.</strong> Press "A day as long as an Earth year". The surface is as cold as 69.7&nbsp;K before sunrise, and its average is down to 204.0&nbsp;K. Even after six months of night it's still cooling, more and more slowly. It emits only 1.3&nbsp;W/m² by then.</li>
+<li><strong>A brighter Moon.</strong> Go back to the Moon as it is and raise the albedo to 30%. Noon falls from 381.5&nbsp;K to 359.2&nbsp;K. The coldest moment of the night hardly notices: 92.4&nbsp;K, against 94.1&nbsp;K.</li>
+<li><strong>Break the model.</strong> Go back to the Moon as it is and set the time step to 13&nbsp;minutes. Nothing much changes. Now set it to 14. The surface's line turns into a solid band, which is the zig-zag of step 6 drawn hundreds of times, and the page tells you not to trust the numbers. At 20&nbsp;minutes the model blows up before noon on its first day.</li>
+<li><strong>Two days on one graph.</strong> Press "Keep this day to compare" before you change a control, and the day you kept stays on the graph as a dashed line.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The Sunlight, the Moon's albedo and the length of its day are NASA's numbers for the Moon: 1,361&nbsp;W/m², 0.11 and 29.53 days.</p>
+<p>The two numbers for the crushed rock lean on Diviner, an instrument on NASA's Lunar Reconnaissance Orbiter that has measured the infrared radiation coming from the Moon's surface since July 2009. Vasavada and colleagues compared the night temperatures it found at the equator with models of the regolith. For a regolith that's the same at every depth they used a conductivity of 0.003&nbsp;W/m per K, and that's the model's <var>k</var>. They got a closer fit from one that's fluffy at the top and gets denser and more conductive within a few centimeters, which this model leaves out.</p>
+<p>The heat capacity goes with it. How fast a surface warms and cools depends on the two numbers together, as the square root of <var>k</var> × <var>c</var>. That's called the thermal inertia. Hayne and colleagues found a thermal inertia of 55 ± 2 for the top few centimeters of the Moon's regolith. The model's is the square root of 0.003 × 1,000,000, which is 54.8.</p>
+<p class="cite">Williams, D. R. (2024). Moon Fact Sheet. NASA Goddard Space Flight Center. <a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html">nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html</a></p>
+<p class="cite">Vasavada, A. R., Bandfield, J. L., Greenhagen, B. T., Hayne, P. O., Siegler, M. A., Williams, J.-P., and Paige, D. A. (2012). Lunar equatorial surface temperatures and regolith properties from the Diviner Lunar Radiometer Experiment. <em>Journal of Geophysical Research: Planets</em> 117(E12), E00H18. <a href="https://doi.org/10.1029/2011JE003987">doi:10.1029/2011JE003987</a></p>
+<p class="cite">Hayne, P. O., Bandfield, J. L., Siegler, M. A., Vasavada, A. R., Ghent, R. R., Williams, J.-P., Greenhagen, B. T., Aharonson, O., Elder, C. M., Lucey, P. G., and Paige, D. A. (2017). Global regolith thermophysical properties of the Moon from the Diviner Lunar Radiometer Experiment. <em>Journal of Geophysical Research: Planets</em> 122(12), 2371–2400. <a href="https://doi.org/10.1002/2017JE005387">doi:10.1002/2017JE005387</a></p>
+<p class="cite">Williams, J.-P., Paige, D. A., Greenhagen, B. T., and Sefton-Nash, E. (2017). The global surface temperatures of the Moon as measured by the Diviner Lunar Radiometer Experiment. <em>Icarus</em> 283, 300–325. <a href="https://doi.org/10.1016/j.icarus.2016.08.012">doi:10.1016/j.icarus.2016.08.012</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the six equations written out a second time, in another programming language. On the page as it opens and seven other settings, the two copies give the same temperatures to a millionth of a kelvin. With a time step that's too long, they agree that the model zig-zags or blows up.</li>
+<li><strong>The shortcut, against the slow way.</strong> The second copy also runs with no shortcut for the deep layers. Every layer starts at 250&nbsp;K and the model just runs, for 495 of the Moon's days, which is 40&nbsp;years. After 10&nbsp;years the lowest layer is still more than 3&nbsp;K too warm. After 40&nbsp;years every layer is within 0.01&nbsp;K of what the shortcut gives in 8&nbsp;days.</li>
+<li><strong>Energy in, against energy out.</strong> Over a day that repeats, the surface has to emit as much as it takes in. On the page as it opens it takes in 385.6&nbsp;W/m², averaged over the day and the night, and it emits 385.6&nbsp;W/m².</li>
+<li><strong>The model, against the Moon.</strong> At the Moon's equator, Diviner found noon temperatures of about 387 to 397&nbsp;K, depending on the albedo of the surface, and about 95&nbsp;K just before sunrise (Williams and colleagues, 2017). NASA's fact sheet gives 95&nbsp;K to 390&nbsp;K. The model's noon is 381.5&nbsp;K, which is 5&nbsp;K below the lowest of Diviner's. Its coldest moment is 94.1&nbsp;K, which is within 1&nbsp;K.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the six equations, and the loop that runs them until a day repeats.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graph and the lines under it.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/moon">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The model is Scott Denning's, and it began as a web app written in R. Claude, from Anthropic, rebuilt it to run in your browser and checked it against the measurements above. The rebuild changed the crushed rock's conductivity and heat capacity, with Scott's agreement, so that the model's nights match what Diviner measured.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

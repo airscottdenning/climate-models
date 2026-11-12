@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panes of Glass: The Layer Model of the Greenhouse Effect</title>
+<meta name="description" content="Stack panes of glass over black ground and see how warm the ground has to get. Change the number of panes, the Sunlight and the albedo. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>Panes of Glass: The Layer Model of the Greenhouse Effect</h1>
+<p class="intro standalone-only">Clear panes let Sunlight through and absorb the Earthlight coming up from the ground. Each pane glows too, up and down. Stack more panes over the ground and see how warm it has to get to push the heat out.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-stack" aria-controls="panel-stack" aria-selected="true">The panes</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<section id="panel-stack" role="tabpanel" aria-labelledby="tab-stack" tabindex="0">
+<h2>Panes of glass over black ground</h2>
+<div class="layout">
+<form class="controls" aria-label="The stack">
+<div class="control">
+<label for="panes">Number of panes</label>
+<div class="pair"><input type="range" id="panes-range" min="0" max="10" step="1" aria-label="Number of panes, slider"><input type="number" id="panes" min="0" max="10" step="1"></div>
+<p class="hint">Each pane lets Sunlight through and absorbs all the Earthlight that reaches it.</p>
+</div>
+<div class="control">
+<label for="sun">Sunlight on a square meter that faces the Sun (W/m²)</label>
+<div class="pair"><input type="range" id="sun-range" min="800" max="1500" step="1" aria-label="Sunlight, slider"><input type="number" id="sun" min="800" max="1500" step="1"></div>
+<p class="hint" id="sun-hint"></p>
+</div>
+<div class="control">
+<label for="albedo">Albedo: the share of the Sunlight that's reflected (%)</label>
+<div class="pair"><input type="range" id="albedo-range" min="0" max="90" step="1" aria-label="Albedo, slider"><input type="number" id="albedo" min="0" max="90" step="1"></div>
+<p class="hint">The Earth reflects about 30% of the Sunlight that reaches it.</p>
+</div>
+<p><button type="button" id="reset">Back to one pane and the Earth's Sunlight</button></p>
+</form>
+<figure>
+<ul class="key">
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="sunlight" d="M1 6 H26"/><path class="sunlight head" d="M33 6 L24 1.5 V10.5 Z"/></svg>Sunlight</li>
+<li><svg class="swatch" viewBox="0 0 34 12" aria-hidden="true"><path class="earthlight" d="M1 6 q3 -6 6 0 t6 0 t6 0 t6 0"/><path class="earthlight head" d="M33 6 L24 1.5 V10.5 Z"/></svg>Earthlight</li>
+<li>The numbers beside the arrows are in W/m².</li>
+</ul>
+<canvas id="stack" role="img" aria-label="A drawing of the layer model, seen from the side: panes of glass stacked over black ground, with space above. Straight arrows show Sunlight passing down through the panes to the ground. Wavy arrows show the Earthlight that each level sends up and that each pane sends down, with the flow in watts per square meter beside each arrow. Each pane's temperature is at its right-hand end, and the ground's is written on the ground. The lines and the table below give the same numbers."></canvas>
+<p id="stack-summary" class="summary" aria-live="polite"></p>
+<table id="levels" class="levels">
+<caption>Each level's heat budget, from the top down</caption>
+<thead><tr><th scope="col">Level</th><th scope="col">Temperature</th><th scope="col">Takes in (W/m²)</th><th scope="col">Emits (W/m²)</th></tr></thead>
+<tbody id="levels-rows"></tbody>
+</table>
+</figure>
+</div>
+<p class="note"><strong>Heat in equals heat out.</strong> Every pane and the ground settle at the temperature where they emit as much as they take in. A pane emits from both of its sides, so the level under it gets half of what the pane emits. The numbers are rounded to whole W/m², so a sum in the table can be 1 off.</p>
+<p class="note"><strong>These panes are perfect, and the air between them is still.</strong> Each pane absorbs all the Earthlight that reaches it, and nothing but light moves heat. The real atmosphere is more like one pane that's leaky and stirred. The next model, <a href="../two-layer/">Leaky and Stirred</a>, takes that step. The About tab has every equation.</p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is the <strong>layer model</strong> of Chapter 3: panes of clear glass stacked over a slab of black glass. Sunlight passes right through the panes and warms the slab, which plays the ground. The ground emits <strong>Earthlight</strong>, which is thermal infrared radiation, and each pane absorbs every bit of the Earthlight that reaches it. The panes warm up and emit Earthlight too, equally up and down, because a pane has two sides.</p>
+<p>The rule for every level is the book's: <strong>heat in equals heat out</strong>. Each pane and the ground settle at the temperature where they emit as much as they take in. With the Earth's Sunlight and albedo and no panes at all, the ground settles at 255&nbsp;K (−18&nbsp;°C, −1&nbsp;°F), the equilibrium temperature of Chapter 3. One pane warms it to 303&nbsp;K (30&nbsp;°C, 86&nbsp;°F), and two warm it to 335&nbsp;K (62&nbsp;°C, 143&nbsp;°F). Those are the numbers in Figure 3.3 of the book. The top pane is at 255&nbsp;K however many panes are under it.</p>
+<p>The real Earth's surface averages about 288&nbsp;K (15&nbsp;°C, 59&nbsp;°F), which is warmer than no panes and cooler than one. As Chapter 3 says, the real atmosphere is more like one pane that's leaky and stirred. The next model, <a href="../two-layer/">Leaky and Stirred</a>, takes that step.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has one view, "The panes". Its drawing shows the stack from the side, with space at the top and the ground at the bottom. The straight arrows are Sunlight, on its way down through the panes to the ground. The wavy arrows are Earthlight: each level sends some up, and each pane sends as much down as it sends up. The number beside an arrow is the flow of energy in W/m². Each pane's temperature is at its right-hand end, and the ground's is written on the ground.</p>
+<p>You can change three things:</p>
+<ul>
+<li><strong>The number of panes,</strong> from 0 to 10. The page opens with 1.</li>
+<li><strong>The Sunlight</strong> on a square meter that faces the Sun, from 800 to 1,500&nbsp;W/m². The page opens at 1,361&nbsp;W/m², the Earth's.</li>
+<li><strong>The albedo,</strong> which is the share of the Sunlight that the planet reflects, from 0% to 90%. The page opens at 30%, the Earth's.</li>
+</ul>
+<p>Under the drawing, a few lines say how warm the ground is and how much the panes have warmed it. Below them, a table gives each level's heat budget: its temperature, what it takes in and what it emits. "Back to one pane and the Earth's Sunlight" puts every control back where it started.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 3, "How Climate Works".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is five short steps, and you can follow every one of them with a calculator.</p>
+<p>The model asks one question of every level: <strong>how warm does it have to be to emit as much as it takes in?</strong> A level that takes in more than it emits warms up, and a warmer level emits more. So each level ends up at the one temperature where the two are equal. The model goes straight to those temperatures.</p>
+<p>You choose three things:</p>
+<ul>
+<li>the <strong>number of panes</strong>, <var>N</var></li>
+<li>the <strong>Sunlight</strong>, <var>S</var>, on a square meter that faces the Sun. For the Earth it's the solar constant of Chapter 2.</li>
+<li>the <strong>albedo</strong>, <var>α</var> (the Greek letter alpha), which is the share of the Sunlight that the planet reflects</li>
+</ul>
+<p>One number never changes:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>σ</var></th><td>the Stefan–Boltzmann constant of Chapter 2 (the Greek letter sigma), in W/m² per K⁴</td><td>5.67&nbsp;×&nbsp;10⁻⁸</td></tr>
+</tbody>
+</table>
+<p>The panes are numbered from the top. Pane 1 is the top pane, and pane <var>N</var> is the lowest. A letter with a number under it belongs to that pane, so <var>T</var><sub>1</sub> is the temperature of the top pane. A letter with a small <var>g</var> under it belongs to the ground, as in <var>T</var><sub><var>g</var></sub>. Temperatures are in kelvins, and every flow of energy is in W/m².</p>
+
+<h4>1. How much Sunlight does the ground take in?</h4>
+<p>Averaged over the whole planet, day and night, the ground takes in</p>
+<div class="eq" data-eq="sunlight"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">S</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">α</mi><mo stretchy="false">)</mo></mrow></mrow><mn>4</mn></mfrac></mrow></math></div>
+<p>in W/m². This is Section 3.1 of the book. A planet catches Sunlight on a disk, the area of its shadow, and its whole surface has four times that area. So each square meter gets a quarter of <var>S</var> on average, and that's the 4. The (1 − <var>α</var>) is the share that isn't reflected. For the Earth, a quarter of 1,361 is about 340&nbsp;W/m², and 70% of that is 238&nbsp;W/m². The panes are clear to Sunlight, so all of <var>Q</var> reaches the ground.</p>
+
+<h4>2. How much Earthlight does a level emit?</h4>
+<p>A black surface at temperature <var>T</var> emits</p>
+<div class="eq" data-eq="emitted"><math displaystyle="true"><mrow><mi mathvariant="normal">E</mi><mo>=</mo><mi mathvariant="normal">σ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">T</mi><mn>4</mn></msup></mrow></math></div>
+<p>in W/m². This is the Stefan–Boltzmann law of Chapter 2, which writes it with the letter <var>F</var>. Here it's <var>E</var>, for emitted. The fourth power is steep: a surface twice as hot, in kelvins, emits 16 times as much. The ground emits <var>E</var> from its top. A pane emits <var>E</var> from each of its two sides, so it gives off 2<var>E</var> in all.</p>
+
+<h4>3. How much does each pane emit?</h4>
+<p>Start at the top, where the answer is easy. Seen from space, the top pane is the only thing glowing. It absorbs all the Earthlight from below, so nothing under it shows. The stack as a whole takes in <var>Q</var>, and it has to send the same amount out. So the top pane sends <var>Q</var> up to space:</p>
+<div class="eq" data-eq="whole"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>=</mo><mi mathvariant="normal">Q</mi></mrow></math></div>
+<p>Now do the top pane's own budget. It emits <var>E</var><sub>1</sub> up and <var>E</var><sub>1</sub> down. All it takes in is the Earthlight from the level just under it. That level is pane 2, or the ground if there's only one pane. Call what it emits <var>E</var><sub>2</sub>. Heat in equals heat out:</p>
+<div class="eq" data-eq="top-pane"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mn>2</mn></msub><mo>=</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub></mrow></math></div>
+<p>So the level under the top pane emits 2<var>Q</var>. If it's a pane, it takes in <var>E</var><sub>1</sub> from the pane above and <var>E</var><sub>3</sub> from the level below, and it emits <var>E</var><sub>2</sub> from each side:</p>
+<div class="eq" data-eq="second-pane"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mn>1</mn></msub><mo>+</mo><msub><mi mathvariant="normal">E</mi><mn>3</mn></msub><mo>=</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>2</mn></msub></mrow></math></div>
+<p>That makes <var>E</var><sub>3</sub> equal to 2 × 2<var>Q</var> − <var>Q</var>, which is 3<var>Q</var>. Carry on down the stack and each level emits <var>Q</var> more than the one above it. Pane <var>k</var> emits</p>
+<div class="eq" data-eq="pane"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">k</mi></msub><mo>=</mo><mi mathvariant="normal">k</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi></mrow></math></div>
+<p>from each side.</p>
+
+<h4>4. How much does the ground emit?</h4>
+<p>The ground is the level under pane <var>N</var>, so by step 3 it emits</p>
+<div class="eq" data-eq="ground"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub><mo>=</mo><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">N</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi></mrow></math></div>
+<p>The ground's own budget says the same thing, and that's a good check. The ground takes in the Sunlight, <var>Q</var>, and what the lowest pane sends down, <var>E</var><sub><var>N</var></sub>, which is <var>N</var> × <var>Q</var>. It emits only upward:</p>
+<div class="eq" data-eq="ground-budget"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">g</mi></msub><mo>=</mo><mi mathvariant="normal">Q</mi><mo>+</mo><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">N</mi></msub></mrow></math></div>
+<p>With no panes, nothing comes down but the Sunlight, and the ground emits just <var>Q</var>.</p>
+
+<h4>5. How warm is each level?</h4>
+<p>Turn step 2 around to get the temperature of a level that emits <var>E</var>:</p>
+<div class="eq" data-eq="temperature"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">E</mi><mo lspace="0" rspace="0">/</mo><mi mathvariant="normal">σ</mi></mrow><mo stretchy="false">)</mo></mrow><mrow><mn>1</mn><mo lspace="0" rspace="0">/</mo><mn>4</mn></mrow></msup></mrow></math></div>
+<p>in kelvins. The power 1/4 is a fourth root. On a calculator, press the square-root key twice.</p>
+<p>Two things follow. The top pane emits <var>Q</var> whatever is under it, so it's always at the temperature the ground has with no panes at all. And the ground emits <var>N</var> + 1 times as much as the top pane, so it's warmer by the fourth root of that:</p>
+<div class="eq" data-eq="ratio"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">g</mi></msub><mo>=</mo><msup><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">N</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mrow><mn>1</mn><mo lspace="0" rspace="0">/</mo><mn>4</mn></mrow></msup><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub></mrow></math></div>
+<p>One pane multiplies the top pane's temperature by 1.189, two panes multiply it by 1.316, and ten multiply it by 1.821.</p>
+
+<h4>Where the equations stop</h4>
+<p>This is a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>Perfect panes.</strong> Every pane lets all of the Sunlight through and absorbs all of the Earthlight that reaches it. The real air lets some Earthlight leak straight out to space through a window in the spectrum (Section 3.4 of the book).</li>
+<li><strong>Still air.</strong> Between the levels, heat moves only as Earthlight. In the real atmosphere, rising air carries heat upward past much of the absorbing gas (Section 3.5).</li>
+<li><strong>One square meter for the whole planet.</strong> There's no day and night, no summer and winter, and no tropics and poles. The model has one patch of ground, and the Sun shines on it steadily at a quarter of its strength.</li>
+</ul>
+<p>The leak and the rising air both let heat out more easily than a perfect pane would. That's why the real surface is at about 288&nbsp;K and not at one pane's 303&nbsp;K. The next model, <a href="../two-layer/">Leaky and Stirred</a>, has layers that leak and air that rises.</p>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the controls alone. There's one pane, the Sunlight is 1,361&nbsp;W/m² and the albedo is 30%, so <var>α</var> is 0.3.</p>
+<ol class="worked">
+<li><strong>Sunlight taken in (step 1).</strong> <var>Q</var> = 1,361 × (1 − 0.3) ÷ 4 = 238&nbsp;W/m². That's the number beside the Sunlight in the drawing.</li>
+<li><strong>The pane (step 3).</strong> It's the top pane, so <var>E</var><sub>1</sub> = <var>Q</var> = 238&nbsp;W/m². That's the number on the arrow to space, and on the arrow from the pane down to the ground.</li>
+<li><strong>The pane's temperature (step 5).</strong> <var>T</var><sub>1</sub> = (238 ÷ <var>σ</var>)<sup>1/4</sup>. Divide 238 by 5.67&nbsp;×&nbsp;10⁻⁸ and you get about 4.2&nbsp;billion. Take the square root of that twice and you have 255&nbsp;K.</li>
+<li><strong>The ground (step 4).</strong> <var>E</var><sub><var>g</var></sub> = <var>Q</var> + <var>E</var><sub>1</sub> = 238 + 238 = 476&nbsp;W/m². That's the number on the arrow going up from the ground.</li>
+<li><strong>The ground's temperature (step 5).</strong> <var>T</var><sub><var>g</var></sub> = (476 ÷ <var>σ</var>)<sup>1/4</sup>. Divide 476 by 5.67&nbsp;×&nbsp;10⁻⁸ and you get about 8.4&nbsp;billion. Take the square root of that twice and you have 303&nbsp;K.</li>
+<li><strong>The other scales.</strong> 303 − 273.15 = 29.85, which the page prints as 30&nbsp;°C. And 29.85 × 1.8 + 32 = 85.73, which it prints as 86&nbsp;°F.</li>
+</ol>
+<p>Those are the numbers in the drawing and in the table under it: 238 and 476&nbsp;W/m², 255&nbsp;K for the pane and 303&nbsp;K for the ground.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Rounding.</strong> The page prints each flow to a whole W/m² and each temperature to a whole kelvin. It works out the Celsius and the Fahrenheit from the whole kelvins, as the last line of the worked example does. Each number is rounded by itself, so a sum in the table can be 1 off.</li>
+<li><strong>255&nbsp;K in Fahrenheit.</strong> 255&nbsp;K is −18.15&nbsp;°C, which is −0.67&nbsp;°F. The page prints that as −1&nbsp;°F. Chapter 3 calls it about 0&nbsp;°F.</li>
+<li><strong>Why the page stops at 10 panes.</strong> It draws every pane with its arrows, and 10 is as many as it can draw clearly on a phone. The equations work for any number of panes.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>No panes.</strong> Set the number of panes to 0. The ground takes in 238&nbsp;W/m² of Sunlight and emits 238&nbsp;W/m² straight to space, and it's at 255&nbsp;K (−18&nbsp;°C, −1&nbsp;°F). That's the planet of Section 3.1, with no greenhouse effect (steps 1 and 5).</li>
+<li><strong>The book's figure.</strong> Set one pane, then two. The ground is at 303&nbsp;K, then at 335&nbsp;K, and the top pane is at 255&nbsp;K both times. That's Figure 3.3.</li>
+<li><strong>Each pane adds the same heat, and less warming.</strong> Every pane you add sends another 238&nbsp;W/m² down to the level below it (step 3). The first pane warms the ground by 48&nbsp;K, the second by 32&nbsp;K and the tenth by 11&nbsp;K. With ten panes the ground is at 464&nbsp;K (191&nbsp;°C, 376&nbsp;°F). The reason is the fourth power in step 2: the hotter a surface is, the fewer extra kelvins it takes to emit another 238&nbsp;W/m².</li>
+<li><strong>The top pane doesn't care.</strong> Whatever you stack under it, the top pane is at 255&nbsp;K. It has to send out what the whole stack takes in, and adding panes doesn't change that (the first equation of step 3).</li>
+<li><strong>A brighter planet.</strong> Go back to one pane and raise the albedo to 50%. The ground now takes in 170&nbsp;W/m² of Sunlight. The top pane cools to 234&nbsp;K and the ground to 278&nbsp;K (5&nbsp;°C, 41&nbsp;°F). Divide the ground's temperature by the pane's and you get 1.19, the same as before. A stack of panes multiplies the temperature, whatever the Sunlight (the last equation of step 5).</li>
+<li><strong>The real Earth.</strong> The Earth's surface averages about 288&nbsp;K. With the Earth's Sunlight and albedo, the model gives 255&nbsp;K with no panes and 303&nbsp;K with one, and there's no setting in between. For that you need a pane that leaks and air that rises, and the next model, <a href="../two-layer/">Leaky and Stirred</a>, has both.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The model has three numbers of its own, and they're the book's. The solar constant, 1,361&nbsp;W/m², is Chapter 2's, from Kopp and Lean (2011). The Earth's albedo, about 30%, and the Stefan–Boltzmann constant are in Chapter 2 as well.</p>
+<p>The layer model itself is an old teaching tool. The book's source for it is David Archer's textbook.</p>
+<p class="cite">Kopp, G., and Lean, J. L. (2011). A new, lower value of total solar irradiance: Evidence and climate significance. <em>Geophysical Research Letters</em> 38(1). <a href="https://doi.org/10.1029/2010GL045777">doi:10.1029/2010GL045777</a></p>
+<p class="cite">Archer, D. (2012). <em>Global Warming: Understanding the Forecast</em> (2nd ed.). John Wiley &amp; Sons.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the five steps written out a second time, in another programming language. For every number of panes from 0 to 10, at 16 settings of the Sunlight and the albedo, the two copies give the same temperatures to a millionth of a kelvin.</li>
+<li><strong>The short way, against the long way.</strong> Step 3 works down from the top and finds a pattern. The tests also write out every level's budget and solve them all at once, as a set of simultaneous equations, with no pattern assumed. The two ways agree to a millionth of a kelvin.</li>
+<li><strong>The page, against the first version.</strong> Scott Denning's first version of this model was a web app written in R, and it solved the budgets the long way. Run as he left it, with up to 99 panes, it agrees with this page's code to a millionth of a kelvin.</li>
+<li><strong>The model, against the book.</strong> With the Earth's Sunlight and albedo, the ground is at 255&nbsp;K with no panes, 303&nbsp;K with one and 335&nbsp;K with two, as in Chapter 3.</li>
+<li><strong>Heat in, against heat out.</strong> At every setting, the stack sends to space what the ground takes in from the Sun, and every level emits what it takes in.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the five steps, and a list of every level's budget.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the drawing and the table under it.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/layers">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The page began as Scott Denning's web app, written in R, which drew the temperatures of up to 99 panes as a graph. Claude, from Anthropic, rebuilt it to run in your browser, drew the panes after the book's Figure 3.3 and checked it against the first version.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

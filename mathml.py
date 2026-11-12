@@ -98,6 +98,11 @@ def negative(*parts):
     return row('<mo form="prefix">−</mo>', *parts)
 
 
+def delta(quantity):
+    """A change in something, or one step of it: delta(var('t')) is Δt. The Δ stands upright, close to its letter."""
+    return row('<mo lspace="0" rspace="0">Δ</mo>', quantity)
+
+
 def equation(*parts):
     """One display equation. Raises if the result isn't well formed."""
     text = '<math displaystyle="true">' + row(*parts) + '</math>'
@@ -129,7 +134,8 @@ def sides(equation_text, values):
     """The two sides of an equation written with these helpers, worked out as numbers.
 
     `values` gives a number for each letter, and for a letter with a subscript under the two together:
-    {'θ': 3.44, 'e': 0.0167, 'h0': 2.48}. Angles are in radians, and 180° is read as π.
+    {'θ': 3.44, 'e': 0.0167, 'h0': 2.48}. A change written with delta() is looked up with its Δ: 'Δt', 'Δz1'.
+    Angles are in radians, and 180° is read as π.
     """
     (top,) = ET.fromstring(equation_text)
     parts = list(top)
@@ -183,6 +189,10 @@ class _Sum:
             if not self.sign(')'):
                 raise ValueError('a bracket is not closed')
             return value
+        if self.sign('Δ'):
+            if not self.parts or self.parts[0].tag not in ('mi', 'msub'):
+                raise ValueError('Δ needs a letter after it')
+            return self.values['Δ' + ''.join(self.parts.pop(0).itertext())]
         if not self.parts:
             raise ValueError('something is missing at the end')
         part = self.parts.pop(0)

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Few Degrees: Hot Days, Cold Nights and the Bell Curve</title>
+<meta name="description" content="See how a few degrees of warming multiply the hottest days. Start with a bell curve, then try it on more than a century of daily temperatures from over 100 places. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>A Few Degrees: Hot Days, Cold Nights and the Bell Curve</h1>
+<p class="intro standalone-only">A few degrees of warming sounds small. But when every day gets a little warmer, the days that used to be rare and very hot turn up many times as often. See why with a bell curve, then try it on more than a century of real daily temperatures.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-idea" aria-controls="panel-idea" aria-selected="true">The idea</button>
+<button type="button" role="tab" id="tab-periods" aria-controls="panel-periods" aria-selected="false" tabindex="-1">Two periods</button>
+<button type="button" role="tab" id="tab-warming" aria-controls="panel-warming" aria-selected="false" tabindex="-1">Local and global</button>
+<button type="button" role="tab" id="tab-future" aria-controls="panel-future" aria-selected="false" tabindex="-1">Later this century</button>
+<button type="button" role="tab" id="tab-map" aria-controls="panel-map" aria-selected="false" tabindex="-1">Map</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="bar" id="bar">
+<div class="place" id="place-control">
+<label for="place">Place</label>
+<div class="pair"><input type="search" id="place-search" aria-label="Narrow the list of places" placeholder="Type to narrow the list" autocomplete="off"><select id="place"></select></div>
+<p class="hint" id="place-hint"></p>
+</div>
+<fieldset class="choice" id="unit-control">
+<legend>Temperatures in</legend>
+<label><input type="radio" name="unit" value="F">°F</label>
+<label><input type="radio" name="unit" value="C">°C</label>
+</fieldset>
+</div>
+<p id="loading" role="status">Loading the list of places…</p>
+
+<section id="panel-idea" role="tabpanel" aria-labelledby="tab-idea" tabindex="0">
+<h2>Slide a bell curve a few degrees and count the hot days</h2>
+<div class="layout">
+<form class="controls" aria-label="The bell curve">
+<div class="control">
+<label for="mean" id="mean-label">Average daily high</label>
+<div class="pair"><input type="range" id="mean-range" aria-label="Average daily high, slider"><input type="number" id="mean"></div>
+</div>
+<div class="control">
+<label for="sd" id="sd-label">Standard deviation</label>
+<div class="pair"><input type="range" id="sd-range" aria-label="Standard deviation, slider"><input type="number" id="sd"></div>
+<p class="hint" id="sd-hint"></p>
+</div>
+<div class="control">
+<label for="warm" id="warm-label">Warming added to every day</label>
+<div class="pair"><input type="range" id="warm-range" aria-label="Warming added to every day, slider"><input type="number" id="warm"></div>
+</div>
+<div class="control">
+<label for="at" id="at-label">Threshold: count the days above</label>
+<div class="pair"><input type="range" id="at-range" aria-label="Threshold, slider"><input type="number" id="at"></div>
+<p class="hint" id="at-hint"></p>
+</div>
+<div class="presets" role="group" aria-label="Quick choices">
+<button type="button" id="two-sd">Threshold two standard deviations above the average</button>
+<button type="button" id="three-sd">Threshold three standard deviations above the average</button>
+</div>
+<p><button type="button" id="reset-idea">Back to the chapter's example</button></p>
+</form>
+<figure>
+<ul class="key">
+<li><span class="line earlier"></span>Before the warming</li>
+<li><span class="line recent"></span>After the warming</li>
+<li><span class="line threshold"></span>The threshold</li>
+</ul>
+<canvas id="idea" role="img" aria-label="Two bell curves of daily high temperature, one before and one after a warming, with a dashed line at the threshold. The part of each curve above the threshold is shaded. The lines below the graph give the numbers."></canvas>
+<figcaption id="idea-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>This view is pure arithmetic.</strong> It supposes that daily highs follow a bell curve, and that warming slides the whole curve along without changing its shape. Real daily temperatures only roughly follow a bell curve, and the shape can change. The next three views use measured temperatures, so you can see how far the simple picture holds.</p>
+</section>
+
+<section id="panel-periods" role="tabpanel" aria-labelledby="tab-periods" tabindex="0" hidden>
+<h2 id="periods-title">The same place, a century apart</h2>
+<div class="layout">
+<form class="controls" aria-label="The days to compare">
+<fieldset class="choice">
+<legend>Which days</legend>
+<label><input type="radio" name="season-periods" value="warm"><span id="warm-name-periods">Hot days: the daily highs of the two warmest months</span></label>
+<label><input type="radio" name="season-periods" value="cold"><span id="cold-name-periods">Cold nights: the daily lows of the two coldest months</span></label>
+</fieldset>
+<div class="control">
+<label for="t-periods" id="t-label-periods">Threshold</label>
+<div class="pair"><input type="range" id="t-periods-range" aria-label="Threshold, slider"><input type="number" id="t-periods"></div>
+<p class="hint" id="t-hint-periods"></p>
+</div>
+<label class="check"><input type="checkbox" id="move"><span>Also slide the earlier curve by the change in the average, keeping its shape</span></label>
+<p><button type="button" id="reset-periods">Back to the starting threshold</button></p>
+</form>
+<figure>
+<ul class="key">
+<li><span class="line earlier"></span><span id="key-early-periods">The earlier period</span></li>
+<li><span class="line recent"></span><span id="key-recent-periods">The recent period</span></li>
+<li id="key-moved" hidden><span class="line moved"></span>The earlier curve, moved</li>
+<li><span class="line threshold"></span>The threshold</li>
+</ul>
+<canvas id="periods" tabindex="0" role="img" aria-label="Two smooth curves showing how often each daily temperature was measured at this place, one for the earlier period and one for the recent period, with a dashed line at the threshold. The part of each curve beyond the threshold is shaded. The lines below the graph give the numbers. Click the graph to move the threshold, or select it and use the left and right arrow keys."></canvas>
+<figcaption id="periods-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>These are measurements, not a model.</strong> Each curve is drawn through the daily readings of one weather station, kept by NOAA. They haven't been corrected for a station that moved, a new kind of thermometer, a different time of day for reading it or a town growing up around it. So a change at one place can have a local cause. The About tab says how many of the places warmed.</p>
+</section>
+
+<section id="panel-warming" role="tabpanel" aria-labelledby="tab-warming" tabindex="0" hidden>
+<h2 id="warming-title">How much the place warmed, and how much the globe did</h2>
+<figure>
+<ul class="key">
+<li><span class="line place"></span>This place: the average temperature of each year</li>
+<li><span class="line"></span>The whole globe</li>
+</ul>
+<canvas id="warming" role="img" aria-label="A graph of yearly average temperature at this place and for the whole globe, each drawn as the difference from its own average over the earlier period. The two periods are shaded, and a bar across each shows the average over its years. The lines below the graph give the numbers."></canvas>
+<figcaption id="warming-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+<p class="note"><strong>One place is noisier than the whole planet.</strong> A single station swings a degree or more from one year to the next, because weather moves heat around. Averaged over the globe, most of that cancels, and the slow warming is what's left. Places differ, too. Of the 114 places here, 95 were warmer in their recent period than in their earlier one, and 51 warmed more than the globe did.</p>
+</section>
+
+<section id="panel-future" role="tabpanel" aria-labelledby="tab-future" tabindex="0" hidden>
+<h2 id="future-title">Add the warming still to come</h2>
+<div class="layout">
+<form class="controls" aria-label="The future to try">
+<div class="control">
+<label for="scenario">Emissions from now on</label>
+<select id="scenario"></select>
+<p class="hint" id="scenario-hint"></p>
+</div>
+<fieldset class="choice">
+<legend>Which days</legend>
+<label><input type="radio" name="season-future" value="warm"><span id="warm-name-future">Hot days: the daily highs of the two warmest months</span></label>
+<label><input type="radio" name="season-future" value="cold"><span id="cold-name-future">Cold nights: the daily lows of the two coldest months</span></label>
+</fieldset>
+<div class="control">
+<label for="t-future" id="t-label-future">Threshold</label>
+<div class="pair"><input type="range" id="t-future-range" aria-label="Threshold, slider"><input type="number" id="t-future"></div>
+<p class="hint" id="t-hint-future"></p>
+</div>
+<p><button type="button" id="reset-future">Back to the starting threshold</button></p>
+</form>
+<figure>
+<ul class="key">
+<li><span class="line recent"></span><span id="key-recent-future">The recent period</span></li>
+<li><span class="line later"></span>The same days with the added warming, for 2081–2100</li>
+<li><span class="line threshold"></span>The threshold</li>
+</ul>
+<canvas id="future" tabindex="0" role="img" aria-label="Two smooth curves of daily temperature at this place: the recent period as measured, and the same days with the warming still to come added to every one. A dashed line marks the threshold, and the part of each curve beyond it is shaded. The lines below the graph give the numbers. Click the graph to move the threshold, or select it and use the left and right arrow keys."></canvas>
+<figcaption id="future-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>This is an exercise, not a forecast for the place.</strong> It takes the recent days as they were measured and adds the same warming to every one. So it keeps the shape of the curve fixed, as the bell curve on the first tab does. The warming added is for the whole year's average, though summer highs and winter lows can warm by different amounts. It uses each scenario's best estimate and leaves out its range. And the station's record hasn't been corrected for local changes.</p>
+<p class="note"><strong>Which curve we get is a choice.</strong> The five scenarios differ in how much carbon dioxide and other greenhouse gases the world emits from now on. The warming stops when the emissions stop.</p>
+</section>
+
+<section id="panel-map" role="tabpanel" aria-labelledby="tab-map" tabindex="0" hidden>
+<h2 id="map-title">Where the places are, and where it warms most</h2>
+<div class="layout">
+<form class="controls" aria-label="The map">
+<fieldset class="choice">
+<legend>Area</legend>
+<label><input type="radio" name="area" value="world">The world</label>
+<label><input type="radio" name="area" value="us">The United States (the 48 states that touch)</label>
+</fieldset>
+<div class="control">
+<label for="show">Colors</label>
+<select id="show">
+<option value="places">None: just the places</option>
+<option value="observed">Measured warming between this place's two periods</option>
+<option value="later">Warming still to come by 2081–2100</option>
+</select>
+<p class="hint" id="show-hint"></p>
+</div>
+<div class="control" id="map-scenario-control">
+<label for="map-scenario">Emissions from now on</label>
+<select id="map-scenario"></select>
+</div>
+</form>
+<figure>
+<ul class="key">
+<li><span class="dot"></span>A place with a long daily record</li>
+<li><span class="dot chosen"></span>The place you've chosen</li>
+</ul>
+<canvas id="map" tabindex="0" role="img" aria-label="A map with a dot for every place in the list. The chosen place is marked. Colors, when they're on, show warming. The lines below the map give the numbers. Click or tap a dot to choose that place, or select the map and use the left and right arrow keys to step through the places from north to south."></canvas>
+<p id="map-readout" class="readout" aria-live="polite"></p>
+<figcaption id="map-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>The maps are equal-area.</strong> The world is drawn in the Mollweide projection and the United States in an Albers conic projection, so a patch of color covers its true share of the surface. A map that stretches the Arctic would make the fastest-warming part of the planet look bigger than it is.</p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>A few degrees of warming sounds small. This model shows why it isn't. When every day gets a little warmer, more days go past any high temperature you care to name. And the rarer those days used to be, the more they multiply.</p>
+<p>The first view does the sum in the box "A few degrees can multiply rare heat" in Chapter 6, "Recent Climate Change". Suppose daily highs follow a bell curve with a mean of 89&nbsp;°F (32&nbsp;°C) and a standard deviation of 4&nbsp;°F (about 2&nbsp;°C). Add 4&nbsp;°F to every day, and the days above 97&nbsp;°F go from 2.3% of all days to 15.9%. That's 7 times as often.</p>
+<p>The other views try the idea on measured temperatures, so you can see how far the simple picture holds. They use the daily highs and lows from weather stations at 114 places: 84 in the states of the United States and 30 elsewhere. Of the 114, 16 are south of the equator. Each place has two periods to compare. At most places each period is 30 years long, and at 49 of them the two periods start at least 100 years apart. The earliest starts in 1869, in New York City.</p>
+<p>The page opens at Blue Hill, in Massachusetts. July and August highs there averaged 77.2&nbsp;°F in 1885–1914 and 81.2&nbsp;°F in 1996–2025. That's 4.0&nbsp;°F warmer, the same shift as in the chapter's box. Days above 90&nbsp;°F went from 3.5% of days to 8.1%, which is 2.3 times as often.</p>
+<p>Two of the views look ahead. They take the warming that climate models give for each place by 2081–2100, add it to the days already measured there, and count again. How much warming that is depends on how much carbon dioxide and other greenhouse gases the world emits from now on, so you choose a scenario. Chapter 7, "Climate Scenarios", explains what the scenarios are.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the data come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has five views, and the tabs at the top move between them. Above the graphs you choose whether temperatures are shown in °F or in °C. The page opens in °F, as the chapter's box does. A warming is always given both ways.</p>
+<p>"The idea" is the bell curve of the chapter's box. You can change four things:</p>
+<ul>
+<li><strong>The average daily high</strong> before the warming. The page opens at 89&nbsp;°F.</li>
+<li><strong>The standard deviation,</strong> which says how widely the days are spread around the average. The page opens at 4&nbsp;°F.</li>
+<li><strong>The warming added to every day.</strong> The page opens at 4&nbsp;°F.</li>
+<li><strong>The threshold.</strong> The page works out the share of days above it. It opens at 97&nbsp;°F, and two buttons put it two or three standard deviations above the average.</li>
+</ul>
+<p>"Back to the chapter's example" puts all four back where they started.</p>
+<p>The other four views show one place at a time. Choose it from the menu above the graph. Typing a few letters in the box beside the menu shortens the list: try part of a name, a state's two letters or a country. Or go to "Map" and click or tap the place's dot.</p>
+<p>"Two periods" draws two smooth curves for the place. Each shows how often each temperature was measured, in the earlier period (blue) and in the recent one (orange). You can change three things:</p>
+<ul>
+<li><strong>Which days.</strong> Hot days are the daily highs of the two warmest months. Cold nights are the daily lows of the two coldest months. North of the equator the warmest months are July and August and the coldest are January and February. South of it they swap.</li>
+<li><strong>The threshold.</strong> Move the slider, type a number, or click the graph. With the graph selected, the left and right arrow keys move the threshold one degree, or five with Shift. For hot days the page counts the days above the threshold. For cold nights it counts those at or below it. The threshold starts where about one day in ten of the recent period is beyond it.</li>
+<li><strong>The moved curve.</strong> Tick the box and a dashed curve shows the earlier period's days, every one of them warmed by the change in the average. That's what the bell-curve idea expects: the same shape, slid along.</li>
+</ul>
+<p>"Back to the starting threshold" puts the threshold back.</p>
+<p>"Local and global" has no controls. Its graph shows the average temperature of each year at the place as the green line, and for the whole globe as the heavier dark line. Each line is measured from its own average over the earlier period. The two periods are shaded, and a bar across each shows the average over its years.</p>
+<p>"Later this century" adds warming to the recent period's days. You choose one of five scenarios for the world's emissions from now on, from very low to very high. You also choose which days and the threshold, as before. The graph shows the days as they were measured (orange) and the same days with the warming added (dashed). The page opens on SSP3-7.0, a high-emissions scenario that Chapter 8, "Future Climate Change", also uses.</p>
+<p>"Map" shows a dot for every place, on the whole world or on the 48 states that touch. Click or tap a dot to choose that place. With the map selected, the left and right arrow keys step through the places from north to south. The map can also show colors: how much each part of the world warmed between the chosen place's two periods, or how much warming is still to come by 2081–2100 in the scenario you chose.</p>
+<p>Under every graph, a few lines say in numbers what it shows.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 6, "Recent Climate Change".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is eight short equations, and you can follow every one of them with a calculator.</p>
+<p><strong>The question is: if every day warms by the same few degrees, how much more often does the temperature go beyond a threshold?</strong></p>
+<p>Here are the letters the equations use.</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>x</var></th><td>The threshold</td><td>You choose it</td></tr>
+<tr><th scope="row"><var>m</var></th><td>The mean, or average, of the days' temperatures</td><td>Chosen, or step 2</td></tr>
+<tr><th scope="row"><var>s</var></th><td>Their standard deviation: how widely they are spread around the mean</td><td>Chosen, or step 2</td></tr>
+<tr><th scope="row"><var>z</var></th><td>How many standard deviations the threshold is above the mean</td><td>Step 1</td></tr>
+<tr><th scope="row"><var>N</var></th><td>The number of days with a good reading</td><td>About 1,800 in 30 years</td></tr>
+<tr><th scope="row"><var>S</var></th><td>The sum of those days' temperatures</td><td>Step 2</td></tr>
+<tr><th scope="row"><var>D</var></th><td>The sum of the squares of each day's distance from the mean</td><td>Step 2</td></tr>
+<tr><th scope="row"><var>n</var></th><td>The number of days beyond the threshold</td><td>Step 3</td></tr>
+<tr><th scope="row"><var>f</var></th><td>The share of the days that are beyond the threshold. <var>f</var><sub>1</sub> is the share in a first set of days and <var>f</var><sub>2</sub> the share in a second</td><td>Steps 1 and 3</td></tr>
+<tr><th scope="row"><var>h</var></th><td>The width of the smoothing that draws the curves</td><td>Step 4</td></tr>
+<tr><th scope="row"><var>A</var></th><td>The standard deviation of the days, or the range of the middle half of them divided by 1.34, whichever is smaller</td><td>Step 4</td></tr>
+<tr><th scope="row">Δ<var>L</var></th><td>How much the place warmed between its two periods. Δ is the Greek capital letter delta, and it means a change</td><td>Step 5</td></tr>
+<tr><th scope="row">Δ<var>G</var></th><td>How much the globe warmed over the same years</td><td>Step 5</td></tr>
+<tr><th scope="row"><var>k</var></th><td>The place's warming over the globe's</td><td>Step 5</td></tr>
+<tr><th scope="row"><var>W</var></th><td>How much warmer the globe is in 2081–2100 than in 1850–1900, in a scenario</td><td>1.4, 1.8, 2.7, 3.6 or 4.4&nbsp;°C</td></tr>
+<tr><th scope="row"><var>W</var><sub>r</sub></th><td>How much warmer the globe already was in the place's recent period than in 1850–1900</td><td>1.02&nbsp;°C in 1996–2025</td></tr>
+<tr><th scope="row"><var>P</var></th><td>How much the place warms for each 1&nbsp;°C of global warming, in climate models</td><td>0.62 to 1.98&nbsp;°C</td></tr>
+<tr><th scope="row">Δ<var>T</var></th><td>The warming still to come at the place, which the page adds to every day</td><td>Step 6</td></tr>
+<tr><th scope="row"><var>R</var></th><td>How many times as often days go beyond the threshold</td><td>Step 7</td></tr>
+</tbody>
+</table>
+
+<h4>1. How far out is the threshold?</h4>
+<p>A bell curve is set by two numbers, its mean and its standard deviation. What matters about a threshold is how many standard deviations it lies above the mean.</p>
+<div class="eq" data-eq="distance"><math displaystyle="true"><mrow><mi mathvariant="normal">z</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">x</mi><mo>−</mo><mi mathvariant="normal">m</mi></mrow><mi mathvariant="normal">s</mi></mfrac></mrow></math></div>
+<p>The share of days above the threshold depends only on <var>z</var>. About 68% of days lie within one standard deviation of the mean. The rest are split evenly between the two ends, so 15.9% of days are above <var>z</var>&nbsp;=&nbsp;1. Farther out the share falls fast: 2.3% of days are above <var>z</var>&nbsp;=&nbsp;2, and 0.13% are above <var>z</var>&nbsp;=&nbsp;3.</p>
+<p>In the chapter's box, 97&nbsp;°F starts at <var>z</var>&nbsp;=&nbsp;(97&nbsp;−&nbsp;89)&nbsp;÷&nbsp;4&nbsp;=&nbsp;2. Warm every day by 4&nbsp;°F and the mean is 93&nbsp;°F, so <var>z</var>&nbsp;=&nbsp;(97&nbsp;−&nbsp;93)&nbsp;÷&nbsp;4&nbsp;=&nbsp;1. The share of days above 97&nbsp;°F goes from 2.3% to 15.9%.</p>
+<p>No simple formula turns <var>z</var> into a share. It's the area under the bell curve beyond the threshold, and the page adds that area up in 2,000 thin slices.</p>
+
+<h4>2. What are the mean and the standard deviation of real days?</h4>
+<p>For a place, the page takes the days of one period and one season that have a good reading. There are <var>N</var> of them, and their temperatures add up to <var>S</var>. Their mean is</p>
+<div class="eq" data-eq="mean"><math displaystyle="true"><mrow><mi mathvariant="normal">m</mi><mo>=</mo><mfrac><mi mathvariant="normal">S</mi><mi mathvariant="normal">N</mi></mfrac></mrow></math></div>
+<p>For the standard deviation, take each day's distance from the mean, square it, and add up the squares. Call that sum <var>D</var>. Then</p>
+<div class="eq" data-eq="spread"><math displaystyle="true"><mrow><msup><mi mathvariant="normal">s</mi><mn>2</mn></msup><mo>=</mo><mfrac><mi mathvariant="normal">D</mi><mrow><mi mathvariant="normal">N</mi><mo>−</mo><mn>1</mn></mrow></mfrac></mrow></math></div>
+<p>and <var>s</var> is the square root. At Blue Hill, the 1,860 July and August highs of 1885–1914 have a mean of 77.2&nbsp;°F and a standard deviation of 7.4&nbsp;°F. The 1,856 of 1996–2025 have a mean of 81.2&nbsp;°F and a standard deviation of 7.1&nbsp;°F.</p>
+
+<h4>3. What share of the days are beyond the threshold?</h4>
+<p>From here on the page doesn't suppose a bell curve. It counts. If <var>n</var> of the <var>N</var> days are beyond the threshold, their share is</p>
+<div class="eq" data-eq="share"><math displaystyle="true"><mrow><mi mathvariant="normal">f</mi><mo>=</mo><mfrac><mi mathvariant="normal">n</mi><mi mathvariant="normal">N</mi></mfrac></mrow></math></div>
+<p>For hot days, beyond means above the threshold. For cold nights it means at or below it. At Blue Hill, 66 of the 1,860 highs of 1885–1914 were above 90&nbsp;°F, so <var>f</var>&nbsp;=&nbsp;66&nbsp;÷&nbsp;1,860&nbsp;=&nbsp;3.5%. In 1996–2025 it was 151 of 1,856, which is 8.1%.</p>
+<p>To turn a share into days a month, the page multiplies it by the number of days in an average month of the season. July and August have 31 days each, so 8.1% of the days is 2.5 days a month.</p>
+
+<h4>4. How is the smooth curve drawn?</h4>
+<p>A bar chart of 1,800 days would be jagged. So the page spreads each day into a small bell curve of its own and takes the average of them all. (Statisticians call this smoothing with a Gaussian kernel.) The width of each small curve is</p>
+<div class="eq" data-eq="width"><math displaystyle="true"><mrow><mi mathvariant="normal">h</mi><mo>=</mo><mfrac><mrow><mn>0.9</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">A</mi></mrow><msup><mi mathvariant="normal">N</mi><mn>0.2</mn></msup></mfrac></mrow></math></div>
+<p>The more days there are, the narrower each one's curve can be. This is the width that the statistics language R uses unless it's told otherwise. For Blue Hill's highs of 1885–1914, <var>A</var> is 4.09&nbsp;°C and 1,860<sup>0.2</sup> is 4.51, so <var>h</var>&nbsp;=&nbsp;0.9&nbsp;×&nbsp;4.09&nbsp;÷&nbsp;4.51&nbsp;=&nbsp;0.82&nbsp;°C, or 1.5&nbsp;°F.</p>
+<p>The curve is for your eye. The counts in step 3 come from the days themselves, not from the curve.</p>
+
+<h4>5. How much did the place warm, and how much did the globe?</h4>
+<p>For each year the page has the place's average temperature: the average, over the year, of the midpoint between each day's high and low. Δ<var>L</var> is the average over the recent period's years less the average over the earlier period's. Δ<var>G</var> is the same for the average temperature of the whole globe's surface, over the same years. Their ratio is</p>
+<div class="eq" data-eq="ratio"><math displaystyle="true"><mrow><mi mathvariant="normal">k</mi><mo>=</mo><mfrac><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">L</mi></mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">G</mi></mrow></mfrac></mrow></math></div>
+<p>At Blue Hill, Δ<var>L</var> is 1.73&nbsp;°C and Δ<var>G</var> is 1.09&nbsp;°C, so <var>k</var>&nbsp;=&nbsp;1.73&nbsp;÷&nbsp;1.09&nbsp;=&nbsp;1.6. Blue Hill warmed 1.6 times as much as the globe.</p>
+
+<h4>6. How much warming is still to come at the place?</h4>
+<p>A scenario says how much warmer than 1850–1900 the globe is in 2081–2100. That's <var>W</var>. Part of that warming has already happened: in the place's recent period the globe was already <var>W</var><sub>r</sub> warmer than in 1850–1900. The rest, <var>W</var>&nbsp;−&nbsp;<var>W</var><sub>r</sub>, is still to come.</p>
+<p>Places don't all warm alike. In climate models, land warms more than the ocean and the Arctic warms most of all. <var>P</var> is how many degrees the place warms for each degree of global warming. So the warming still to come at the place is</p>
+<div class="eq" data-eq="added"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">T</mi></mrow><mo>=</mo><mi mathvariant="normal">P</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">W</mi><mo>−</mo><msub><mi mathvariant="normal">W</mi><mi mathvariant="normal">r</mi></msub><mo stretchy="false">)</mo></mrow></mrow></math></div>
+<p>The page adds Δ<var>T</var> to every one of the recent period's days and counts again, as in step 3.</p>
+
+<h4>7. How many times as often?</h4>
+<p>The last step compares two shares.</p>
+<div class="eq" data-eq="times"><math displaystyle="true"><mrow><mi mathvariant="normal">R</mi><mo>=</mo><mfrac><msub><mi mathvariant="normal">f</mi><mn>2</mn></msub><msub><mi mathvariant="normal">f</mi><mn>1</mn></msub></mfrac></mrow></math></div>
+<p>On "The idea" the two shares are those before and after the warming. On "Two periods" they are the earlier period's and the recent period's. On "Later this century" they are the recent period's as measured and with Δ<var>T</var> added. An <var>R</var> above 1 means more often. For cold nights <var>R</var> is usually below 1: fewer of them.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>Real days aren't quite a bell curve.</strong> Only "The idea" supposes they are. A bell curve with the mean and standard deviation of Blue Hill's 1885–1914 highs puts 4.1% of days above 90&nbsp;°F. The count is 3.5%.</li>
+<li><strong>The shape can change.</strong> "Later this century" adds the same warming to every day, so it keeps the shape of the curve, as the chapter's box does. Real warming doesn't have to. At Blue Hill, warming every one of the earlier days by the 4.0&nbsp;°F change in the average would put 13.1% of them above 90&nbsp;°F. The recent period has 8.1%. The hot end of the curve moved less than its middle. Where the curve gets wider as it shifts, it goes the other way and extreme heat becomes more common still.</li>
+<li><strong>The added warming is for the whole year.</strong> <var>P</var> is about the average temperature of the year. Summer highs and winter lows can warm by more or less than that.</li>
+<li><strong>One number for each scenario.</strong> The page uses each scenario's best estimate. For SSP3-7.0 that's 3.6&nbsp;°C, and the very likely range is 2.8 to 4.6&nbsp;°C. <var>P</var> is the average of many climate models, and they differ too.</li>
+<li><strong>Stations have histories.</strong> NOAA checks every reading, and the page leaves out the ones it flagged. But these daily records haven't been corrected for a station that moved, a new kind of thermometer, a different time of day for reading it or a town growing up around it. So a change at one place can have a local cause. Of the page's 114 places, 95 have a warmer yearly average in the recent period than in the earlier one. Winter lows are warmer at 100. Summer highs are warmer at only 66, and 38 of the other 48 are in the Midwest of the United States.</li>
+<li><strong>One station is one place.</strong> It isn't a state or a country. The global average in "Local and global" is the measure of the whole planet's warming.</li>
+</ul>
+<p>So "Later this century" is an exercise in what a given warming would do to the days a place has already had. It isn't a forecast for that place.</p>
+
+<h4>A worked example</h4>
+<p>Open "Later this century" with the page as it starts: Blue Hill, hot days, a threshold of 90&nbsp;°F and SSP3-7.0. You need the place's list of days for two of these steps, and a calculator for the rest.</p>
+<ol class="worked">
+<li><strong>The global warming still to come (step 6).</strong> SSP3-7.0 reaches <var>W</var>&nbsp;=&nbsp;3.6&nbsp;°C. In 1996–2025 the globe was already <var>W</var><sub>r</sub>&nbsp;=&nbsp;1.02&nbsp;°C warmer than in 1850–1900. That leaves 3.6&nbsp;−&nbsp;1.02&nbsp;=&nbsp;2.58&nbsp;°C.</li>
+<li><strong>The warming still to come at Blue Hill (step 6).</strong> Here <var>P</var> is 1.263, so Δ<var>T</var>&nbsp;=&nbsp;1.263&nbsp;×&nbsp;2.58&nbsp;=&nbsp;3.26&nbsp;°C. The page shows it as 3.3&nbsp;°C. In Fahrenheit degrees it's 3.26&nbsp;×&nbsp;1.8&nbsp;=&nbsp;5.9&nbsp;°F.</li>
+<li><strong>The hot days as measured (step 3).</strong> The recent period has <var>N</var>&nbsp;=&nbsp;1,730 July and August days that count here. Of them, 140 were above 90&nbsp;°F, so <var>f</var><sub>1</sub>&nbsp;=&nbsp;140&nbsp;÷&nbsp;1,730&nbsp;=&nbsp;8.1%. In a month of 31 days that's 0.081&nbsp;×&nbsp;31&nbsp;=&nbsp;2.5 days.</li>
+<li><strong>The hot days with the warming added (step 3).</strong> Adding 3.26&nbsp;°C to every day does the same as lowering the threshold by 3.26&nbsp;°C. The threshold of 90&nbsp;°F is 32.2&nbsp;°C, so count the days that were above 32.2&nbsp;−&nbsp;3.26&nbsp;=&nbsp;28.94&nbsp;°C, which is 84.1&nbsp;°F. There are 571 of them, so <var>f</var><sub>2</sub>&nbsp;=&nbsp;571&nbsp;÷&nbsp;1,730&nbsp;=&nbsp;33.0%. That's 0.330&nbsp;×&nbsp;31&nbsp;=&nbsp;10.2 days a month.</li>
+<li><strong>How many times as often (step 7).</strong> <var>R</var>&nbsp;=&nbsp;33.0&nbsp;÷&nbsp;8.1&nbsp;=&nbsp;4.1.</li>
+</ol>
+<p>The lines under the graph say the same: 140 of 1,730 days as measured, 571 with the added warming, and 4.1 times as often.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Good readings.</strong> A reading counts unless NOAA's checks flagged it. NOAA stores each one as a whole number of tenths of a degree Celsius.</li>
+<li><strong>Two sets of days.</strong> "Two periods" uses every good high of the season, or every good low. "Local and global" and "Later this century" need a yearly average, so they use only the years that count, and only the days with both a good high and a good low. A year counts if it's over, at least 90% of its days have both readings, and so do at least 80% of the days in every month. That's why Blue Hill has 1,856 recent days in one view and 1,730 in another. The page works out the warming still to come only where each period has at least 10 years that count.</li>
+<li><strong>The periods.</strong> They are the earliest and the latest run of years with nearly complete readings, as far apart as the record allows. At 12 places the record is too short or too broken for two 30-year periods, and each period is 20 years.</li>
+<li><strong>A threshold in °F.</strong> The page turns it into °C and rounds it to the nearest tenth of a degree, the grain of the readings. So 100&nbsp;°F is 37.8&nbsp;°C, and a day whose high was 37.8&nbsp;°C is not above 100&nbsp;°F.</li>
+<li><strong>Fahrenheit and Celsius.</strong> A temperature in °F is 1.8 times the temperature in °C, plus 32. A warming in °F is just 1.8 times the warming in °C.</li>
+<li><strong>Days a month in winter.</strong> January and February together have 59 days, or 60 in a leap year, so an average month of that season has about 29.6 days.</li>
+<li><strong>Places left out.</strong> The app this page came from had 127 places. The page leaves out 13 of them, most of them in Europe, because part of their record comes from a European archive that shares it for non-commercial research and education only.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Rarer heat multiplies more.</strong> On "The idea", press "Threshold three standard deviations above the average". The threshold goes to 101&nbsp;°F. The share of days above it goes from 0.13% to 2.3%, which is 17 times as often. At two standard deviations it was 7 times. That's step 1: the farther out the threshold, the faster the share changes as the curve slides.</li>
+<li><strong>A wider curve.</strong> Still on "The idea", press "Back to the chapter's example" and raise the standard deviation from 4&nbsp;°F to 8&nbsp;°F. Now 97&nbsp;°F is only one standard deviation out, and the same 4&nbsp;°F of warming takes the share of days above it from 15.9% to 30.9%. That's 1.9 times as often, not 7. The narrower the curve, the more a given warming multiplies the days beyond a threshold.</li>
+<li><strong>A real 4&nbsp;°F.</strong> Go to "Two periods" at Blue Hill. Days above 90&nbsp;°F went from 3.5% to 8.1%, which is 2.3 times as often (steps 2 and 3). Tick the box to slide the earlier curve. The dashed curve has 13.1% of its days above 90&nbsp;°F, so here the simple picture overshoots.</li>
+<li><strong>Cold nights go the other way.</strong> At Blue Hill, choose the cold nights. Nights at or below 5&nbsp;°F went from 15.1% of January and February nights to 10.8%, which is 0.71 times as often (step 7).</li>
+<li><strong>Seasons swap south of the equator.</strong> Choose Sydney, in Australia. Its hot days are in January and February. Days above 90&nbsp;°F went from 7.4% to 9.7% between 1940–1969 and 1996–2025.</li>
+<li><strong>The scenario matters.</strong> On "Later this century" at Blue Hill, SSP3-7.0 adds 5.9&nbsp;°F and gives 10.2 days a month above 90&nbsp;°F. Choose the low-emissions scenario, SSP1-2.6. It adds 1.8&nbsp;°F and gives 4.5 days a month (step 6). The recent period had 2.5.</li>
+<li><strong>The far north warms more.</strong> Choose Fairbanks, in Alaska, the cold nights and SSP3-7.0 again. Its <var>P</var> is 1.69, so the scenario adds 7.9&nbsp;°F there. Of 1,778 January and February nights, 153 were at or below −40&nbsp;°F as measured. With the warming added, 24 are.</li>
+</ol>
+
+<h3 id="about-data">Where the data come from</h3>
+<p><strong>The daily highs and lows</strong> are from the Global Historical Climatology Network Daily, version 3.34, as it stood on 7&nbsp;September 2026. NOAA's National Centers for Environmental Information keep it, and they gather the records from weather services around the world.</p>
+<p class="cite">Menne, M. J., Durre, I., Vose, R. S., Gleason, B. E., and Houston, T. G. (2012). An Overview of the Global Historical Climatology Network-Daily Database. <em>Journal of Atmospheric and Oceanic Technology</em> 29(7), 897–910. <a href="https://doi.org/10.1175/JTECH-D-11-00103.1">doi:10.1175/JTECH-D-11-00103.1</a></p>
+<p class="cite">Menne, M. J., Durre, I., Korzeniewski, B., McNeill, S., Thomas, K., Yin, X., Anthony, S., Ray, R., Vose, R. S., Gleason, B. E., and Houston, T. G. (2012). Global Historical Climatology Network - Daily (GHCN-Daily), Version 3. NOAA National Centers for Environmental Information. <a href="https://doi.org/10.7289/V5D21VHZ">doi:10.7289/V5D21VHZ</a></p>
+<p><strong>The global average temperature,</strong> and the map of measured warming, are from HadCRUT5 (version 5.1.0.0), made by the Met Office Hadley Centre and the Climatic Research Unit of the University of East Anglia. Contains public sector information licensed under the Open Government Licence v3.0.</p>
+<p class="cite">Morice, C. P., Kennedy, J. J., Rayner, N. A., Winn, J. P., Hogan, E., Killick, R. E., Dunn, R. J. H., Osborn, T. J., Jones, P. D., and Simpson, I. R. (2021). An Updated Assessment of Near-Surface Temperature Change From 1850: The HadCRUT5 Data Set. <em>Journal of Geophysical Research: Atmospheres</em> 126(3), e2019JD032361. <a href="https://doi.org/10.1029/2019JD032361">doi:10.1029/2019JD032361</a></p>
+<p><strong>The scenarios' warming</strong> is from the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (IPCC): the best estimates and very likely ranges for 2081–2100 in Table SPM.1 of the Summary for Policymakers.</p>
+<p class="cite">IPCC (2021). Summary for Policymakers. In <em>Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change</em>. Cambridge University Press, pp. 3–32. <a href="https://doi.org/10.1017/9781009157896.001">doi:10.1017/9781009157896.001</a></p>
+<p><strong>Each place's warming for each degree of global warming</strong> is from the data behind Figure SPM.5 of the same summary: the yearly average warming, simulated by climate models, in a world 1&nbsp;°C warmer than 1850–1900. The data are shared under the Creative Commons Attribution 4.0 license. The page reads the value for the place off that map.</p>
+<p class="cite">Fischer, E., and Hauser, M. (2021). Summary for Policymakers of the Working Group I Contribution to the IPCC Sixth Assessment Report - data for Figure SPM.5 (v20210809). NERC EDS Centre for Environmental Data Analysis. <a href="https://doi.org/10.5285/2787230b963942009e452255a3880609">doi:10.5285/2787230b963942009e452255a3880609</a></p>
+<p><strong>The coastlines and borders</strong> on the maps are from Natural Earth, which is in the public domain.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The page, against the app it came from.</strong> The page was rebuilt from an app written in Python. For every one of the 114 places, the page's data give the app's numbers: how many good days, their sum, their mean and standard deviation, the smoothing width, the warming of the place and of the globe, and the warming still to come. For a sample of the places, the tests also hold the counts at every threshold, each year's average and the smooth curves to the app's.</li>
+<li><strong>One thing the page does differently.</strong> The app compared temperatures in °F, where the readings aren't round numbers, and a reading of exactly 37.8&nbsp;°C came out a hair above 100&nbsp;°F. The page compares them in tenths of a degree Celsius. The tests hold the two ways of counting to differ by exactly the days that sit on the threshold. At Sacramento, in California, 73 of the 1,860 July and August days of 1995–2024 had a high of exactly 37.8&nbsp;°C. The app counted 486 days above 100&nbsp;°F there, and the page counts 413.</li>
+<li><strong>The code, against a second copy.</strong> The tests have the model's arithmetic written out a second time, in another programming language. For every place, both seasons and all five scenarios, the two copies give the same numbers.</li>
+<li><strong>The bell curve, against the chapter.</strong> The page gives the numbers in the chapter's box: 2.3% and 15.9% of days above 97&nbsp;°F, 0.13% and 2.3% above 101&nbsp;°F, and 7 and 17 times as often.</li>
+<li><strong>The scenarios, against the IPCC's table.</strong> The five best estimates and their very likely ranges are the ones in Table SPM.1.</li>
+<li><strong>This tab, against the model.</strong> The tests work out both sides of every equation above from the model's own numbers, and the two sides have to agree. They also work out the numbers in the text and in the worked example, and check that this tab gives them.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the bell curve, the counting, the smoothing and the added warming</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graphs, the maps and the lines of numbers</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/daily-temperatures">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The model is Scott Denning's. It began as a web app he wrote in R for one weather station, and he rebuilt it in Python with OpenAI Codex for stations around the world. Claude, from Anthropic, rebuilt it to run in your browser and checked it against the Python app. The rebuild changed how days on the threshold are counted, added the first view and the SSP1-2.6 scenario, and left out 13 places, as explained above.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
