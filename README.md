@@ -9,6 +9,7 @@ Small teaching models from *Climate Change: Simple, Serious, Solvable*, an open 
 | Model | Use it | Code |
 |---|---|---|
 | Milankovitch Cycles: Earth's Orbit and Sunlight | [simpleserioussolvable.org/models/milankovitch/](https://simpleserioussolvable.org/models/milankovitch/) | [`milankovitch/`](milankovitch/) |
+| Earthlight Seen from Space: Greenhouse Gases and the Infrared Spectrum | [simpleserioussolvable.org/models/infrared/](https://simpleserioussolvable.org/models/infrared/) | [`infrared/`](infrared/) |
 
 More are on the way.
 

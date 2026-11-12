@@ -7,7 +7,7 @@ them:
 - Letters. A bare <mi>x</mi> asks for a letter from Unicode's mathematical alphabets, and Android has no font
   with those. So every letter is written <mi mathvariant="normal">x</mi>, and the page's style sheet sets those
   in italics from an ordinary serif font.
-- Spaces. MathML puts no space after sin, cos or tan, and none between factors written side by side. So a thin
+- Spaces. MathML puts no space after sin, cos, tan or ln, and none between factors written side by side. So a thin
   <mspace> follows each function name and each silent multiplication. (An <mspace> is used, not the rspace
   attribute, because browsers differ on spacing around invisible operators.) Browsers also give a slash as
   much room as a plus sign, so slash() closes up the one in a/r.
@@ -38,7 +38,7 @@ import xml.etree.ElementTree as ET
 THIN = '<mspace width="0.17em"/>'
 APPLY = '<mo>&#x2061;</mo>' + THIN       # "function of": sin x
 TIMES = '<mo>&#x2062;</mo>' + THIN       # silent multiplication: a b
-FUNCTIONS = {'sin': math.sin, 'cos': math.cos, 'tan': math.tan}
+FUNCTIONS = {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'ln': math.log}
 
 
 def var(letter):
@@ -63,7 +63,7 @@ def row(*parts):
 
 
 def fn(name, argument):
-    """A named function of something: fn('cos', var('θ'))."""
+    """A named function of something: fn('cos', var('θ')), fn('ln', num('2')). ln is the natural logarithm."""
     return row('<mi>%s</mi>' % name, APPLY, argument)
 
 

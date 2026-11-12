@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earthlight Seen from Space: Greenhouse Gases and the Infrared Spectrum</title>
+<meta name="description" content="Change the carbon dioxide, methane and water vapor in a column of air and see the spectrum of Earthlight that leaves the top of the atmosphere. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a></p>
+<h1>Earthlight Seen from Space: Greenhouse Gases and the Infrared Spectrum</h1>
+<p class="intro standalone-only">The Earth and its air glow in the infrared. Greenhouse gases take bites out of that glow before it reaches space. Change the gases in a column of air and watch the spectrum a satellite would see.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-spectrum" aria-controls="panel-spectrum" aria-selected="true">The spectrum</button>
+<button type="button" role="tab" id="tab-how" aria-controls="panel-how" aria-selected="false" tabindex="-1">How it works</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<p id="loading" role="status">Loading the spectra…</p>
+
+<section id="panel-spectrum" role="tabpanel" aria-labelledby="tab-spectrum" tabindex="0">
+<h2>Earthlight leaving the top of the atmosphere</h2>
+<div class="layout">
+<form class="controls" aria-label="The air">
+<div class="control">
+<label for="sky">Column of air</label>
+<select id="sky"><option value="midlatitude">Midlatitude summer</option><option value="tropical">Tropical</option></select>
+<p class="hint" id="sky-hint"></p>
+</div>
+<div class="control">
+<label for="co2">Carbon dioxide, CO₂ (parts per million)</label>
+<div class="pair"><input type="range" id="co2-range" min="-2" max="2" step="0.01" aria-label="Carbon dioxide, slider"><input type="number" id="co2" min="105" max="1680" step="1"></div>
+<p class="hint" id="co2-hint"></p>
+</div>
+<div class="control">
+<label for="ch4">Methane, CH₄ (parts per billion)</label>
+<div class="pair"><input type="range" id="ch4-range" min="-2" max="1.66" step="0.01" aria-label="Methane, slider"><input type="number" id="ch4" min="475" max="6000" step="5"></div>
+<p class="hint" id="ch4-hint"></p>
+</div>
+<div class="control">
+<label for="water">Water vapor (times this column's usual amount)</label>
+<div class="pair"><input type="range" id="water-range" min="0.5" max="1.5" step="0.01" aria-label="Water vapor, slider"><input type="number" id="water" min="0.5" max="1.5" step="0.01"></div>
+</div>
+<div class="presets" role="group" aria-label="Quick choices">
+<button type="button" data-co2="840">Twice today's CO₂ (840&nbsp;ppm)</button>
+<button type="button" data-co2="210">Half of today's CO₂ (210&nbsp;ppm)</button>
+<button type="button" data-co2="280">CO₂ before the Industrial Revolution (280&nbsp;ppm)</button>
+</div>
+<p><button type="button" id="reset">Back to today's air</button></p>
+<p><button type="button" id="keep">Keep this spectrum to compare</button></p>
+<p id="kept-line" hidden><button type="button" id="unkeep">Let the kept spectrum go</button></p>
+<div class="control">
+<label for="far">Far-out air (each one calculated by itself)</label>
+<select id="far"><option value="">Off: use the sliders</option></select>
+<p class="hint" id="far-hint"></p>
+</div>
+</form>
+<figure>
+<ul class="key">
+<li><span class="line"></span>Earthlight leaving the top of the atmosphere</li>
+<li id="key-kept" hidden><span class="line kept"></span>The spectrum you kept</li>
+<li><span class="line surface"></span>The surface's own glow</li>
+<li><span class="line black"></span>Black surfaces at 220, 240, 260 and 280&nbsp;K</li>
+</ul>
+<canvas id="spectrum" tabindex="0" role="img" aria-label="A graph of Earthlight against wavelength, from 4 to 30 micrometers. It shows the spectrum leaving the top of the atmosphere, the surface's own glow, and the glow of black surfaces at 220, 240, 260 and 280 kelvins. The lines below give the numbers. With the graph selected, the left and right arrow keys read one wavelength at a time."></canvas>
+<p id="spectrum-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="spectrum-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note">The red <strong>surface</strong> curve shows how much infrared radiation a black surface at the surface's temperature would emit at each wavelength. The dark curve shows what reaches the top of the atmosphere after gases have absorbed and emitted radiation. Where the atmosphere is nearly transparent, the two curves almost meet. Within an absorption band, radiation usually comes from higher, colder air, so the dark curve lies closer to a colder blackbody curve.</p>
+<p class="note"><strong>This is a snapshot.</strong> Imagine a satellite passing overhead and observing one local atmospheric column at one moment. The spectrum is that instantaneous view, and the totals under the graph are for the same column. Neither result is a global average. Nothing adjusts after you change an input: there is no feedback, temperature response, circulation, or new equilibrium. Each result is simply another prescribed snapshot.</p>
+</section>
+
+<section id="panel-how" role="tabpanel" aria-labelledby="tab-how" tabindex="0" hidden>
+<h2>How it works</h2>
+<p>The warm surface emits a smooth spectrum of infrared radiation. Yet a satellite looking down from space sees deep valleys, broad shoulders, and even a strange little bump in the middle of the carbon-dioxide band. What happened to the radiation on its way up?</p>
+<p>The short answer is that the atmosphere is not simply a lid that blocks heat. It is a stack of layers, each of which absorbs and emits infrared radiation at particular wavelengths. The spectrum reaching space is the accumulated result of radiation passing through, being absorbed, and being emitted again all along the path.</p>
+<nav class="jump" aria-label="On this tab">
+<ul>
+<li><a href="#how-surface">Emission by the surface</a></li>
+<li><a href="#how-air">What the atmosphere does</a></li>
+<li><a href="#how-column">From the surface to a satellite</a></li>
+<li><a href="#how-layer">The vertical pathway through the air</a></li>
+<li><a href="#how-satellite">What the satellite sees</a></li>
+<li><a href="#how-olr">OLR integrates across wavelength and direction</a></li>
+<li><a href="#how-read">How to read the plot</a></li>
+<li><a href="#how-scope">What this model represents</a></li>
+</ul>
+</nav>
+
+<h3 id="how-surface">Emission by the surface</h3>
+<p>Everything with a temperature above absolute zero emits radiation. For objects at temperatures found on Earth, most of that emission is infrared. A warmer surface emits more infrared energy than a colder surface, and the amount emitted varies smoothly with wavelength according to the Planck law.</p>
+<p>The red <strong>surface</strong> curve shows that smooth spectrum for the surface's temperature. The model treats the surface as a perfect infrared emitter, or blackbody. This makes the red curve a useful starting point: it shows what the satellite would see if there were no absorbing atmosphere in the way.</p>
+<p>But there <em>is</em> an atmosphere in the way, and the dark top-of-atmosphere curve is not smooth at all.</p>
+
+<h3 id="how-air">What the atmosphere does</h3>
+<p>Greenhouse gases interact selectively with infrared radiation. Carbon dioxide absorbs strongly near 15&nbsp;µm, methane near 7.7&nbsp;µm, and water vapor across broad parts of the spectrum. Between about 8 and 13&nbsp;µm, the atmosphere is relatively transparent. Radiation from the surface and lower atmosphere can escape more directly through this <strong>atmospheric window</strong>.</p>
+<p>Absorption is only half the story. The same molecules that absorb infrared radiation also emit it at the same wavelengths. A carbon-dioxide absorption band is therefore also a carbon-dioxide emission band. Whether a layer adds more radiation than it removes along a particular path depends on the radiation arriving at that layer, how opaque the layer is at that wavelength, and the layer's temperature.</p>
+<p>That last point is crucial. Warm air emits more infrared radiation than cold air. Because temperature generally decreases with height through the troposphere, replacing radiation from the warm surface with radiation from colder air above usually reduces the infrared brightness seen from space.</p>
+
+<h3 id="how-column">From the surface to a satellite</h3>
+<p>This is the whole setting: a warm surface below, space above, and a deep atmosphere between them.</p>
+<p>Some surface radiation passes through the air. Some is absorbed. The atmosphere also emits infrared radiation of its own, both upward and downward.</p>
+<figure class="diagram">
+<div class="scroll" tabindex="0" role="group" aria-label="Drawing: from the surface to a satellite">
+<svg viewBox="25 10 670 364" role="img" aria-labelledby="column-title column-desc">
+<title id="column-title">Infrared radiation traveling through a vertical atmospheric column</title>
+<desc id="column-desc">A warm surface emits upward. A greenhouse-gas layer absorbs some surface radiation and emits radiation upward and downward. A satellite above looks straight down.</desc>
+<defs>
+<linearGradient id="column-sky" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d8f3f6"/><stop offset="1" stop-color="#edf5fb"/></linearGradient>
+<clipPath id="column-box"><rect x="35" y="20" width="650" height="344" rx="22"/></clipPath>
+<marker id="column-arrow-surface" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#d9482f"/></marker>
+<marker id="column-arrow-air" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#168ca1"/></marker>
+</defs>
+<rect x="35" y="20" width="650" height="344" rx="22" fill="#152e3d"/>
+<g clip-path="url(#column-box)">
+<rect x="35" y="125" width="650" height="239" fill="url(#column-sky)"/>
+<path d="M35 325 Q180 299 320 324 T685 318 V364 H35Z" fill="#ef9b4d"/>
+</g>
+<rect x="35" y="20" width="650" height="344" rx="22" fill="none" stroke="#a9c7d4"/>
+<line x1="35" y1="125" x2="685" y2="125" stroke="#50a9b9" stroke-width="5"/>
+<text x="64" y="351" class="label">Warm surface</text>
+<g class="gas">
+<ellipse cx="250" cy="210" rx="96" ry="46"/><ellipse cx="355" cy="210" rx="110" ry="52"/><ellipse cx="465" cy="210" rx="98" ry="46"/>
+</g>
+<text x="360" y="202" text-anchor="middle" class="label">Greenhouse gases</text>
+<text x="360" y="225" text-anchor="middle">absorb and emit infrared</text>
+<path d="M205 315 C197 280 197 250 205 232" class="ray surface"/>
+<circle cx="205" cy="220" r="9" fill="#d9482f"/>
+<path d="M205 207 C200 174 197 137 195 82" class="ray surface thin" marker-end="url(#column-arrow-surface)"/>
+<text x="180" y="88" text-anchor="end" class="on-dark">weakened</text>
+<text x="180" y="106" text-anchor="end" class="on-dark">surface signal</text>
+<path d="M430 193 C445 150 449 117 450 82" class="ray air" marker-end="url(#column-arrow-air)"/>
+<path d="M400 237 C414 268 424 293 425 315" class="ray air" marker-end="url(#column-arrow-air)"/>
+<text x="76" y="248" class="from-surface">part absorbed</text>
+<text x="76" y="293" class="from-surface">surface emission</text>
+<text x="471" y="280" class="from-air">atmospheric emission:</text>
+<text x="471" y="298" class="from-air">up and down</text>
+<g transform="translate(282 38)"><rect width="156" height="47" rx="18" fill="#f5f9fc"/><circle cx="78" cy="47" r="10" fill="#f5f9fc"/><text x="78" y="29" text-anchor="middle" class="label">Satellite</text></g>
+<path d="M360 89 V153" class="look" marker-end="url(#column-arrow-air)"/>
+<text x="350" y="112" text-anchor="end" class="on-dark">nadir: straight down</text>
+<text x="55" y="52" class="label on-dark">Space</text>
+<text x="665" y="108" text-anchor="end" class="on-dark">Top of the atmosphere</text>
+</svg>
+</div>
+<figcaption><strong>Nadir spectral radiance</strong> is the infrared brightness measured wavelength by wavelength while looking straight down.</figcaption>
+</figure>
+
+<h3 id="how-layer">The vertical pathway through the air</h3>
+<p>Imagine dividing the atmosphere into many thin layers. At a wavelength a layer can absorb, it removes some of the radiation arriving from below and some arriving from above. At the same time, the layer emits new infrared radiation both upward and downward.</p>
+<p>Some radiation passes into the next layer. Some is absorbed again and replaced by emission from that layer. Repeating this process from the surface to space produces the spectrum at the top.</p>
+<p>Each wavelength follows a different pathway because atmospheric opacity changes enormously across the infrared spectrum.</p>
+<figure class="diagram">
+<div class="scroll" tabindex="0" role="group" aria-label="Drawing: radiation passing through one layer of air">
+<svg viewBox="18 14 684 402" role="img" aria-labelledby="layer-title layer-desc">
+<title id="layer-title">Radiation passing through one atmospheric layer</title>
+<desc id="layer-desc">At one wavelength, radiation enters a layer from below and above. Some is transmitted, some is absorbed, and the warm layer emits new radiation upward and downward. The process repeats through every atmospheric layer.</desc>
+<defs>
+<linearGradient id="layer-fill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dff5f7"/><stop offset="1" stop-color="#b9dfe6"/></linearGradient>
+<marker id="layer-arrow-surface" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#d9482f"/></marker>
+<marker id="layer-arrow-above" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#7463cf"/></marker>
+<marker id="layer-arrow-air" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#168ca1"/></marker>
+</defs>
+<rect x="28" y="24" width="664" height="382" rx="18" fill="#f8fbfd"/>
+<text x="360" y="49" text-anchor="middle" class="heading">At one wavelength, λ</text>
+<rect x="62" y="132" width="596" height="170" rx="18" fill="url(#layer-fill)" stroke="#5aa8b5" stroke-width="2"/>
+<text x="270" y="164" text-anchor="middle" class="label">One atmospheric layer</text>
+<text x="270" y="187" text-anchor="middle">temperature T</text>
+<text x="450" y="164" text-anchor="middle">opacity depends</text>
+<text x="450" y="183" text-anchor="middle">on wavelength</text>
+
+<path d="M180 382 V302" class="ray surface" marker-end="url(#layer-arrow-surface)"/>
+<path d="M180 302 V132" class="ray surface weak"/>
+<path d="M180 132 V70" class="ray surface weak" marker-end="url(#layer-arrow-surface)"/>
+<path d="M180 237 H256" class="ray surface absorbed"/>
+<circle cx="263" cy="237" r="7" fill="#d9482f"/>
+<text x="166" y="365" text-anchor="end" class="from-surface">enters from below</text>
+<text x="166" y="91" text-anchor="end" class="from-surface">some passes through</text>
+<text x="198" y="225" class="from-surface">some is absorbed</text>
+
+<path d="M540 70 V132" class="ray above" marker-end="url(#layer-arrow-above)"/>
+<path d="M540 132 V302" class="ray above weak"/>
+<path d="M540 302 V382" class="ray above weak" marker-end="url(#layer-arrow-above)"/>
+<path d="M540 237 H464" class="ray above absorbed"/>
+<circle cx="457" cy="237" r="7" fill="#7463cf"/>
+<text x="554" y="91" class="from-above">enters from above</text>
+<text x="554" y="365" class="from-above">some passes through</text>
+<text x="522" y="225" text-anchor="end" class="from-above">some is absorbed</text>
+
+<circle cx="360" cy="240" r="10" fill="#168ca1"/>
+<path d="M360 226 V88" class="ray air" marker-end="url(#layer-arrow-air)"/>
+<path d="M360 254 V360" class="ray air" marker-end="url(#layer-arrow-air)"/>
+<text x="376" y="277" class="from-air">the layer emits</text>
+<text x="376" y="296" class="from-air">upward and downward</text>
+</svg>
+</div>
+<figcaption><strong>What leaves each side</strong> is the radiation transmitted through the layer plus new radiation emitted by the layer. There is no reflected ray in this clear-sky thermal-infrared calculation.</figcaption>
+</figure>
+
+<h3 id="how-satellite">What the satellite sees</h3>
+<p>The plotted top-of-atmosphere spectrum is the view of a satellite looking straight down. This viewing direction is called <strong>nadir</strong>. The satellite measures <strong>spectral radiance</strong>: infrared brightness at one wavelength traveling within one narrow range of directions.</p>
+<p>The transparent wavelengths look bright because the satellite receives radiation from the warm surface and lower atmosphere. Strong absorption bands look dimmer because the radiation escaping there generally comes from higher, colder air. The spectrum is therefore more than a molecular fingerprint. It also contains information about temperature with height.</p>
+<p>This does not mean that each wavelength photographs one exact atmospheric level. The view is a weighted mixture of emission along the entire path. Changing the abundance of a gas changes those weights and changes which parts of the column the satellite can effectively see.</p>
+<p>There is no single, sharply defined “emission height.” Radiation at one wavelength generally comes from a range of layers. Still, the temperature reference curves provide a powerful clue about which part of the atmosphere contributes most strongly.</p>
+
+<h3 id="how-olr">OLR integrates across wavelength and direction</h3>
+<p>A nadir spectrum describes one viewing direction, wavelength by wavelength. <strong>Outgoing longwave radiation (OLR)</strong> asks a broader question: how much thermal energy leaves the top of this atmospheric column altogether?</p>
+<p>The model combines radiation across all thermal infrared wavelengths and across the entire upward-facing hemisphere. Slanted rays travel through more air than vertical rays, so their absorption and emission are different.</p>
+<p>OLR is not merely the plotted nadir spectrum multiplied by a convenient constant. It is a flux reported in watts per square meter.</p>
+<figure class="diagram">
+<div class="scroll" tabindex="0" role="group" aria-label="Drawing: spectral radiance and OLR">
+<svg viewBox="18 22 684 375" role="img" aria-labelledby="flux-title flux-desc">
+<title id="flux-title">One beam going straight up, compared with every upward direction added together</title>
+<desc id="flux-desc">The left side shows one narrow vertical beam going toward a satellite. The right side shows many rays spreading through the entire upward-facing half of the sky.</desc>
+<defs>
+<clipPath id="flux-box"><rect x="28" y="65" width="664" height="322" rx="14"/></clipPath>
+<marker id="flux-arrow-small" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0l10 5-10 5z" fill="#42ccdf"/></marker>
+<marker id="flux-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#42ccdf"/></marker>
+</defs>
+<text x="180" y="48" text-anchor="middle" class="heading">Spectral radiance</text>
+<text x="540" y="48" text-anchor="middle" class="heading">OLR</text>
+<g clip-path="url(#flux-box)">
+<rect x="28" y="65" width="664" height="210" fill="#152e3d"/>
+<rect x="28" y="275" width="664" height="112" fill="#e2f2f5"/>
+<path d="M44 365 Q180 328 316 365 V387 H44Z" fill="#ef9b4d"/>
+<path d="M404 365 Q540 328 676 365 V387 H404Z" fill="#ef9b4d"/>
+</g>
+<line x1="360" y1="65" x2="360" y2="387" stroke="#c9d7e3" stroke-width="2"/>
+<line x1="28" y1="275" x2="692" y2="275" stroke="#50a9b9" stroke-width="5"/>
+<text x="45" y="299">Atmosphere</text>
+<text x="45" y="91" class="label on-dark">Space</text>
+<text x="350" y="262" text-anchor="end" class="on-dark">Top of the atmosphere</text>
+<text x="180" y="381" text-anchor="middle" class="tiny">Surface</text>
+<text x="540" y="381" text-anchor="middle" class="tiny">Surface</text>
+
+<path d="M180 275 q-11 -10 0 -20 t0 -20 t0 -20 t0 -20 t0 -20 t0 -20 t0 -20 t0 -20 v-16" class="ray wave" marker-end="url(#flux-arrow-small)"/>
+<text x="195" y="150" class="on-dark">one wavelength</text>
+<text x="195" y="171" class="on-dark">one direction</text>
+<text x="180" y="323" text-anchor="middle">nadir = satellite looks straight down</text>
+
+<g class="guide">
+<path d="M540 275 H426"/><path d="M540 275 V161"/><path d="M540 275 H654"/>
+<path d="M470 275 A70 70 0 0 1 610 275" stroke-dasharray="6 6"/>
+</g>
+<path d="M540 275 L431 203" class="ray out" marker-end="url(#flux-arrow)"/>
+<path d="M540 275 L468 134" class="ray out" marker-end="url(#flux-arrow)"/>
+<path d="M540 275 L540 96" class="ray out" marker-end="url(#flux-arrow)"/>
+<path d="M540 275 L612 134" class="ray out" marker-end="url(#flux-arrow)"/>
+<path d="M540 275 L649 203" class="ray out" marker-end="url(#flux-arrow)"/>
+<circle cx="540" cy="275" r="7" fill="#ffffff" stroke="#168ca1" stroke-width="3"/>
+<text x="540" y="84" text-anchor="middle" class="on-dark">all upward angles</text>
+<text x="540" y="316" text-anchor="middle">all infrared wavelengths</text>
+<text x="540" y="337" text-anchor="middle" class="label">integrated together</text>
+</svg>
+</div>
+<figcaption>The blue line marks the top of the atmosphere. “Longwave” means the thermal infrared wavelengths emitted by Earth and its atmosphere.</figcaption>
+</figure>
+
+<h3 id="how-read">How to read the plot</h3>
+<p>Start by comparing the red <strong>surface</strong> curve with the dark <strong>top-of-atmosphere</strong> curve. Where they nearly meet, the atmosphere is relatively transparent. Where the dark curve falls far below the red curve, greenhouse gases have replaced much of the warm surface signal with emission from colder air.</p>
+<p>The thin blackbody curves translate brightness into temperature. If the top-of-atmosphere spectrum lies near the 240&nbsp;K curve in part of an absorption band, its brightness there resembles emission from air near 240&nbsp;K (−33&nbsp;°C; below zero Fahrenheit). That is a temperature clue, not an exact altitude measurement.</p>
+<p>The middle of the 15&nbsp;µm carbon-dioxide band contains an important exception to the simple “higher is colder” picture. Temperature increases with height in the stratosphere because ozone absorbs ultraviolet Sunlight. Carbon dioxide there can emit more strongly than the colder air below, producing the central bump in the band.</p>
+<p>Keeping a spectrum preserves an earlier result as a dashed curve. Change one control and compare the curves. Notice not only whether an absorption band becomes deeper, but whether its wings become wider. The center of a strong band may already be nearly opaque, yet adding more gas can still reduce radiation escaping along the edges of the band and change OLR.</p>
+<p>“Clear-sky” means exactly that: this calculation contains no clouds. It also omits Sunlight, weather, evaporation, convection, heat storage, and horizontal transport of energy by winds and ocean currents.</p>
+
+<h3 id="how-scope">What this model represents</h3>
+<p>Think of the result as a satellite snapshot of one local atmospheric column at one moment. The selected temperature and composition profiles are prescribed inputs. When you move a slider, you create another snapshot and can see the immediate radiative consequence of that change.</p>
+<p>Nothing else adjusts. Changing carbon dioxide does not automatically change atmospheric temperature, humidity, clouds, circulation, or the lapse rate. The model calculates radiative transfer through the conditions you specify; it does not predict what happens next.</p>
+<p>That narrow scope is deliberate. It lets us isolate the physics that shapes the infrared spectrum: emission by the warm surface, selective absorption and emission by gases, the vertical temperature structure of the atmosphere, and the many pathways by which infrared energy finally escapes to space.</p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>Everything glows. The Earth's surface and its air glow in the infrared, at wavelengths too long for our eyes. The book calls that glow <strong>Earthlight</strong>. A satellite looking straight down can spread the Earthlight out by wavelength, the way a prism spreads Sunlight into colors. The result is a <strong>spectrum</strong>: how bright the Earthlight is at each wavelength.</p>
+<p>If the air did nothing, the spectrum would be the smooth red curve on the graph, the glow of the surface itself. It isn't. Greenhouse gases absorb the surface's Earthlight at some wavelengths and give off their own in its place. Carbon dioxide takes a wide bite near 15&nbsp;µm, methane a small one near 7.7&nbsp;µm, ozone one near 9.6&nbsp;µm, and water vapor takes bites across much of the rest. Between about 8 and 13&nbsp;µm the air absorbs little, and the surface's glow gets out. That gap is the atmospheric <strong>window</strong>.</p>
+<p>The bites are deep because the air high up is cold, and cold air glows less than the warm surface below it. At the wavelengths a gas absorbs, space sees the cold air in place of the surface. Less Earthlight escapes, and that is the <strong>greenhouse effect</strong>.</p>
+<p>This page shows one column of air at one moment. When you add a gas, the spectrum changes, but the air doesn't warm in response, and neither does the surface. The page shows the push on the climate. It doesn't show the climate's answer.</p>
+
+<nav class="jump" aria-label="On this tab">
+<ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the spectra come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul>
+</nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has two more tabs.</p>
+<ul>
+<li><strong>The spectrum</strong> is the model. Choose a column of air, then set the carbon dioxide, the methane and the water vapor with the sliders, or type a number. The graph shows the Earthlight leaving the top of the atmosphere as a dark line, the surface's own glow in red, and the glow of black surfaces at four temperatures in gray. Move over the graph to read one wavelength. With the graph selected, the left and right arrow keys do the same. To see what a change does, keep a spectrum, then change the air: the kept spectrum stays on the graph as a dashed line. The far-out choices show air with almost none of a gas, or a great deal of it.</li>
+<li><strong>How it works</strong> explains in words and three drawings why the spectrum has the shape it does.</li>
+</ul>
+<p>Under the graph, a few lines say in words what it shows, and give the totals over all wavelengths. <span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work. The spectra were calculated ahead of time, and your browser fills in between them.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 3, "How Climate Works".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But it's worth knowing what your browser does and what it doesn't.</p>
+<p>It doesn't work out how air absorbs and gives off Earthlight. That takes a research model, which follows the Earthlight up through 240 levels of air, one narrow slice of wavelength at a time. It was done ahead of time for 45 mixes of gases in each column of air: three amounts of carbon dioxide, times three of methane, times five of water vapor. The answers come with the page.</p>
+<p>Your browser answers one question: <strong>how bright is the Earthlight at this wavelength, for a mix that falls between the ones that were calculated?</strong> It answers 2,000 times, once for each wavelength on the graph, and joins the answers into a line. The equations for that are short, and you can follow them with a calculator.</p>
+<p>You choose three things:</p>
+<ul>
+<li>the <strong>column of air</strong>, midlatitude summer or tropical</li>
+<li>the <strong>amount</strong> of each gas, <var>C</var></li>
+<li>the <strong>wavelength</strong> you read on the graph, <var>λ</var> (the Greek letter lambda), in micrometers (µm)</li>
+</ul>
+<p>Three numbers never change:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>c</var><sub>1</sub></th><td>the first constant in the equation for a black surface's glow, in W&nbsp;µm⁴ per m² per steradian</td><td>1.191&nbsp;×&nbsp;10⁸</td></tr>
+<tr><th scope="row"><var>c</var><sub>2</sub></th><td>the second constant, in µm&nbsp;K</td><td>14,388</td></tr>
+<tr><th scope="row"><var>C</var><sub>0</sub></th><td>today's amount of a gas: carbon dioxide in parts per million (ppm), methane in parts per billion (ppb)</td><td>420&nbsp;ppm, 1,900&nbsp;ppb</td></tr>
+</tbody>
+</table>
+<p>Two more things come from a calculator. The letter <var>e</var> is the number 2.718…, and ln is the natural logarithm, the key marked ln.</p>
+
+<h4>1. How brightly does a black surface glow?</h4>
+<p>A black surface absorbs all the light that reaches it. How brightly it glows at each wavelength depends only on its temperature, <var>T</var>, in kelvins. Chapter 2 calls that pattern the Planck distribution. This is its equation, in two parts. First, a number with no units:</p>
+<div class="eq" data-eq="ratio"><math displaystyle="true"><mrow><mi mathvariant="normal">u</mi><mo>=</mo><mfrac><msub><mi mathvariant="normal">c</mi><mn>2</mn></msub><mrow><mi mathvariant="normal">λ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">T</mi></mrow></mfrac></mrow></math></div>
+<p>Then the brightness, <var>B</var>:</p>
+<div class="eq" data-eq="planck"><math displaystyle="true"><mrow><mi mathvariant="normal">B</mi><mo>=</mo><mfrac><msub><mi mathvariant="normal">c</mi><mn>1</mn></msub><mrow><msup><mi mathvariant="normal">λ</mi><mn>5</mn></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msup><mi mathvariant="normal">e</mi><mi mathvariant="normal">u</mi></msup><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></mrow></mfrac></mrow></math></div>
+<p><var>B</var> is in watts per square meter, per steradian, per micrometer of wavelength (W/m² per steradian per µm). A steradian measures how much of the sky a beam covers. The whole sky overhead is 2π steradians, about 6.3. At 10&nbsp;µm, a black surface at 294.2&nbsp;K glows at 9.02.</p>
+<p>The red curve on the graph is this equation at the surface's temperature. The four gray curves are the same equation at 220, 240, 260 and 280&nbsp;K.</p>
+
+<h4>2. How cold is the air a satellite sees?</h4>
+<p>Turn the last equation around. If you know how bright the Earthlight is at one wavelength, you can find the temperature of the black surface that would glow just that brightly:</p>
+<div class="eq" data-eq="brightness"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mfrac><msub><mi mathvariant="normal">c</mi><mn>2</mn></msub><mrow><mi mathvariant="normal">λ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mrow><msub><mi mathvariant="normal">c</mi><mn>1</mn></msub><mo lspace="0" rspace="0">/</mo><mrow><mo stretchy="false">(</mo><msup><mi mathvariant="normal">λ</mi><mn>5</mn></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">B</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></mfrac></mrow></math></div>
+<p>Scientists call this the <strong>brightness temperature</strong>. The line under the graph gives it for the wavelength you're reading. In the window it's close to the surface's temperature, because the surface is what the satellite sees. In the middle of carbon dioxide's bite it's far colder, because there the Earthlight comes from air high up.</p>
+<p>It's a clue, not a height. The Earthlight at one wavelength comes from a thick stretch of air, not from one level, and the graph has been smoothed.</p>
+
+<h4>3. How many doublings from today?</h4>
+<p>Each doubling of carbon dioxide dims the Earthlight by about the same amount. So the model doesn't count a gas in parts per million. It counts doublings from today's amount:</p>
+<div class="eq" data-eq="doublings"><math displaystyle="true"><mrow><mi mathvariant="normal">x</mi><mo>=</mo><mfrac><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">C</mi><mo lspace="0" rspace="0">/</mo><msub><mi mathvariant="normal">C</mi><mn>0</mn></msub></mrow><mo stretchy="false">)</mo></mrow></mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mn>2</mn></mrow></mfrac></mrow></math></div>
+<p>Today's 420&nbsp;ppm of carbon dioxide is <var>x</var> = 0. Twice as much, 840&nbsp;ppm, is 1. Half as much, 210&nbsp;ppm, is −1. Methane works the same way from 1,900&nbsp;ppb. Water vapor isn't counted in doublings: its slider already runs from 0.5 to 1.5 times the column's usual amount, and that number is its <var>x</var>.</p>
+
+<h4>4. Between which two calculated amounts?</h4>
+<p>The research model was run at these amounts.</p>
+<ul>
+<li><strong>Carbon dioxide:</strong> 105, 420 and 1,680&nbsp;ppm, which are <var>x</var> = −2, 0 and 2</li>
+<li><strong>Methane:</strong> 475, 1,900 and 6,000&nbsp;ppb, which are <var>x</var> = −2, 0 and 1.66</li>
+<li><strong>Water vapor:</strong> 0.5, 0.75, 1, 1.25 and 1.5 times the usual amount</li>
+</ul>
+<p>Find the two calculated amounts on either side of yours. Call them <var>x</var><sub>0</sub> and <var>x</var><sub>1</sub>. The gap between them is</p>
+<div class="eq" data-eq="gap"><math displaystyle="true"><mrow><mi mathvariant="normal">h</mi><mo>=</mo><msub><mi mathvariant="normal">x</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">x</mi><mn>0</mn></msub></mrow></math></div>
+<p>and you are this fraction of the way across it:</p>
+<div class="eq" data-eq="along"><math displaystyle="true"><mrow><mi mathvariant="normal">t</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">x</mi><mo>−</mo><msub><mi mathvariant="normal">x</mi><mn>0</mn></msub></mrow><mi mathvariant="normal">h</mi></mfrac></mrow></math></div>
+<p>At <var>x</var><sub>0</sub>, <var>t</var> is 0. At <var>x</var><sub>1</sub> it's 1.</p>
+
+<h4>5. How steep is the curve at each calculated amount?</h4>
+<p>Take one number from the tables, such as the brightness at one wavelength. It has a value at each calculated amount. Call the values <var>y</var>. Join each value to the next with a straight line. A line's slope is the change in <var>y</var> divided by the gap.</p>
+<p>The model draws a smooth curve through the values in place of the straight lines. First it needs the curve's slope, <var>d</var>, at each calculated amount. At an amount in the middle, two lines meet. Call the slope of the line that arrives <var>a</var> and the slope of the line that leaves <var>b</var>. Then</p>
+<div class="eq" data-eq="slope-middle"><math displaystyle="true"><mrow><mi mathvariant="normal">d</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">a</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">b</mi></mrow><mrow><mi mathvariant="normal">a</mi><mo>+</mo><mi mathvariant="normal">b</mi></mrow></mfrac></mrow></math></div>
+<p>This is a kind of average that leans toward the gentler of the two lines. If one line rises and the other falls, the value is a peak or a dip, and <var>d</var> is 0: the curve is level there.</p>
+<p>At an end, only one line touches. Call its slope <var>a</var>, and the slope of the next line in <var>b</var>. Then</p>
+<div class="eq" data-eq="slope-end"><math displaystyle="true"><mrow><mi mathvariant="normal">d</mi><mo>=</mo><mfrac><mrow><mn>3</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">a</mi><mo>−</mo><mi mathvariant="normal">b</mi></mrow><mn>2</mn></mfrac></mrow></math></div>
+<p>Two rules keep an end in check. If <var>d</var> would tilt the opposite way from <var>a</var>, it's set to 0. If <var>a</var> and <var>b</var> tilt opposite ways, <var>d</var> can be no more than 3<var>a</var>.</p>
+
+<h4>6. What's the value in between?</h4>
+<p>Now take the two calculated amounts on either side of yours. Their values are <var>y</var><sub>0</sub> and <var>y</var><sub>1</sub>, and the curve's slopes there are <var>d</var><sub>0</sub> and <var>d</var><sub>1</sub>. Three short equations give the answer. The share of the way from <var>y</var><sub>0</sub> to <var>y</var><sub>1</sub>:</p>
+<div class="eq" data-eq="share"><math displaystyle="true"><mrow><mi mathvariant="normal">s</mi><mo>=</mo><msup><mi mathvariant="normal">t</mi><mn>2</mn></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>3</mn><mo>−</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi><mo stretchy="false">)</mo></mrow></mrow></math></div>
+<p>How much the curve bends:</p>
+<div class="eq" data-eq="bend"><math displaystyle="true"><mrow><mi mathvariant="normal">q</mi><mo>=</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">t</mi><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">d</mi><mn>0</mn></msub><mo>−</mo><mi mathvariant="normal">t</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">d</mi><mn>1</mn></msub></mrow></math></div>
+<p>And the value itself:</p>
+<div class="eq" data-eq="curve"><math displaystyle="true"><mrow><mi mathvariant="normal">y</mi><mo>=</mo><msub><mi mathvariant="normal">y</mi><mn>0</mn></msub><mo>+</mo><mi mathvariant="normal">s</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">y</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">y</mi><mn>0</mn></msub><mo stretchy="false">)</mo></mrow><mo>+</mo><mi mathvariant="normal">h</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">t</mi><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">q</mi></mrow></math></div>
+<p>The first two terms carry you smoothly from <var>y</var><sub>0</sub> to <var>y</var><sub>1</sub>. The last one bends the path so that it leaves with slope <var>d</var><sub>0</sub> and arrives with slope <var>d</var><sub>1</sub>.</p>
+<p>The curve passes through every calculated value. Between two of them it never goes above the higher one or below the lower one, so it can't invent a wiggle that the research model didn't find. Fritsch and Carlson worked out curves of this kind in 1980, and Fritsch and Butland gave the rule for the slopes in the middle in 1984.</p>
+
+<h4>7. What about three gases at once?</h4>
+<p>Do steps 4 to 6 along one gas at a time. The tables hold a value for each of the 45 mixes. Start with water vapor. For each of the 9 pairs of carbon dioxide and methane amounts, one curve turns 5 values into 1. Then methane: 3 curves turn those 9 values into 3. Then carbon dioxide: 1 curve turns the 3 into the answer.</p>
+<p>That's 13 curves for one number, and 26,000 for a spectrum of 2,000 wavelengths. An ordinary computer does it in about a thousandth of a second, which is why the graph keeps up with the slider.</p>
+
+<h4>Where the equations stop</h4>
+<p>The curve is only good between calculated amounts. Past the last one there's nothing to hold it down, so the model never goes there, and the sliders stop where the tables do. The far-out choices aren't filled in at all. Each one is a single spectrum from the research model, shown as it was calculated.</p>
+
+<h4>A worked example</h4>
+<p>Start with today's air in the midlatitude summer column, where the surface is at 294.2&nbsp;K. Read the graph at 15.00&nbsp;µm, in the middle of carbon dioxide's bite. Then double the carbon dioxide.</p>
+<ol class="worked">
+<li><strong>The surface's glow (step 1).</strong> <var>u</var> = 14,388 ÷ (15.00 × 294.2) = 3.260. Then <var>B</var> = 1.191 × 10⁸ ÷ (15.00<sup>5</sup> × (<var>e</var><sup>3.260</sup> − 1)) = 6.26. The line under the graph says the surface itself gives off 6.26.</li>
+<li><strong>The air a satellite sees (step 2).</strong> The same line says the Earthlight leaving the top of the atmosphere is 2.65. So <var>T</var> = 14,388 ÷ (15.00 × ln(1 + 1.191 × 10⁸ ÷ (15.00<sup>5</sup> × 2.65))) = 14,388 ÷ (15.00 × ln 60.2) = 14,388 ÷ (15.00 × 4.10) = 234&nbsp;K. The surface is 60&nbsp;K warmer than that.</li>
+<li><strong>Doublings (step 3).</strong> Choose "Twice today's CO₂ (840&nbsp;ppm)". <var>x</var> = ln(840 ÷ 420) ÷ ln 2 = 1.</li>
+<li><strong>Where that falls (step 4).</strong> 1 is between 0 (420&nbsp;ppm) and 2 (1,680&nbsp;ppm). So <var>h</var> = 2 − 0 = 2 and <var>t</var> = (1 − 0) ÷ 2 = 0.5.</li>
+<li><strong>Slopes (step 5).</strong> Follow one number: the total Earthlight leaving the top of the atmosphere. At 105, 420 and 1,680&nbsp;ppm it's 279.356, 273.972 and 268.747&nbsp;W/m². The two lines slope at (273.972 − 279.356) ÷ 2 = −2.69 and (268.747 − 273.972) ÷ 2 = −2.61&nbsp;W/m² per doubling. At 420&nbsp;ppm, in the middle, <var>d</var><sub>0</sub> = 2 × (−2.69) × (−2.61) ÷ (−2.69 − 2.61) = −2.65. At 1,680&nbsp;ppm, an end, <var>d</var><sub>1</sub> = (3 × (−2.61) − (−2.69)) ÷ 2 = −2.57.</li>
+<li><strong>The value (step 6).</strong> <var>s</var> = 0.5<sup>2</sup> × (3 − 2 × 0.5) = 0.5. <var>q</var> = (1 − 0.5) × (−2.65) − 0.5 × (−2.57) = −0.04. And <var>y</var> = 273.972 + 0.5 × (268.747 − 273.972) + 2 × 0.5 × (1 − 0.5) × (−0.04) = 271.34&nbsp;W/m².</li>
+</ol>
+<p>The lines under the graph show it as 271.3&nbsp;W/m². A straight line between the two calculated values would have given 271.36, so here the curve bends very little. Doubling carbon dioxide has cut the Earthlight leaving this column by 2.6&nbsp;W/m².</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>The totals aren't added up from the graph.</strong> The research model calculated them separately, over every direction and over wavelengths from 2 to 200&nbsp;µm. The page fills in between them the same way as the spectrum. The graph shows only the Earthlight going straight up, from 4 to 30&nbsp;µm.</li>
+<li><strong>The surface's total.</strong> A black surface at 294.2&nbsp;K gives off 424.8&nbsp;W/m² over all wavelengths. The page says 424.5, because it stops at 200&nbsp;µm.</li>
+<li><strong>The top is higher than the ground.</strong> The total leaving is counted per square meter at the top of the model's air, about 81&nbsp;km up. A sphere that high has about 2.6% more area than the Earth's surface. The surface's numbers are per square meter of ground.</li>
+<li><strong>The graph is smoothed.</strong> The real spectrum is a forest of thousands of narrow lines. The graph blurs them. At 15&nbsp;µm, each point on it is an average over about a third of a micrometer.</li>
+<li><strong>Uneven gaps.</strong> The two slope equations in step 5 are for calculated amounts that are evenly spaced, as carbon dioxide's and water vapor's are. Methane's aren't. For those the code weighs the two lines by the gaps beside them.</li>
+<li><strong>What stays fixed.</strong> The sky is clear. The surface is black and stays at its temperature. Carbon dioxide and methane are mixed evenly from the ground up. The water vapor slider multiplies the humidity at every height. Ozone, nitrous oxide and the temperature of the air don't change.</li>
+<li><strong>Differences.</strong> When the page compares two totals, it subtracts before it rounds. So 274.0 and 271.3 are shown as 2.6 apart, not 2.7.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Each doubling counts the same.</strong> With today's air showing, choose "Keep this spectrum to compare", then "Twice today's CO₂ (840&nbsp;ppm)". The lines under the graph say 271.3&nbsp;W/m² leaves the top of the atmosphere, 2.6 less than the 274.0 you kept. Now type 1680 in the carbon dioxide box. That's 268.7, or 5.2 less than you kept. The second doubling took away 2.6, the same as the first. That's why step 3 counts in doublings.</li>
+<li><strong>Read the temperature of the air.</strong> Choose "Back to today's air", then read the graph at three wavelengths. At 11.00&nbsp;µm, in the window, the Earthlight is as bright as a black surface at 292&nbsp;K. That's nearly the surface's own 294&nbsp;K. At 14.50&nbsp;µm it's 226&nbsp;K: cold air, high up. At 15.00&nbsp;µm, in the very middle of the bite, it's 234&nbsp;K. That small peak comes from the stratosphere, where the air gets warmer with height. This is step 2.</li>
+<li><strong>Deeper, then wider.</strong> Under the far-out air, choose carbon dioxide at 1&nbsp;ppm, then 10, then 100. Then turn the far-out air off and type 1000 in the carbon dioxide box. The bite near 15&nbsp;µm gets deeper at first. Once its middle is as deep as it can go, it gets wider. This is Figure 3.9 in the book. The first three spectra come straight from the research model, and the last is filled in by steps 3 to 7.</li>
+</ol>
+<p>Then try the water vapor. It's the strongest greenhouse gas in this column. At 1.5 times the usual amount, 265.5&nbsp;W/m² leaves the top of the atmosphere and the sky sends 375.5 down to the surface. At 0.5 times, those numbers are 285.7 and 315.5.</p>
+
+<h3 id="about-data">Where the spectra come from</h3>
+<p>The spectra and the totals were calculated with <a href="https://radiativetransfer.org/">ARTS</a>, the Atmospheric Radiative Transfer Simulator, version 2.6.16. ARTS is a research model that its developers share freely.</p>
+<p class="cite">Buehler, S. A., Larsson, R., Lemke, O., Pfreundschuh, S., Brath, M., Adams, I., Fox, S., Roemer, F. E., Czarnecki, P., and Eriksson, P. (2025). The atmospheric radiative transfer simulator ARTS, version 2.6 — Deep python integration. <em>Journal of Quantitative Spectroscopy and Radiative Transfer</em> 341, 109443. <a href="https://doi.org/10.1016/j.jqsrt.2025.109443">doi:10.1016/j.jqsrt.2025.109443</a></p>
+<p>This is how it was set up.</p>
+<ul>
+<li><strong>The air.</strong> Two standard columns that come with ARTS, the FASCOD midlatitude-summer and tropical profiles, on 240 levels from the surface to about 81&nbsp;km. The surface is black, at 294.2&nbsp;K in the midlatitude summer column and 299.7&nbsp;K in the tropical one. There are no clouds.</li>
+<li><strong>The gases.</strong> ARTS added up the absorption lines of each gas from the catalogs that come with version 2.6.16. It also counted the absorption by water vapor between its lines (the MT_CKD 4.0 continuum) and the absorption that happens when nitrogen and oxygen molecules collide. It left out line mixing, a fine point of how crowded lines share their absorption.</li>
+<li><strong>The mixes.</strong> 45 in each column: carbon dioxide at 105, 420 and 1,680&nbsp;ppm, methane at 475, 1,900 and 6,000&nbsp;ppb, and water vapor at 0.5, 0.75, 1, 1.25 and 1.5 times the column's usual humidity.</li>
+<li><strong>The spectra.</strong> The brightness looking straight down from the top, smoothed and read at 2,000 wavelengths from 4 to 30&nbsp;µm.</li>
+<li><strong>The totals.</strong> Added up over 24 directions and over wavelengths from 2 to 200&nbsp;µm.</li>
+</ul>
+<p>The smooth curve in steps 5 and 6 comes from these two papers.</p>
+<p class="cite">Fritsch, F. N., and Carlson, R. E. (1980). Monotone Piecewise Cubic Interpolation. <em>SIAM Journal on Numerical Analysis</em> 17(2), 238–246. <a href="https://doi.org/10.1137/0717021">doi:10.1137/0717021</a></p>
+<p class="cite">Fritsch, F. N., and Butland, J. (1984). A Method for Constructing Local Monotone Piecewise Cubic Interpolants. <em>SIAM Journal on Scientific and Statistical Computing</em> 5(2), 300–304. <a href="https://doi.org/10.1137/0905021">doi:10.1137/0905021</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<ul>
+<li><strong>The filling in, against the research model.</strong> ARTS was run for 16 more mixes that aren't in the tables. The filled-in spectra matched them closely. The typical difference was less than 0.1% of the spectrum's peak, and the largest at any wavelength was 0.65%. For 32 more mixes, the filled-in totals were within 0.08&nbsp;W/m² at the top of the atmosphere and 0.09&nbsp;W/m² at the surface.</li>
+<li><strong>This page's code, against a second program.</strong> The same filling in was written separately in Python, with the SciPy library. For 186 mixes, the two give the same spectra and totals to four decimal places. Each time the page changes, a test also works through the example above and the numbers in the list of things to try, and compares each with what the code gives.</li>
+<li><strong>The model, against a measurement.</strong> Chapter 3 lays a spectrum from ARTS for the midlatitude summer column over one that NASA's AIRS instrument measured from orbit (Figure 3.8). They agree within a degree or two across the window and the water vapor and ozone bands.</li>
+</ul>
+<p>The far-out spectra have had less checking. The two with the most gas, 10,000&nbsp;ppm of carbon dioxide and 100,000&nbsp;ppb of methane, passed a test of whether the model's wavelengths were fine enough. The others didn't get that test. That's one reason the page gives no totals for them.</p>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the equations above, in a short file you can read from top to bottom.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graph and the lines under it.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>. The calculated spectra are in <a href="tables.bin" download><code>tables.bin</code></a>, and <a href="tables.json" download><code>tables.json</code></a> says what's in it.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/infrared">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it. If you use the spectra, please cite ARTS as above.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>. The spectra were calculated with ARTS, and the people who build ARTS made that possible by sharing it.</p>
+<p>Scott Denning directed the project and reviewed its science, its results and this page. OpenAI Codex helped write and review the code that ran ARTS, design the tests and write up the methods. Claude, from Anthropic, rebuilt the page for the book. ARTS did the calculations of how air absorbs and gives off Earthlight. No AI made up a spectrum or a total.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
