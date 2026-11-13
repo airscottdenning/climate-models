@@ -15,6 +15,7 @@ Small teaching models from *Climate Change: Simple, Serious, Solvable*, an open 
 | Leaky and Stirred: Two Layers of Air over Warm Ground | [simpleserioussolvable.org/models/two-layer/](https://simpleserioussolvable.org/models/two-layer/) | [`two-layer/`](two-layer/) |
 | The Push and the Response: Forcing, Feedback and Warming | [simpleserioussolvable.org/models/forcing-feedback/](https://simpleserioussolvable.org/models/forcing-feedback/) | [`forcing-feedback/`](forcing-feedback/) |
 | A Few Degrees: Hot Days, Cold Nights and the Bell Curve | [simpleserioussolvable.org/models/daily-temperatures/](https://simpleserioussolvable.org/models/daily-temperatures/) | [`daily-temperatures/`](daily-temperatures/) |
+| Climate Damage: Compounding vs Discounting | [simpleserioussolvable.org/models/discounting/](https://simpleserioussolvable.org/models/discounting/) | [`discounting/`](discounting/) |
 
 More are on the way.
 

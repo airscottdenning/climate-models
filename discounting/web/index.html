@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Climate Damage: Compounding vs Discounting</title>
+<meta name="description" content="Slow the world's economic growth by a hair, add up the damage for a century and discount it to today. Change the growth rates and the discount rate. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>Climate Damage: Compounding vs Discounting</h1>
+<p class="intro standalone-only">Suppose climate change slows the world's economic growth by a hair, every year. A century later the hotter world is only a little poorer than the cooler one. What's all that damage worth today? Change the growth rates and the discount rate, and see how much it would pay to spend now to avoid it.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-damage" aria-controls="panel-damage" aria-selected="true">Damage and its value today</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<section id="panel-damage" role="tabpanel" aria-labelledby="tab-damage" tabindex="0">
+<h2>A cooler world, a hotter world and the gap between them</h2>
+<div class="layout">
+<form class="controls" aria-label="The two worlds">
+<div class="control">
+<label for="cool">Growth in a cooler world (% a year)</label>
+<div class="pair"><input type="range" id="cool-range" min="1" max="5" step="0.1" aria-label="Growth in a cooler world, slider"><input type="number" id="cool" min="1" max="5" step="0.1"></div>
+<p class="hint">How fast the world's income grows if climate change is avoided.</p>
+</div>
+<div class="control">
+<label for="penalty">How much slower a hotter world grows (percentage points)</label>
+<div class="pair"><input type="range" id="penalty-range" min="0.01" max="1" step="0.01" aria-label="How much slower a hotter world grows, slider"><input type="number" id="penalty" min="0.01" max="1" step="0.01"></div>
+<p class="hint" id="penalty-hint"></p>
+</div>
+<div class="control">
+<label for="disc">Discount rate (% a year)</label>
+<div class="pair"><input type="range" id="disc-range" min="0" max="7" step="0.1" aria-label="Discount rate, slider"><input type="number" id="disc" min="0" max="7" step="0.1"></div>
+<p class="hint">How much less a dollar of damage counts for each year it lies in the future.</p>
+</div>
+<div class="presets" role="group" aria-label="Discount rates that economists have argued for">
+<button type="button" data-disc="1.4">Stern's 1.4%</button>
+<button type="button" data-disc="2">The experts' median, 2%</button>
+<button type="button" data-disc="5.5">Nordhaus's 5.5%</button>
+</div>
+<div class="control">
+<label for="income">World income this year (trillion dollars)</label>
+<div class="pair"><input type="range" id="income-range" min="50" max="200" step="1" aria-label="World income this year, slider"><input type="number" id="income" min="50" max="200" step="1"></div>
+<p class="hint">The world's income in 2025 was about $118&nbsp;trillion.</p>
+</div>
+<div class="control">
+<label for="years">Years to add up</label>
+<div class="pair"><input type="range" id="years-range" min="50" max="300" step="10" aria-label="Years to add up, slider"><input type="number" id="years" min="50" max="300" step="10"></div>
+</div>
+<p><button type="button" id="reset">Back to the book's example</button></p>
+</form>
+<figure>
+<ul class="key">
+<li><span class="line cool"></span>The cooler world</li>
+<li><span class="line hot"></span>The hotter world</li>
+<li><span class="line damage"></span>Damage each year</li>
+<li><span class="line value"></span>Its value today</li>
+</ul>
+<canvas id="damage" tabindex="0" role="img" aria-label="Three graphs over the years from now. The top graph shows the world's income in a cooler world and in a hotter world that grows a little more slowly. The middle graph shows the gap between them each year, which is that year's damage. The bottom graph shows each year's damage discounted to its value today; the shaded area under it is the total. The lines below give the numbers. With the graph selected, the left and right arrow keys move a year at a time, or ten years with Shift."></canvas>
+<p id="damage-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="damage-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>Damage that slows growth.</strong> In this model, climate change doesn't knock the world's income down once. It makes the economy grow a little more slowly every year, and the loss compounds like interest. Box 14.1 in Chapter 14 of the book asks why that changes the answer so much.</p>
+<p class="note"><strong>This is a very simple model.</strong> It has two growth rates and a discount rate, and nothing else: no temperatures, no emissions and no cost of avoiding the damage. The About tab has every equation.</p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of economic growth, climate damage and discounting. It compares two worlds. In the <strong>cooler world</strong>, climate change is avoided and the world's income grows at a steady rate. In the <strong>hotter world</strong>, climate damage makes it grow a little more slowly. The gap between the two incomes, year by year, is the <strong>damage</strong>.</p>
+<p>Then the model asks what all that future damage is worth today. Economists answer with <strong>discounting</strong>, which is compound interest run backward: a dollar of damage counts for less the farther in the future it is. Add up every year's damage, discounted to today, and you get the most it would be worth spending this year to avoid it. Spend less than that, and you come out ahead.</p>
+<p>The page opens on the example in Box 14.1 of Chapter 14, "Planetary Prosperity". The world's income is $100&nbsp;trillion a year. It grows at 2.50% a year in the cooler world and at 2.49% in the hotter one. A century from now the hotter world's income is only 1.0% lower. But discount every year's loss at a hefty 4.5% a year and add them up, and the damage is worth $14.8&nbsp;trillion today.</p>
+<p>Most of the models economists use to price carbon treat damage differently. Damage there takes a bite out of each year's income, but it doesn't slow the growth that follows, and income growing exponentially soon outruns it. Several groups of economists have found that damage that slows growth itself changes the answer dramatically. Chapter 14 tells that debate, and it says why the discount rate is an ethical choice as well as a technical one.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has one view, "Damage and its value today". It has three graphs, one above the other, that share the years along the bottom. The top graph shows the world's income in the cooler world and the hotter world. The middle graph shows the damage each year, which is the gap between them. The bottom graph shows each year's damage discounted to its value today. The shaded area under it is all of those values added up.</p>
+<p>You can change five things:</p>
+<ul>
+<li><strong>Growth in a cooler world,</strong> from 1% to 5% a year. The page opens at 2.5%.</li>
+<li><strong>How much slower a hotter world grows,</strong> from 0.01 to 1 percentage point. The page opens at 0.01, so the hotter world grows at 2.49% a year.</li>
+<li><strong>The discount rate,</strong> from 0% to 7% a year. The page opens at 4.5%. Three buttons under it set rates that economists have argued for, which Chapter 14 describes: "Stern's 1.4%", "The experts' median, 2%" and "Nordhaus's 5.5%".</li>
+<li><strong>The world's income this year,</strong> from $50&nbsp;trillion to $200&nbsp;trillion. The page opens at $100&nbsp;trillion.</li>
+<li><strong>The years to add up,</strong> from 50 to 300. The page opens at 100.</li>
+</ul>
+<p>Move over the graph to read the numbers for one year. Or select the graph and press the left or right arrow key. The first press starts halfway along, and each press after it moves a year, or ten years with Shift. Below the graph, a few lines give the incomes at the end, the damage added up and its value today. "Back to the book's example" puts every control back where it started.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 14, "Planetary Prosperity".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is a handful of short equations, and you can follow every one of them with a calculator.</p>
+<p>The model asks one question: <strong>if climate change slows the world's growth a little, what is all the damage it does over the coming years worth today?</strong></p>
+<p>You choose five things:</p>
+<ul>
+<li><var>r</var><sub>cool</sub>, the <strong>growth rate in the cooler world</strong>, as a fraction a year: 2.5% a year is 0.025</li>
+<li><var>p</var>, the <strong>penalty</strong>: how much slower the hotter world grows, as a fraction a year, so 0.01 percentage point is 0.0001</li>
+<li><var>r</var><sub>disc</sub>, the <strong>discount rate</strong>, as a fraction a year</li>
+<li><var>G</var><sub>0</sub>, the <strong>world's income this year</strong>, in trillion dollars a year</li>
+<li><var>T</var>, the <strong>number of years</strong> to add up</li>
+</ul>
+<p>There are only two other letters. <var>t</var> is the time from now, in years. And <var>e</var> is the number 2.718…, the base of the natural logarithm. Your calculator has a key for <var>e</var><sup><var>x</var></sup>.</p>
+
+<h4>1. How big is the world's income each year?</h4>
+<p>An income that grows by the same share every year grows exponentially. In the cooler world, <var>t</var> years from now, it's</p>
+<div class="eq" data-eq="income-cool"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">G</mi><mtext>cool</mtext></msub><mo>=</mo><msub><mi mathvariant="normal">G</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">e</mi><mrow><msub><mi mathvariant="normal">r</mi><mtext>cool</mtext></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi></mrow></msup></mrow></math></div>
+<p>trillion dollars a year. This is the compound interest of Chapter 14, done smoothly, all through the year, instead of once a year. The hotter world grows a little more slowly, at</p>
+<div class="eq" data-eq="hot-rate"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">r</mi><mtext>hot</mtext></msub><mo>=</mo><msub><mi mathvariant="normal">r</mi><mtext>cool</mtext></msub><mo>−</mo><mi mathvariant="normal">p</mi></mrow></math></div>
+<p>so its income is</p>
+<div class="eq" data-eq="income-hot"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">G</mi><mtext>hot</mtext></msub><mo>=</mo><msub><mi mathvariant="normal">G</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">e</mi><mrow><msub><mi mathvariant="normal">r</mi><mtext>hot</mtext></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi></mrow></msup></mrow></math></div>
+<p>At the start, when <var>t</var> is 0, both incomes are <var>G</var><sub>0</sub>, because <var>e</var><sup>0</sup> is 1. Then the cooler world pulls slowly ahead. That's the top graph.</p>
+
+<h4>2. How much does the hotter world lose each year?</h4>
+<p>The damage in year <var>t</var> is the gap between the two incomes:</p>
+<div class="eq" data-eq="damage"><math displaystyle="true"><mrow><mi mathvariant="normal">D</mi><mo>=</mo><msub><mi mathvariant="normal">G</mi><mtext>cool</mtext></msub><mo>−</mo><msub><mi mathvariant="normal">G</mi><mtext>hot</mtext></msub></mrow></math></div>
+<p>trillion dollars. That's the middle graph. The damage grows for two reasons: the gap between the growth rates compounds, and it compounds on an income that keeps getting bigger. As a share of the cooler world's income, the damage is <var>s</var> = <var>D</var> ÷ <var>G</var><sub>cool</sub>, which works out to</p>
+<div class="eq" data-eq="shortfall"><math displaystyle="true"><mrow><mi mathvariant="normal">s</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi mathvariant="normal">e</mi><mrow><mo form="prefix">−</mo><mi mathvariant="normal">p</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi></mrow></msup></mrow></math></div>
+<p>The share depends only on the penalty and the time, not on how fast the world grows or how rich it is. With a penalty of 0.0001, after 100 years <var>p</var><var>t</var> is 0.01, and <var>s</var> is 1.0%: the hotter world's income is 1.0% lower.</p>
+
+<h4>3. What is one year's damage worth today?</h4>
+<p>This is Chapter 14's formula for discounting: the present value is the future value times <var>e</var><sup>−<var>r</var><var>t</var></sup>. Here the future value is the damage in year <var>t</var>, so its value today is</p>
+<div class="eq" data-eq="present-value"><math displaystyle="true"><mrow><mi mathvariant="normal">P</mi><mo>=</mo><mi mathvariant="normal">D</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">e</mi><mrow><mo form="prefix">−</mo><msub><mi mathvariant="normal">r</mi><mtext>disc</mtext></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi></mrow></msup></mrow></math></div>
+<p>trillion dollars. That's the bottom graph. The minus sign makes the discount shrink each year's damage more and more the farther away it is. So two things pull against each other. The damage grows as the years go by, and in the long run it grows as fast as the cooler world's income. The discount shrinks it, at the rate <var>r</var><sub>disc</sub>. When the discount rate is higher than the cooler world's growth rate, the discount wins in the end: the bottom graph rises at first and then falls. When it isn't, the bottom graph keeps rising.</p>
+
+<h4>4. What is all the damage worth today?</h4>
+<p>Add up the value today of every year's damage, from now to <var>T</var> years from now. The model adds smoothly, as the incomes grow, so the total is the area under the bottom graph. Each piece of step 3 is an exponential, and the area under an exponential has a formula of its own. Together they give</p>
+<div class="eq" data-eq="total"><math displaystyle="true"><mrow><mi mathvariant="normal">V</mi><mo>=</mo><msub><mi mathvariant="normal">G</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mfrac><mrow><msup><mi mathvariant="normal">e</mi><mrow><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">r</mi><mtext>cool</mtext></msub><mo>−</mo><msub><mi mathvariant="normal">r</mi><mtext>disc</mtext></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">T</mi></mrow></msup><mo>−</mo><mn>1</mn></mrow><mrow><msub><mi mathvariant="normal">r</mi><mtext>cool</mtext></msub><mo>−</mo><msub><mi mathvariant="normal">r</mi><mtext>disc</mtext></msub></mrow></mfrac><mo>−</mo><mfrac><mrow><msup><mi mathvariant="normal">e</mi><mrow><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">r</mi><mtext>hot</mtext></msub><mo>−</mo><msub><mi mathvariant="normal">r</mi><mtext>disc</mtext></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">T</mi></mrow></msup><mo>−</mo><mn>1</mn></mrow><mrow><msub><mi mathvariant="normal">r</mi><mtext>hot</mtext></msub><mo>−</mo><msub><mi mathvariant="normal">r</mi><mtext>disc</mtext></msub></mrow></mfrac><mo stretchy="false">)</mo></mrow></mrow></math></div>
+<p>trillion dollars. The first fraction is the cooler world's income, discounted and added up over the years, for each trillion it starts with. The second is the hotter world's. <var>V</var> is the most it would be worth spending this year to avoid the damage. With the discount rate set to 0, the same formula adds up the damage without discounting it.</p>
+<p>The two fractions are nearly the same size, and <var>V</var> is the small gap between them. So keep plenty of digits until you subtract, as the worked example below does.</p>
+
+<h4>Where the equations stop</h4>
+<p>When the discount rate equals one of the growth rates, the bottom of one fraction in step 4 is zero, and so is its top. The formula then reads 0 ÷ 0, which has no value. But the sum it stands for is easy: each year's income, discounted, is just <var>G</var><sub>0</sub>, and <var>T</var> years of that is <var>G</var><sub>0</sub> × <var>T</var>. So the model uses <var>T</var> for that fraction. Try a discount rate right next to the growth rate, and the formula comes out very close to <var>T</var> too.</p>
+<p>This is a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>No temperature and no emissions.</strong> The penalty starts today and never changes. Real warming builds up over decades, and so would the damage it does to growth.</li>
+<li><strong>No cost of avoiding the damage.</strong> The cooler world gets its faster growth for free. <var>V</var> is the most it would be worth spending, not what avoiding the damage would cost. Many economic models assume the opposite of this page: that money spent cutting emissions comes out of investment, so the world that avoids climate change grows a little more slowly. Chapter 14 tells that side too.</li>
+<li><strong>One discount rate for every year.</strong> Many economists favor discount rates that fall over time, for the longest horizons.</li>
+<li><strong>Steady growth for centuries.</strong> When the discount rate is no higher than the cooler world's growth, every year's damage is worth more today than the year before. Then the total keeps growing for as many years as you add up, and the number of years matters as much as anything else on the page.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the controls alone. The summary under the graph says the damage is worth $14.8&nbsp;trillion today. Here's where that comes from.</p>
+<ol class="worked">
+<li><strong>The hotter world's growth (step 1).</strong> <var>r</var><sub>hot</sub> = 0.025 − 0.0001 = 0.0249.</li>
+<li><strong>The cooler world, discounted and added up (step 4).</strong> <var>r</var><sub>cool</sub> − <var>r</var><sub>disc</sub> = 0.025 − 0.045 = −0.02. Times 100 years, that's −2, and <var>e</var><sup>−2</sup> = 0.135335. So the first fraction is (0.135335 − 1) ÷ (−0.02) = 43.2332.</li>
+<li><strong>The hotter world, the same way (step 4).</strong> <var>r</var><sub>hot</sub> − <var>r</var><sub>disc</sub> = 0.0249 − 0.045 = −0.0201. Times 100 years, that's −2.01, and <var>e</var><sup>−2.01</sup> = 0.133989. So the second fraction is (0.133989 − 1) ÷ (−0.0201) = 43.0851.</li>
+<li><strong>The gap (step 4).</strong> 43.2332 − 43.0851 = 0.1481. Times <var>G</var><sub>0</sub>, which is 100, that's <var>V</var> = 14.81.</li>
+</ol>
+<p>That's $14.8&nbsp;trillion, the number in the summary under the graph and in Box 14.1.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Smooth, not year by year.</strong> The model grows, discounts and adds up smoothly. Adding up whole years instead, from this year to year 99, gives $14.7&nbsp;trillion on the page as it opens, against the model's $14.8&nbsp;trillion.</li>
+<li><strong>Money.</strong> All of it is in today's dollars. The discount rate is over and above any adjustment for inflation, as Chapter 14 says.</li>
+<li><strong>The graphs.</strong> They're drawn a year at a time. The page writes damage under $1&nbsp;trillion in billions.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>A loss that rises and falls.</strong> On the page as it opens, read the bottom graph. Each year's damage, valued today, rises to $183&nbsp;billion in year 50 and falls to $135&nbsp;billion by year 100. The damage itself keeps growing, but after year 50 the discount shrinks it faster (step 3).</li>
+<li><strong>The discount rate decides.</strong> Press the three buttons under the discount rate. At "Nordhaus's 5.5%" the damage is worth $8.9&nbsp;trillion today. At "The experts' median, 2%" it's $70.0&nbsp;trillion, and at "Stern's 1.4%" it's $107.1&nbsp;trillion, 12 times as much. Nothing else changed.</li>
+<li><strong>No discounting at all.</strong> Set the discount rate to 0. Every year's damage now counts in full, and over 100 years they add up to $307.2&nbsp;trillion, which is the same total the summary gives as the damage not discounted.</li>
+<li><strong>Ten times the penalty.</strong> Go back to the book's example and set the penalty to 0.1 percentage point. After 100 years the hotter world's income is 9.5% lower, and the damage is worth $144.5&nbsp;trillion today. Set the discount rate to 2% too, and it's $678.8&nbsp;trillion: these are the settings Scott's first version of this model opened on.</li>
+<li><strong>Today's world.</strong> Go back to the book's example and set the world's income to $118&nbsp;trillion, about what it was in 2025. Everything scales with <var>G</var><sub>0</sub> (step 4), and the damage is worth $17.5&nbsp;trillion today, as Box 14.1 says.</li>
+<li><strong>A longer future.</strong> Go back to the book's example and add up 300 years instead of 100. The total rises only from $14.8&nbsp;trillion to $24.4&nbsp;trillion, because at 4.5% a year the far future hardly counts. Now set the discount rate to 2% as well. The total is $1,282&nbsp;trillion, against $70.0&nbsp;trillion for 100 years at 2%, because at 2% the damage grows faster than the discount shrinks it.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The model has no data. Its numbers are the ones in Box 14.1 of Chapter 14. World income of $100&nbsp;trillion is a round number. The International Monetary Fund put it at about $118&nbsp;trillion in 2025. The three discount rates under the slider are the ones Chapter 14 describes: about 1.4% a year from the Stern Review, about 5.5% from William Nordhaus, and 2%, the median that more than 200 experts on discounting recommended for the long term when Moritz Drupp and colleagues surveyed them.</p>
+<p>The idea of damage that slows growth isn't new to this page. These papers explore it with full economic models:</p>
+<p class="cite">Moyer, E. J., Woolley, M. D., Matteson, N. J., Glotter, M. J., and Weisbach, D. A. (2014). Climate impacts on economic growth as drivers of uncertainty in the social cost of carbon. <em>Journal of Legal Studies</em> 43(2), 401–425. <a href="https://doi.org/10.1086/678140">doi:10.1086/678140</a></p>
+<p class="cite">Dietz, S., and Stern, N. (2015). Endogenous growth, convexity of damage and climate risk: how Nordhaus' framework supports deep cuts in carbon emissions. <em>The Economic Journal</em> 125(583), 574–620. <a href="https://doi.org/10.1111/ecoj.12188">doi:10.1111/ecoj.12188</a></p>
+<p>And this one is the survey of experts on discounting:</p>
+<p class="cite">Drupp, M. A., Freeman, M. C., Groom, B., and Nesje, F. (2018). Discounting disentangled. <em>American Economic Journal: Economic Policy</em> 10(4), 109–134. <a href="https://doi.org/10.1257/pol.20160240">doi:10.1257/pol.20160240</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the equations written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
+<li><strong>The formula in step 4, against adding up the long way.</strong> The tests cut the years into 100,000 thin slices and add up the area under the bottom graph slice by slice. The two agree to within a millionth, including when the discount rate equals a growth rate.</li>
+<li><strong>The model, against its first version.</strong> Scott's first version of this model was a web app written in R. The tests hold this page to what that app worked out at 144 settings, and they agree to within a millionth, except at the 58 settings where the app had a mistake. When a growth rate came within 1 percentage point of the discount rate, the app swapped in a gap of 1 percentage point, to avoid dividing by zero. That's right only when the gap really is 1 percentage point. On its own opening settings it said $1,569&nbsp;trillion, where the right answer is $678.8&nbsp;trillion. This page uses the formula's true value there instead, as the part called Where the equations stop explains.</li>
+<li><strong>The model, against the book.</strong> Box 14.1 and its figure give about $15&nbsp;trillion today, incomes about 12&nbsp;trillion dollars a year apart after a century, and a yearly loss, valued today, that rises to about 180&nbsp;billion dollars. The page as it opens gives $14.8&nbsp;trillion, $12.1&nbsp;trillion and $183&nbsp;billion.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the four steps, and a run of them a year at a time.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graph and the lines under it.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/discounting">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The model is Scott Denning's, and it began as a web app written in R. Claude, from Anthropic, rebuilt it to run in your browser and checked it against that app and against the book. The rebuild fixed the app's answer when a growth rate is near the discount rate, and three slips in the equations it showed.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
