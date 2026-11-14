@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the Carbon Goes: Air, Ocean, Land and Warming to the Year 3000</title>
+<meta name="description" content="Burn fossil fuel and follow the carbon: into the air, the ocean and the land, and on to warming. Set how the ocean, the land and the climate respond, match the past, then follow six scenarios to the year 3000. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>Where the Carbon Goes: Air, Ocean, Land and Warming to the Year 3000</h1>
+<p class="intro standalone-only">Every year we burn fossil fuel, and the carbon goes into the air. The ocean and the land take some of it back out. The rest warms the world. Set how the ocean, the land and the climate respond, see whether the model matches the past, then follow the carbon a thousand years ahead.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-past" aria-controls="panel-past" aria-selected="true">1. The past</button>
+<button type="button" role="tab" id="tab-future" aria-controls="panel-future" aria-selected="false" tabindex="-1">2. The future</button>
+<button type="button" role="tab" id="tab-carbon" aria-controls="panel-carbon" aria-selected="false" tabindex="-1">3. Where the carbon goes</button>
+<button type="button" role="tab" id="tab-land" aria-controls="panel-land" aria-selected="false" tabindex="-1">4. The land sink</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<p id="loading" role="status">Loading the data…</p>
+
+<section id="panel-past" role="tabpanel" aria-labelledby="tab-past" tabindex="0">
+<h2>The past: carbon dioxide and warming since 1850, beside the measurements</h2>
+<div class="layout">
+<div class="slot">
+<form class="controls" id="controls" aria-label="The model's settings">
+<details class="group" id="group-scenario" hidden>
+<summary><span class="group-name">The future</span> <span class="group-now" id="scenario-now"></span></summary>
+<div class="control">
+<label for="scenario">Scenario after 2024</label>
+<select id="scenario">
+<option value="ssp119">SSP1-1.9: very low emissions</option>
+<option value="ssp126">SSP1-2.6: low</option>
+<option value="ssp245">SSP2-4.5: middle of the road</option>
+<option value="ssp370">SSP3-7.0: high</option>
+<option value="ssp534-over">SSP5-3.4-overshoot: high, then cut fast</option>
+<option value="ssp585">SSP5-8.5: very high</option>
+</select>
+</div>
+<div class="control">
+<label for="until">Show the years up to</label>
+<select id="until">
+<option value="2100">2100</option>
+<option value="2300">2300</option>
+<option value="3000">3000</option>
+</select>
+</div>
+<p class="check"><input type="checkbox" id="smog"> <label for="smog">Smog stays tied to burning</label></p>
+<p class="hint">Ticked, the smog from burning fossil fuel stays as thick for each tonne as it is today. Clear, it follows the scenario, which cleans the air even where burning goes on.</p>
+</details>
+<details class="group" id="group-climate" open>
+<summary><span class="group-name">The climate</span> <span class="group-now" id="climate-now"></span></summary>
+<div class="control">
+<label for="sensitivity">Climate sensitivity (°C of warming for doubled CO₂)</label>
+<div class="pair"><input type="range" id="sensitivity-range" min="1.5" max="5" step="0.1" aria-label="Climate sensitivity, slider"><input type="number" id="sensitivity" min="1.5" max="5" step="0.1"></div>
+<p class="hint">The IPCC's best estimate is 3, and its likely range is 2.5 to 4. The page opens at 2.5, which fits the whole record best in this model.</p>
+</div>
+<div class="control">
+<label for="aerosol">Smog's cooling (× the best estimate)</label>
+<div class="pair"><input type="range" id="aerosol-range" min="0" max="2" step="0.05" aria-label="Smog's cooling, slider"><input type="number" id="aerosol" min="0" max="2" step="0.05"></div>
+</div>
+</details>
+<details class="group" id="group-ocean">
+<summary><span class="group-name">The ocean</span> <span class="group-now" id="ocean-now"></span></summary>
+<div class="control">
+<label for="mixing">Mixing below the warm surface (million m³ of water a second)</label>
+<div class="pair"><input type="range" id="mixing-range" min="50" max="300" step="5" aria-label="Mixing below the warm surface, slider"><input type="number" id="mixing" min="50" max="300" step="5"></div>
+<p class="hint">How fast the warm surface water trades places with the cooler water under it, before any warming. More mixing carries more carbon and more heat down.</p>
+</div>
+</details>
+<details class="group" id="group-land">
+<summary><span class="group-name">The land</span> <span class="group-now" id="land-now"></span></summary>
+<div class="control">
+<label for="co2Boost">CO₂ fertilization (% more growth for doubled CO₂)</label>
+<div class="pair"><input type="range" id="co2Boost-range" min="0" max="100" step="5" aria-label="CO₂ fertilization, slider"><input type="number" id="co2Boost" min="0" max="100" step="5"></div>
+<p class="hint">With nitrogen to spare. Experiments in young forests found close to 50%, and in old forests almost nothing.</p>
+</div>
+<div class="control">
+<label for="room">Room for more wood (% above a mature forest)</label>
+<div class="pair"><input type="range" id="room-range" min="20" max="300" step="10" aria-label="Room for more wood, slider"><input type="number" id="room" min="20" max="300" step="10"></div>
+<p class="hint">Mature forests don't grow forever: trees die as fast as new wood grows. This is how much more wood a forest can hold before that happens.</p>
+</div>
+<div class="control">
+<label for="nitrogen">Nitrogen (share of full growth it allowed before industry)</label>
+<div class="pair"><input type="range" id="nitrogen-range" min="0.5" max="1" step="0.05" aria-label="Nitrogen, slider"><input type="number" id="nitrogen" min="0.5" max="1" step="0.05"></div>
+<p class="hint">Below 1, plants run short of nitrogen when they grow faster, and nitrogen from burning helps them. At 1, nitrogen never limits growth.</p>
+</div>
+<div class="control">
+<label for="q10">Q10: how much faster dead leaves and soil rot for each 10&nbsp;°C</label>
+<div class="pair"><input type="range" id="q10-range" min="1" max="3" step="0.1" aria-label="Q10, slider"><input type="number" id="q10" min="1" max="3" step="0.1"></div>
+</div>
+<div class="control">
+<label for="width">Width of growth's temperature curve (°C)</label>
+<div class="pair"><input type="range" id="width-range" min="5" max="30" step="1" aria-label="Width of growth's temperature curve, slider"><input type="number" id="width" min="5" max="30" step="1"></div>
+<p class="hint">Plants grow best at 25&nbsp;°C. Narrower: warming helps the cold north more and hurts the tropics sooner.</p>
+</div>
+<div class="control">
+<label for="landUse">Clearing and logging (× as recorded)</label>
+<div class="pair"><input type="range" id="landUse-range" min="0" max="1.5" step="0.05" aria-label="Clearing and logging, slider"><input type="number" id="landUse" min="0" max="1.5" step="0.05"></div>
+</div>
+</details>
+<details class="group" id="group-record">
+<summary><span class="group-name">The record</span> <span class="group-now" id="record-now"></span></summary>
+<div class="control">
+<label for="overstated">Fossil emissions over-reported since 1950 (%)</label>
+<div class="pair"><input type="range" id="overstated-range" min="0" max="10" step="1" aria-label="Fossil emissions over-reported, slider"><input type="number" id="overstated" min="0" max="10" step="1"></div>
+<p class="hint">Some scientists think countries have reported about 6% more than they burned. If so, less carbon went into the land than the budget says.</p>
+</div>
+</details>
+<p><button type="button" id="reset">Back to the opening settings</button></p>
+</form>
+</div>
+<figure>
+<ul class="key">
+<li><span class="line model"></span>This model</li>
+<li><span class="line measured"></span>Measured</li>
+</ul>
+<canvas id="past-graph" tabindex="0" role="img" aria-label="Two graphs, one above the other, of the years 1850 to 2024. The upper one is carbon dioxide in the air, in parts per million. The lower one is warming, in °C since the late 1800s. Each shows the model as a heavy line and the measurements as a thin gray line. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="past-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="past-summary" class="summary" aria-live="polite"></figcaption>
+<table class="budget" id="past-budget">
+<caption>Where the carbon from fossil fuel went, 1850 to 2024</caption>
+<thead><tr><th>Billions of tonnes of carbon</th><th>This model</th><th>Carbon budget</th></tr></thead>
+<tbody>
+<tr class="result"><th>Burned</th><td id="b-burned"></td><td id="m-burned"></td></tr>
+<tr><th>Stayed in the air</th><td id="b-air"></td><td id="m-air"></td></tr>
+<tr><th>Went into the ocean</th><td id="b-ocean"></td><td id="m-ocean"></td></tr>
+<tr><th>Went into the land, after clearing</th><td id="b-land"></td><td id="m-land"></td></tr>
+</tbody>
+</table>
+</figure>
+</div>
+<p class="note"><strong>Only the burning is given.</strong> The model is told how much fossil fuel was burned each year, and nothing about the carbon dioxide in the air. It works that out: what the ocean and the land don't take up stays in the air. Then it works out the warming. So the thin gray lines are a test.</p>
+<p class="note"><strong>Make it match.</strong> The model as it opens runs high in carbon dioxide from the 1950s on. Try the land's settings: more CO₂ fertilization, more room for wood, less clearing. Several different settings match the past about equally well. Which is right matters for the future, as the next views show.</p>
+<p class="note"><strong>The budget doesn't add up either.</strong> The Global Carbon Budget's own counts of clearing and of the land's growth miss what the air and the ocean say by about 1.6 billion tonnes a year in the 1950s. This model, which follows the same records of clearing, runs high in the same years.</p>
+<p class="next"><button type="button" data-view="future">Next: 2. The future</button></p>
+</section>
+
+<section id="panel-future" role="tabpanel" aria-labelledby="tab-future" tabindex="0" hidden>
+<h2>The future: six scenarios, with the settings you chose</h2>
+<div class="layout">
+<div class="slot"></div>
+<figure>
+<ul class="key" id="future-key"></ul>
+<canvas id="future-graph" tabindex="0" role="img" aria-label="Two graphs, one above the other, from 1850 to the year chosen. The upper one is carbon dioxide in the air, in parts per million. The lower one is warming, in °C since the late 1800s. Each has a line for each of six scenarios, the chosen one heavier, and the measurements to 2024 in gray. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="future-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="future-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>The scenarios are the IPCC's.</strong> Each sets the world's fossil emissions year by year to 2100, and how they end after that, by 2250 at the latest. Pick the years up to 3000 to see what happens after the burning stops.</p>
+<p class="note"><strong>Warming stops when emissions stop, but it doesn't go away.</strong> Carbon dioxide falls slowly once the burning ends, as the ocean takes more up. The warming hardly falls at all, because the ocean that was holding it back is warming too.</p>
+<p class="next"><button type="button" data-view="carbon">Next: 3. Where the carbon goes</button></p>
+</section>
+
+<section id="panel-carbon" role="tabpanel" aria-labelledby="tab-carbon" tabindex="0" hidden>
+<h2>Where the carbon goes: the air, the ocean and the land</h2>
+<div class="layout">
+<div class="slot"></div>
+<figure>
+<ul class="key">
+<li><span class="line burned"></span>Burned so far</li>
+<li><span class="line air"></span>Still in the air</li>
+<li><span class="line ocean"></span>In the ocean</li>
+<li><span class="line land"></span>In the land</li>
+</ul>
+<canvas id="carbon-graph" tabindex="0" role="img" aria-label="Two graphs, one above the other, from 1850 to the year chosen, for the chosen scenario. The upper one shows carbon added since 1750, in billions of tonnes: all the fossil carbon burned so far, and how much of it is in the air, the ocean and the land. The lower one shows carbon taken up each year by the ocean and by the land, in billions of tonnes a year. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="carbon-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="carbon-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>Much of it stays in the air</strong> while emissions are rising: more than half of the fossil carbon burned so far, because clearing forests has added carbon too. The ocean takes up most of the rest. When emissions fall, the share in the air falls, but slowly: the ocean takes centuries to mix the carbon down, and some of it stays in the air for thousands of years.</p>
+<p class="note"><strong>The land can give carbon back.</strong> When emissions stop, the land's yearly uptake drops below zero in most scenarios. Look at the lower graph after 2100.</p>
+<p class="next"><button type="button" data-view="land">Next: 4. The land sink</button></p>
+</section>
+
+<section id="panel-land" role="tabpanel" aria-labelledby="tab-land" tabindex="0" hidden>
+<h2>The land sink: what it's made of, and when each part stops</h2>
+<div class="layout">
+<div class="slot"></div>
+<figure>
+<ul class="key">
+<li><span class="line net"></span>The land, all together</li>
+<li><span class="line co2"></span>More CO₂</li>
+<li><span class="line nitrogen"></span>Nitrogen from burning</li>
+<li><span class="line warming"></span>Warming</li>
+<li><span class="line clearing"></span>Clearing and logging</li>
+</ul>
+<canvas id="land-graph" tabindex="0" role="img" aria-label="A graph from 1850 to the year chosen, for the chosen scenario, of the carbon the land takes up each year, in billions of tonnes a year. A heavy line is the land all together. Four thinner lines show how much of it comes from more CO₂, from nitrogen from burning, from warming and from clearing and logging. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
+<p id="land-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="land-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</div>
+<p class="note"><strong>Each part has a reason to stop.</strong> More CO₂ makes plants grow faster, but the extra stops once CO₂ stops rising and the forests catch up. Nitrogen from burning stops when the burning does. Warming helps the cold north at first and then hurts. Forests that grow back after clearing stop gaining once they're grown.</p>
+<p class="note"><strong>The parts needn't add up to the whole.</strong> Each is worked out by running the land again with that one cause held as it was in 1750. The causes work on each other: the extra growth from CO₂ needs nitrogen, for one.</p>
+<p class="note"><strong>Settings that match the past can disagree about the future.</strong> Go back to the first view and find two quite different settings that both match. Then come back here and compare them.</p>
+</section>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a model of the <strong>carbon cycle</strong> and the climate together, for the whole Earth, one year at a time. Fossil fuel puts carbon into the air. The ocean and the land take some of it back out: these are the <strong>carbon sinks</strong>. The carbon that stays in the air warms the world, and the warming changes how much the sinks take up. The model follows all of that from 1750 to the year 3000.</p>
+<p>It has four parts. The <strong>air</strong> is one box of carbon. The <strong>ocean</strong> is four boxes of water: a warm surface, the cooler water under it, a cold surface near the poles and the deep ocean. Water carries carbon, heat and nutrients between them. The <strong>climate</strong> is an energy balance: the push from greenhouse gases and smog, against the heat the Earth sends to space and the heat the ocean takes in. The <strong>land</strong> is three regions, the cold north, the temperate middle and the tropics. Each has wood, dead leaves, soil and old stable soil, and each is cleared, farmed, logged and left to grow back as the records say.</p>
+<p>It goes with Chapter 9 of the book. It began as Scott Denning's EarthCarbon, a Shiny app his students have used for years, and was rebuilt in November 2026.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the data come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+<li><a href="#about-credits">Credits</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p><strong>"1. The past"</strong> runs the model from 1750 to 2024 and draws its carbon dioxide and warming beside the measurements. The table under it says where the carbon burned since 1850 went. The settings are in groups. <strong>The climate:</strong> how much the world warms for doubled carbon dioxide, and how much smog cools it. <strong>The ocean:</strong> how fast the warm surface mixes with the water below. <strong>The land:</strong> how much faster plants grow with more carbon dioxide, how much wood a forest can hold, how short of nitrogen plants are, how fast dead matter rots when it's warmer, how warming changes growth, and how much clearing and logging there was. <strong>The record:</strong> whether the world burned less than it reported.</p>
+<p><strong>"2. The future"</strong> carries on to 2100, 2300 or 3000 in six scenarios. <strong>"3. Where the carbon goes"</strong> follows the chosen scenario's carbon into the air, the ocean and the land. <strong>"4. The land sink"</strong> splits the land's uptake into its causes. The group called <strong>The future</strong> picks the scenario and the last year shown.</p>
+<p>Move over a graph, or select it and use the arrow keys, to read the numbers for one year. The line of text under it gives them. <span class="standalone-only">The address in your browser keeps your view and settings, so you can share them or come back to them.</span></p>
+<p class="standalone-only">The model goes with Chapter 9, "The One-Way Thermostat", of <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>The model answers one question each year: <strong>how much carbon is in the air, and how warm is it?</strong> You choose the settings in the groups and the scenario. Everything else comes from the records and the scenarios, and from fixed numbers that are listed in the code with where each came from.</p>
+
+<h4>Step 1. Where does this year's carbon go?</h4>
+<div class="eq" data-eq="air"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">C</mi></mrow><mo>=</mo><mi mathvariant="normal">E</mi><mo>−</mo><mi mathvariant="normal">O</mi><mo>−</mo><mi mathvariant="normal">L</mi></mrow></math></div>
+<p><var>C</var> is the carbon in the air, in billions of tonnes (GtC). <var>E</var> is the fossil carbon burned this year, <var>O</var> what the ocean takes up and <var>L</var> what the land takes up after clearing, all in GtC a year. Whatever the sinks don't take stays in the air. The carbon dioxide in the air in parts per million, <var>c</var>, is the carbon divided by 2.18&nbsp;GtC per ppm:</p>
+<div class="eq" data-eq="ppm"><math displaystyle="true"><mrow><mi mathvariant="normal">c</mi><mo>=</mo><mfrac><mi mathvariant="normal">C</mi><mn>2.18</mn></mfrac></mrow></math></div>
+
+<h4>Step 2. How hard does the air push on the climate?</h4>
+<div class="eq" data-eq="forcing"><math displaystyle="true"><mrow><mi mathvariant="normal">F</mi><mo>=</mo><mfrac><mrow><msub><mi mathvariant="normal">F</mi><mn>2×</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">c</mi><msub><mi mathvariant="normal">c</mi><mn>0</mn></msub></mfrac></mrow></mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mn>2</mn></mrow></mfrac><mo>+</mo><mi mathvariant="normal">a</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">F</mi><mi mathvariant="normal">s</mi></msub><mo>+</mo><msub><mi mathvariant="normal">F</mi><mi mathvariant="normal">o</mi></msub></mrow></math></div>
+<p><var>F</var> is the climate forcing, in W/m². Doubling carbon dioxide from its 1750 level, <var>c</var><sub>0</sub>, gives <var>F</var><sub>2×</sub>&nbsp;=&nbsp;3.93&nbsp;W/m², and each doubling after that the same again: that's why the logarithm. <var>a</var> is the smog setting, <var>F</var><sub>s</sub> smog's forcing and <var>F</var><sub>o</sub> everything else: methane, nitrous oxide, ozone, the Sun and volcanoes.</p>
+
+<h4>Step 3. How warm does it get?</h4>
+<div class="eq" data-eq="feedback"><math displaystyle="true"><mrow><mi mathvariant="normal">λ</mi><mo>=</mo><mfrac><msub><mi mathvariant="normal">F</mi><mn>2×</mn></msub><mi mathvariant="normal">S</mi></mfrac></mrow></math></div>
+<div class="eq" data-eq="balance"><math displaystyle="true"><mrow><mn>0.91</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">F</mi><mo>−</mo><mi mathvariant="normal">λ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">T</mi><mo stretchy="false">)</mo></mrow><mo>=</mo><mi mathvariant="normal">H</mi></mrow></math></div>
+<p><var>S</var> is the climate sensitivity you set, and <var>λ</var> (lambda) the heat the Earth sends to space for each degree it warms, in W/m² per °C. <var>T</var> is the warming. The Earth gains <var>F</var>&nbsp;−&nbsp;<var>λ</var><var>T</var>, and 91% of that goes into the ocean. <var>H</var> is the heat the ocean takes up this year, in W/m² of the whole Earth, and it depends on <var>T</var>, because the ocean's surface warms with the world. So the model finds the <var>T</var> that makes the two sides equal.</p>
+<p>The land warms faster than the sea, because the sea spends much of its energy evaporating water. The model's land warms 1.6&nbsp;times as much as the warm sea. The cold sea near the poles is under ice at first and warms only as the ice goes.</p>
+
+<h4>Step 4. How much carbon does the ocean take?</h4>
+<div class="eq" data-eq="gas"><math displaystyle="true"><mrow><mi mathvariant="normal">O</mi><mo>=</mo><mi mathvariant="normal">k</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">c</mi><mo>−</mo><mi mathvariant="normal">p</mi><mo stretchy="false">)</mo></mrow></mrow></math></div>
+<p>For each surface box, the carbon going in each year is a rate, <var>k</var>, times the difference between the carbon dioxide in the air, <var>c</var>, and the carbon dioxide the water holds up against it, <var>p</var>. Both are in ppm. <var>k</var> grows with the box's area, how fast gas crosses the surface and how well CO₂ dissolves in cold water.</p>
+<p>What sets <var>p</var> is chemistry. Most of the carbon in seawater isn't dissolved gas: it's bicarbonate and carbonate. As carbon is added, more of it stays as gas, so <var>p</var> rises faster than the carbon does. The model works this out with the constants every oceanographer uses. Water moves between the four boxes, sinking at the poles and rising again, and it carries the carbon, heat and nitrate with it. Plankton take carbon down as they sink. Warming makes the layers harder to mix, so less carbon goes down.</p>
+
+<h4>Step 5. How much does the land grow?</h4>
+<div class="eq" data-eq="co2growth"><math displaystyle="true"><mrow><mi mathvariant="normal">f</mi><mo>=</mo><mfrac><mfrac><mrow><mi mathvariant="normal">c</mi><mo>−</mo><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></msub></mrow><mrow><mi mathvariant="normal">c</mi><mo>+</mo><mi mathvariant="normal">h</mi></mrow></mfrac><mfrac><mrow><msub><mi mathvariant="normal">c</mi><mn>0</mn></msub><mo>−</mo><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></msub></mrow><mrow><msub><mi mathvariant="normal">c</mi><mn>0</mn></msub><mo>+</mo><mi mathvariant="normal">h</mi></mrow></mfrac></mfrac></mrow></math></div>
+<p><var>f</var> is how much faster plants grow at carbon dioxide <var>c</var> than at <var>c</var><sub>0</sub>. Below <var>c</var><sub>c</sub>&nbsp;=&nbsp;40&nbsp;ppm plants can't grow at all. The curve flattens as carbon dioxide rises; <var>h</var> sets how soon, and the model works it out from the fertilization you set. Then growth is held back by nitrogen when plants run short, and changed by warming along a bell curve that peaks at 25&nbsp;°C. The north grows faster as it warms; the tropics are near the top of the curve already.</p>
+
+<h4>Step 6. How fast does it rot?</h4>
+<div class="eq" data-eq="rot"><math displaystyle="true"><mrow><mi mathvariant="normal">r</mi><mo>=</mo><mfrac><msup><msub><mi mathvariant="normal">Q</mi><mn>10</mn></msub><mfrac><mi mathvariant="normal">T</mi><mn>10</mn></mfrac></msup><mi mathvariant="normal">τ</mi></mfrac></mrow></math></div>
+<div class="eq" data-eq="pool"><math displaystyle="true"><mrow><mi mathvariant="normal">P</mi><mo>=</mo><mfrac><mrow><msub><mi mathvariant="normal">P</mi><mn>0</mn></msub><mo>+</mo><mi mathvariant="normal">I</mi></mrow><mrow><mn>1</mn><mo>+</mo><mi mathvariant="normal">r</mi></mrow></mfrac></mrow></math></div>
+<p>Each pool of wood, dead leaves, soil and stable soil gains <var>I</var> a year from the pool before it and loses a share <var>r</var> of itself. <var>τ</var> (tau) is the pool's turnover time before any warming: about 40&nbsp;years for wood, a few years for dead leaves, decades for soil and thousands of years for stable soil. Warming speeds rot by <var>Q</var><sub>10</sub> for each 10&nbsp;°C. <var>P</var><sub>0</sub> is the pool last year and <var>P</var> this year. The loss is worked out from this year's pool, which keeps the model steady however short <var>τ</var> is.</p>
+
+<h4>Step 7. What is the land sink made of?</h4>
+<p>The model runs the land again four times, each with one cause held as it was in 1750: more carbon dioxide, warming, nitrogen from burning, and clearing and logging. The difference from the full run is that cause's share.</p>
+
+<h4>A worked example: from 2024 to 2025</h4>
+<p>With the page's opening settings, in the scenario SSP2-4.5:</p>
+<ol class="worked">
+<li>In 2024 the world burned 10.31&nbsp;GtC of fossil carbon.</li>
+<li>The ocean took up 3.38&nbsp;GtC and the land 1.31&nbsp;GtC.</li>
+<li>So the air gained 10.31&nbsp;−&nbsp;3.38&nbsp;−&nbsp;1.31&nbsp;=&nbsp;5.62&nbsp;GtC.</li>
+<li>Divided by 2.18&nbsp;GtC per ppm, that's 2.58&nbsp;ppm more carbon dioxide.</li>
+<li>Carbon dioxide went from 441.26&nbsp;ppm at the start of 2024 to 441.26&nbsp;+&nbsp;2.58&nbsp;=&nbsp;443.84&nbsp;ppm at the start of 2025. "2. The future" shows it for 2025, rounded to 443.8&nbsp;ppm.</li>
+</ol>
+<p>Some details. Carbon is in billions of tonnes of carbon, not of carbon dioxide: a tonne of carbon makes 3.67&nbsp;tonnes of CO₂. Warming is counted from 1850 to 1900. The model gives back a tiny share of the extra carbon in the air each year to the rocks, so slowly that it barely shows by 3000. It leaves out drought, fire, permafrost and any future change in farming.</p>
+
+<h3 id="about-try">See the equations at work</h3>
+<ul>
+<li>On "1. The past", set the land's CO₂ fertilization to 0. Carbon dioxide in 2024 rises by about 31&nbsp;ppm. Step 5: without it, the land's growth doesn't keep up with clearing.</li>
+<li>On "2. The future", choose SSP5-8.5 and the years up to 3000. Carbon dioxide in 3000 is still about 1,337&nbsp;ppm, five hundred years after the burning stopped. Step 4: the ocean is slow.</li>
+<li>On "4. The land sink", choose SSP1-2.6 and the years up to 2300. The land's uptake falls below zero by 2100. Step 7: each cause has stopped, and the nitrogen sink has turned around.</li>
+</ul>
+
+<h3 id="about-data">Where the data come from</h3>
+<p class="cite">Fossil emissions, and the ocean and land sinks the table compares with: the Global Carbon Budget 2025. Friedlingstein, P., and others (2026). Global Carbon Budget 2025. <em>Earth System Science Data</em> 18, 3211–3288. <a href="https://doi.org/10.5194/essd-18-3211-2026">doi:10.5194/essd-18-3211-2026</a>. CC BY 4.0.</p>
+<p class="cite">Measured carbon dioxide and the climate forcing of the past: Forster, P. M., and others (2025). Indicators of Global Climate Change 2024. <em>Earth System Science Data</em> 17, 2641–2680. <a href="https://doi.org/10.5194/essd-17-2641-2025">doi:10.5194/essd-17-2641-2025</a>. CC BY 4.0.</p>
+<p class="cite">Measured warming: HadCRUT.5.1.0.0. Morice, C. P., and others (2021). <em>Journal of Geophysical Research: Atmospheres</em> 126, e2019JD032361. <a href="https://doi.org/10.1029/2019JD032361">doi:10.1029/2019JD032361</a>. Contains public sector information licensed under the Open Government Licence v3.0.</p>
+<p class="cite">Clearing, farming and logging: LUH1. Hurtt, G. C., and others (2011). Harmonization of land-use scenarios for the period 1500–2100. <em>Climatic Change</em> 109, 117–161. <a href="https://doi.org/10.1007/s10584-011-0153-2">doi:10.1007/s10584-011-0153-2</a>. Data: Chini, Hurtt and Frolking (2014), ORNL DAAC, <a href="https://doi.org/10.3334/ORNLDAAC/1248">doi:10.3334/ORNLDAAC/1248</a>. After 2004, HYDE 3.3: Klein Goldewijk (2024), <a href="https://doi.org/10.24416/UU01-94FNH0">doi:10.24416/UU01-94FNH0</a>, CC BY 4.0.</p>
+<p class="cite">The scenarios: RCMIP. Nicholls, Z., and others (2020). Reduced Complexity Model Intercomparison Project Phase 1. <em>Geoscientific Model Development</em> 13, 5175–5190. <a href="https://doi.org/10.5194/gmd-13-5175-2020">doi:10.5194/gmd-13-5175-2020</a>. Their extensions after 2100: Meinshausen, M., and others (2020), <em>Geoscientific Model Development</em> 13, 3571–3605, <a href="https://doi.org/10.5194/gmd-13-3571-2020">doi:10.5194/gmd-13-3571-2020</a>. The page's file of scenarios is derived from RCMIP's data and shares its licence, CC BY-SA 4.0.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>The page's code is a line-by-line copy of a model written first in Python. The two give the same carbon dioxide and warming, to one part in a million, in eight runs to the year 3000 at very different settings. The Python model's ocean takes up 198&nbsp;GtC over 1850 to 2024, the Global Carbon Budget's 200. Its seawater chemistry agrees with PyCO2SYS, the standard program, to within 1.5%. Its land matches the measured split of the land's uptake between the north and the tropics, and the wood that satellites saw it gain since 2000. Its warming matches the measured record to within about 0.1&nbsp;°C a year on average since 1960.</p>
+
+<h3 id="about-code">The code</h3>
+<p>The model is in <code>model.js</code>: the steps above, in order. <code>app.js</code> is the page: the controls and the graphs.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code>, the science</summary><pre tabindex="0"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code>, the page</summary><pre tabindex="0"></pre></details>
+<p><a href="model.js" download>Download model.js</a> · <a href="app.js" download>Download app.js</a> · <a href="https://github.com/airscottdenning/climate-models/tree/main/earthcarbon">All of the model's code on GitHub</a></p>
+
+<h3 id="about-credits">Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>. The measurements are the work of the Global Carbon Project, the authors of the Indicators of Global Climate Change, the Met Office Hadley Centre and the Climatic Research Unit at the University of East Anglia, and the land-use teams of LUH and HYDE, who made this possible by sharing them.</p>
+<p>The model is Scott Denning's, and it began as a web app written in R. Claude, from Anthropic, rebuilt it with him, first in Python and then to run in your browser. The rebuild gave the model its four-box ocean, its energy balance in place of a fixed delay, and its land of three regions, in which each sink has its own reason to stop.</p>
+</section>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four Factors, One Atmosphere: The Kaya Identity and Economic Convergence</title>
+<meta name="description" content="Grow the world's population and income from 2025 to 2100, let poorer economies catch up, and choose how fast energy and carbon intensity fall. See the emissions, the CO2 in the air and the warming. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models</a></p>
+<h1>Four Factors, One Atmosphere: The Kaya Identity and Economic Convergence</h1>
+<p class="intro standalone-only">Billions of people are climbing out of poverty, and poorer economies can grow fast by catching up with richer ones. Their energy has to come from somewhere. Set how fast the world's economy uses energy more efficiently and how fast its energy gets cleaner, and see what the next 75 years do to the climate.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-climate" aria-controls="panel-climate" aria-selected="true">Climate</button>
+<button type="button" role="tab" id="tab-economy" aria-controls="panel-economy" aria-selected="false" tabindex="-1">Economy</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="The world economy">
+<div class="control">
+<label for="a">Energy intensity falls (% a year)</label>
+<div class="pair"><input type="range" id="a-range" min="0" max="3" step="0.1" aria-label="Energy intensity falls, slider"><input type="number" id="a" min="0" max="3" step="0.1"></div>
+<p class="hint">Using energy more efficiently: less energy for each dollar of income. From 2000 to 2024 it fell 0.9% a year.</p>
+</div>
+<div class="control">
+<label for="b">Carbon intensity falls (% a year)</label>
+<div class="pair"><input type="range" id="b-range" min="0" max="10" step="0.1" aria-label="Carbon intensity falls, slider"><input type="number" id="b" min="0" max="10" step="0.1"></div>
+<p class="hint">Cleaner energy: less carbon for each kilowatt-hour. From 2000 to 2024 it fell 0.3% a year.</p>
+</div>
+<div class="control">
+<label for="k">Catch-up growth (% a year for each halving of the gap)</label>
+<div class="pair"><input type="range" id="k-range" min="0" max="3" step="0.1" aria-label="Catch-up growth, slider"><input type="number" id="k" min="0" max="3" step="0.1"></div>
+<p class="hint">How much faster a poorer economy grows than the leader. Jeffrey Sachs's rule of thumb is 1.4.</p>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+<p><button type="button" id="pace">Set both to the 2000–2024 pace</button></p>
+</form>
+
+<div class="views">
+<section id="panel-climate" role="tabpanel" aria-labelledby="tab-climate" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="line trend"></span>Intensities falling at the 2000–2024 pace</li>
+<li><span class="line yours"></span>Your choices</li>
+</ul>
+<canvas id="climate" class="graph" tabindex="0" role="img" aria-label="Three graphs from 2025 to 2100: the world's carbon emissions from burning fossil fuels, the CO2 in the air and the warming since the late 1800s. Each shows two lines: one with energy and carbon intensity falling at their 2000 to 2024 pace, and one with your choices. The lines below give the numbers. With the graph selected, the left and right arrow keys move a year at a time, or ten years with Shift."></canvas>
+<p id="climate-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="climate-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</section>
+
+<section id="panel-economy" role="tabpanel" aria-labelledby="tab-economy" tabindex="0" hidden>
+<figure>
+<ul class="key">
+<li><span class="line world"></span>The world</li>
+<li><span class="line rich"></span>The richest tenth</li>
+<li><span class="line middle"></span>The middle eight tenths</li>
+<li><span class="line poor"></span>The poorest tenth</li>
+</ul>
+<canvas id="economy" class="graph" tabindex="0" role="img" aria-label="Four graphs from 2025 to 2100, with your choices: population, income per person, energy use and carbon emissions, for the world and for its richest tenth, middle eight tenths and poorest tenth of people. The lines below give the numbers. With the graph selected, the left and right arrow keys move a year at a time, or ten years with Shift."></canvas>
+<p id="economy-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="economy-summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</section>
+</div>
+</div>
+
+<div id="notes">
+<p class="note"><strong>Four factors.</strong> The Kaya identity of Chapter 11 says the carbon the world emits is its population, times income per person, times the energy used for each dollar, times the carbon emitted for each kilowatt-hour. This page grows the first two and lets you choose how fast the last two fall.</p>
+<p class="note"><strong>This is a very simple model.</strong> It has three groups of people, one rule for population, one for income and two falling intensities, and it counts only the carbon from burning fossil fuels. The About tab has every equation.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of the world's economy, its energy and its carbon emissions from 2025 to 2100. It's built on the <strong>Kaya identity</strong> of Chapter 11, "Economics of Fire": the carbon emitted is population, times income per person, times <strong>energy intensity</strong> (the energy used for each dollar of income), times <strong>carbon intensity</strong> (the carbon emitted for each kilowatt-hour of energy).</p>
+<p>The model splits the world's people into three groups: the richest tenth, the middle eight tenths and the poorest tenth. Each group's income grows by <strong>economic convergence</strong>: a poorer economy can grow fast by adopting technologies and practices that already exist, so the further behind it is, the faster it catches up. As incomes rise, families get smaller and population growth slows, as in the demographic transition of Chapter 11.</p>
+<p>That's good news for billions of people. But it means a much bigger world economy. On the page as it opens, the world's income grows from $96.9&nbsp;trillion a year in 2025 to $808&nbsp;trillion in 2100. If energy and carbon intensity keep falling only as fast as they did from 2000 to 2024, the emissions in 2100 are 33.9&nbsp;GtC a year, more than three times today's, and the warming reaches 5.0&nbsp;°C (9.0&nbsp;°F). The page opens with both falling faster than that: energy intensity 1.2% a year and carbon intensity 2% a year. Then the emissions peak at 12.1&nbsp;GtC a year in 2049, and the warming in 2100 is 3.0&nbsp;°C (5.4&nbsp;°F). The sliders are the way to do better still. Nothing says prosperity has to come from setting carbon on fire.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has two views of the same model. "Climate" has three graphs: the world's carbon emissions from burning fossil fuels, the CO₂ in the air and the warming since the late 1800s. Each graph has two lines. The gray line keeps energy and carbon intensity falling at their 2000–2024 pace, and the green line uses your choices. "Economy" has four graphs, all with your choices: population, income per person, energy use and emissions, for the world and for each of the three groups.</p>
+<p>You can change three things:</p>
+<ul>
+<li><strong>How fast energy intensity falls,</strong> from 0% to 3% a year. The page opens at 1.2%, faster than its pace of 0.9% a year from 2000 to 2024.</li>
+<li><strong>How fast carbon intensity falls,</strong> from 0% to 10% a year. The page opens at 2%, faster than its pace of 0.3% a year from 2000 to 2024.</li>
+<li><strong>Catch-up growth,</strong> from 0 to 3 percentage points a year for each halving of the gap to the leading economy. The page opens at 1.4. It changes both lines on "Climate".</li>
+</ul>
+<p>Move over a graph to read the numbers for one year. Or select the graph and press the left or right arrow key. The first press starts in 2050, and each press after it moves a year, or ten years with Shift. Below the graph, a few lines sum up 2100. "Back to where the page opened" puts every control back where it started, and "Set both to the 2000–2024 pace" sets the two intensity sliders to the gray line's paces.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 11, "Economics of Fire".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is a few short equations, and you can follow every one of them with a calculator.</p>
+<p>The model asks one question, over and over: <strong>what will the world look like next year?</strong> It works out each group's population and income for the next year from this year's, the two intensities for the next year, and the carbon emitted this year. Then it moves on a year and asks again, from 2025 to 2100.</p>
+<p>You choose three things:</p>
+<ul>
+<li><var>a</var>, how fast <strong>energy intensity</strong> falls, in % a year</li>
+<li><var>b</var>, how fast <strong>carbon intensity</strong> falls, in % a year</li>
+<li><var>k</var>, the <strong>catch-up growth</strong>: the extra growth, in percentage points a year, for each halving of the gap between a group's income and the leader's</li>
+</ul>
+<p>The model starts from the world as it was in 2024, the latest year for which all four Kaya factors have been measured:</p>
+<table class="symbols">
+<thead><tr><th scope="col">What</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row">People in the world</th><td>8.16&nbsp;billion</td></tr>
+<tr><th scope="row">Income per person, <var>y</var>: the richest tenth, the middle eight tenths and the poorest tenth, in 2015 US dollars a year</th><td>$30,000, $11,000 and $730</td></tr>
+<tr><th scope="row">The leader's income per person, <var>L</var>, in 2025</th><td>$60,000</td></tr>
+<tr><th scope="row">Energy intensity, <var>e</var><sub>0</sub>, in kWh for each dollar</th><td>1.83</td></tr>
+<tr><th scope="row">Carbon intensity, <var>c</var><sub>0</sub>, in kg of carbon for each kWh</th><td>0.0566</td></tr>
+<tr><th scope="row">CO₂ in the air, in 2025</th><td>426&nbsp;ppm</td></tr>
+<tr><th scope="row">Warming since the late 1800s, in 2025</th><td>1.4&nbsp;°C</td></tr>
+</tbody>
+</table>
+<p>Together the three groups' incomes add up to $96.9&nbsp;trillion a year, $11,873 for each person in the world. In the model's first year they use 638&nbsp;exajoules (EJ) of energy and emit 10.0&nbsp;GtC, a billion tonnes of carbon for each GtC.</p>
+
+<h4>1. How fast does each group's population grow?</h4>
+<p>The poorer a group, the faster its population grows. The model's rule is two straight lines that meet at an income of $20,000 a person. Below it, a group grows at</p>
+<div class="eq" data-eq="birth-poorer"><math displaystyle="true"><mrow><mi mathvariant="normal">r</mi><mo>=</mo><mn>0.3</mn><mo>+</mo><mn>1.25</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mfrac><mrow><mo stretchy="false">(</mo><mn>20,000</mn><mo>−</mo><mi mathvariant="normal">y</mi><mo stretchy="false">)</mo></mrow><mn>10,000</mn></mfrac></mrow></math></div>
+<p>percent a year, where <var>y</var> is the group's income per person. Above it, the group grows at</p>
+<div class="eq" data-eq="birth-richer"><math displaystyle="true"><mrow><mi mathvariant="normal">r</mi><mo>=</mo><mn>0.3</mn><mo>−</mo><mfrac><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">y</mi><mo>−</mo><mn>20,000</mn><mo stretchy="false">)</mo></mrow><mn>80,000</mn></mfrac></mrow></math></div>
+<p>percent a year, which falls below zero for incomes above $44,000. In a year, a group of <var>P</var> people gains</p>
+<div class="eq" data-eq="people"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">P</mi></mrow><mo>=</mo><mfrac><mi mathvariant="normal">r</mi><mn>100</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">P</mi></mrow></math></div>
+<p>people. In 2025, the poorest tenth grows at 2.7% a year, the middle eight tenths at 1.4% and the richest tenth at 0.2%. As incomes rise, each group's growth slows. That's the demographic transition: as children stop dying young, families choose to have fewer of them.</p>
+
+<h4>2. How rich is the leading economy?</h4>
+<p>The leader is the economy that has to invent its own growth, like the United States in Sachs's example. Its income per person, <var>n</var> years after 2025, is</p>
+<div class="eq" data-eq="leader"><math displaystyle="true"><mrow><mi mathvariant="normal">L</mi><mo>=</mo><mn>60,000</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mn>1.01</mn><mo stretchy="false">)</mo></mrow><mi mathvariant="normal">n</mi></msup></mrow></math></div>
+<p>dollars a year. It grows at 1% a year.</p>
+
+<h4>3. How fast does each group's income grow?</h4>
+<p>A group whose income is half the leader's grows 1.4 percentage points a year faster than the leader. One whose income is a quarter of the leader's grows another 1.4 points faster, and so on. That's Sachs's rule of thumb. With <var>k</var> for the 1.4, a group grows at</p>
+<div class="eq" data-eq="growth"><math displaystyle="true"><mrow><mi mathvariant="normal">g</mi><mo>=</mo><mn>1</mn><mo>+</mo><mi mathvariant="normal">k</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mfrac><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">L</mi><mo lspace="0" rspace="0">/</mo><mi mathvariant="normal">y</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mn>2</mn></mrow></mfrac></mrow></math></div>
+<p>percent a year. ln is the natural logarithm, and ln(<var>L</var>/<var>y</var>) ÷ ln&nbsp;2 is the number of times you'd have to halve the leader's income to get down to the group's. In a year, the group's income per person rises by</p>
+<div class="eq" data-eq="income"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">y</mi></mrow><mo>=</mo><mfrac><mi mathvariant="normal">g</mi><mn>100</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">y</mi></mrow></math></div>
+<p>dollars. The further behind a group is, the faster it grows, and the faster it closes the gap. As it closes the gap, its growth slows toward the leader's 1%.</p>
+
+<h4>4. How fast do the intensities fall?</h4>
+<p>Each falls by the same share every year, <var>a</var> or <var>b</var> percent. After <var>n</var> years, energy intensity is</p>
+<div class="eq" data-eq="energy-intensity"><math displaystyle="true"><mrow><mi mathvariant="normal">e</mi><mo>=</mo><msub><mi mathvariant="normal">e</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mfrac><mi mathvariant="normal">a</mi><mn>100</mn></mfrac><mo stretchy="false">)</mo></mrow><mi mathvariant="normal">n</mi></msup></mrow></math></div>
+<p>kWh for each dollar, and carbon intensity is</p>
+<div class="eq" data-eq="carbon-intensity"><math displaystyle="true"><mrow><mi mathvariant="normal">c</mi><mo>=</mo><msub><mi mathvariant="normal">c</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mfrac><mi mathvariant="normal">b</mi><mn>100</mn></mfrac><mo stretchy="false">)</mo></mrow><mi mathvariant="normal">n</mi></msup></mrow></math></div>
+<p>kg of carbon for each kWh. Every group has the same two intensities, the world's average.</p>
+
+<h4>5. How much carbon does each group emit?</h4>
+<p>This is the Kaya identity, for one group:</p>
+<div class="eq" data-eq="kaya"><math displaystyle="true"><mrow><mi mathvariant="normal">F</mi><mo>=</mo><mi mathvariant="normal">P</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">y</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">e</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">c</mi></mrow></math></div>
+<p>The units cancel, as Chapter 11 shows: people, times dollars a person a year, times kWh a dollar, times kg of carbon a kWh, is kg of carbon a year. Divide by 10<sup>12</sup>, the kilograms in a billion tonnes, to get GtC a year. The world's emissions are the three groups' added up. The same people, times income, times energy intensity gives the energy each group uses.</p>
+
+<h4>6. How much does the CO₂ in the air rise?</h4>
+<p>This is Box 9.2 of Chapter 9, "The One-Way Thermostat". Each GtC added to the air raises its CO₂ by 0.47&nbsp;ppm, and about half of what's emitted stays in the air. The land and the ocean take up the rest. So in a year when the world emits <var>F</var> GtC, the CO₂ rises by</p>
+<div class="eq" data-eq="co2"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">C</mi></mrow><mo>=</mo><mfrac><mrow><mn>0.47</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">F</mi></mrow><mn>2</mn></mfrac></mrow></math></div>
+<p>ppm.</p>
+
+<h4>7. How much warmer does it get?</h4>
+<p>Also from Box 9.2: along a path of emissions, warming grows in proportion to the carbon emitted. The book's teaching value is 2&nbsp;°C for every 1,000&nbsp;GtC. So if <var>S</var> GtC has been emitted since the start of 2025, the warming is</p>
+<div class="eq" data-eq="warming"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mn>1.4</mn><mo>+</mo><mfrac><mn>2</mn><mn>1,000</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">S</mi></mrow></math></div>
+<p>degrees Celsius. When emissions stop, <var>S</var> stops growing, and so does the warming.</p>
+
+<h4>Where the equations stop</h4>
+<p>This is a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>Only the carbon from burning fossil fuels.</strong> No cement, no forests and no other gases. The 1.4&nbsp;°C of 2025 includes all of them, and step 7 adds only what fossil carbon adds after that.</li>
+<li><strong>The CO₂ never comes down.</strong> When emissions fall to nearly zero, the real air's CO₂ would start to fall, as the land and the ocean go on taking it up (Chapter 9). Step 6 holds it where it is. The warming in step 7 doesn't depend on it.</li>
+<li><strong>Three groups, one world average.</strong> Real countries differ in how they use energy, and real incomes are spread across billions of people, not three groups. Every group here uses the world's average intensities.</li>
+<li><strong>Catching up isn't automatic.</strong> Sachs's rule assumes no poverty trap and no other barrier to growth. War, ill health, and a lack of roads, power or schools can hold a country back (Chapter 11). Set the catch-up growth to 0 to see a world where nobody catches up.</li>
+<li><strong>Population from income alone.</strong> The real demographic transition depends on health, education and opportunity, especially for women and girls. The two straight lines of step 1 are only a rough stand-in.</li>
+<li><strong>No feedback from the climate.</strong> The warming doesn't slow the economy, and the economy doesn't respond to it. A carbon price, or anything else that changes the intensities, enters only through the sliders.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the controls alone. Go to "Economy", select the graph and press the Home key, which puts you at 2025. Then press the right arrow key once, to 2026. The page says the middle eight tenths earn $11,487 a person. Here's where that comes from, and what the world emits in its first year.</p>
+<ol class="worked">
+<li><strong>The middle group's growth (step 3).</strong> <var>L</var>/<var>y</var> = 60,000 ÷ 11,000 = 5.4545. ln&nbsp;5.4545 = 1.6964, and ln&nbsp;2 = 0.6931, so the group is 1.6964 ÷ 0.6931 = 2.4476 halvings behind. <var>g</var> = 1 + 1.4 × 2.4476 = 4.43% a year.</li>
+<li><strong>The middle group's income in 2026 (step 3).</strong> Δ<var>y</var> = 0.0443 × 11,000 = 487&nbsp;dollars, so 11,000 + 487 = $11,487 a person.</li>
+<li><strong>The middle group's people (step 1).</strong> <var>r</var> = 0.3 + 1.25 × (20,000 − 11,000) ÷ 10,000 = 1.425% a year. The group is 0.8 × 8.16 = 6.528&nbsp;billion people, so Δ<var>P</var> = 0.01425 × 6.528 = 0.093&nbsp;billion.</li>
+<li><strong>The middle group's carbon in 2025 (step 5).</strong> <var>F</var> = 6.528&nbsp;billion × 11,000 × 1.83 × 0.0566 = 7.44 × 10<sup>12</sup>&nbsp;kg, or 7.44&nbsp;GtC. The richest tenth emits 2.54&nbsp;GtC and the poorest tenth 0.06, so the world emits 10.04&nbsp;GtC.</li>
+<li><strong>The CO₂ in 2026 (step 6).</strong> Δ<var>C</var> = 0.47 × 10.04 ÷ 2 = 2.36&nbsp;ppm, so 426 + 2.36 = 428.4&nbsp;ppm.</li>
+</ol>
+<p>Go to "Climate" and read 2026: the CO₂ is 428.4&nbsp;ppm, and the warming is 1.4 + 0.002 × 10.04 = 1.42&nbsp;°C.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Groups that keep their people.</strong> Each group is the people who were in it in 2025, and their children. A group whose population grows faster becomes a bigger share of the world, so by 2100 the group called the poorest tenth is more than a tenth of the world's people, and no longer the poorest if it has caught up.</li>
+<li><strong>A year at a time.</strong> The model grows everything once a year, from that year's numbers, so its growth compounds yearly.</li>
+<li><strong>Dollars.</strong> Incomes are in 2015 US dollars, converted at market exchange rates, as in Chapter 11's world data. That's how 1.83&nbsp;kWh a dollar fits the world's income and energy.</li>
+<li><strong>Exajoules.</strong> A kWh is 3.6&nbsp;million joules, and an exajoule is 10<sup>18</sup> joules.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Bigger and richer.</strong> On the page as it opens, look at "Economy". The poorest tenth's income grows from $730 a person to $46,412 by 2100, and the world's population peaks at 10.8&nbsp;billion in 2075. Chapter 11 gives the United Nations' projection: about 10.3&nbsp;billion in the 2080s. With more people and more income, the energy used each year grows from 638&nbsp;EJ to 2,154&nbsp;EJ.</li>
+<li><strong>Cleaner energy.</strong> Press "Set both to the 2000–2024 pace", then set carbon intensity to fall 5% a year. The emissions in 2050 are 6.0&nbsp;GtC instead of 20.0, and the warming in 2100 is 2.1&nbsp;°C instead of 5.0. Now set energy intensity to fall 2% a year as well, and the warming in 2100 is 1.95&nbsp;°C.</li>
+<li><strong>Efficiency alone isn't enough.</strong> Press "Set both to the 2000–2024 pace" and set energy intensity to fall 2% a year, but leave carbon intensity alone. The warming in 2100 is 3.7&nbsp;°C, and the emissions are still rising into the 2070s (step 5).</li>
+<li><strong>Nobody catches up.</strong> Press "Set both to the 2000–2024 pace" and set the catch-up growth to 0. The poorest tenth still earns only $1,540 a person in 2100, and its population never stops growing fast: the world has 18.5&nbsp;billion people by 2100 (step 1). Emissions are lower, and the warming in 2100 is 3.3&nbsp;°C, but it's a world of poverty.</li>
+<li><strong>Fast catching up.</strong> Now set the catch-up growth to 3. The world's population peaks at 9.5&nbsp;billion in 2053, and by 2100 it's down to 7.7&nbsp;billion. But at the 2000–2024 pace of the intensities, the warming in 2100 is 6.2&nbsp;°C. The richer the world gets, the more it matters how clean its energy is.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The world's people, income, energy use and fossil carbon in 2024 are the data behind Chapter 11's figure of the four Kaya factors: income (in 2015 US dollars) from the World Bank's World Development Indicators, and population, energy and carbon from Our World in Data's CO₂ data, which compiles the United Nations' population estimates, the Energy Institute's Statistical Review and the Global Carbon Budget. The paces from 2000 to 2024 come from the same data: energy intensity fell 0.9% a year, and carbon intensity 0.3%.</p>
+<p>The split into three groups follows Scott's first version of this model: the poorest tenth at $730 a person, about $2 a day, and the richest at $30,000. The middle eight tenths' $11,000 makes the world's total come out right. The CO₂ in 2025 is NOAA's global average, and the warming in 2025 is the 1.4&nbsp;°C of Chapter 1.</p>
+<p>The rule for catching up is Jeffrey Sachs's. He explains it with a table of countries at half, a quarter and an eighth of the income of the United States, each growing 1.4 percentage points a year faster than the one above:</p>
+<p class="cite">Sachs, J. D. (2015). <em>The Age of Sustainable Development</em>. Columbia University Press, pages 196–198 and Table 6.2.</p>
+<p>The CO₂ and warming steps are Box 9.2 of the book. Its 2&nbsp;°C for every 1,000&nbsp;GtC is a round teaching value inside the range the IPCC assessed:</p>
+<p class="cite">IPCC (2021). Summary for Policymakers. In <em>Climate Change 2021: The Physical Science Basis</em>. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. Cambridge University Press. <a href="https://doi.org/10.1017/9781009157896.001">doi:10.1017/9781009157896.001</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the equations written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
+<li><strong>The model, against its first version.</strong> Scott's first version of this model was a web app written in R. The tests rerun its rule for income with a second copy and get the app's incomes to within a billionth, year by year. This page changed three things in it, listed in the model's README: its starting year and numbers, a jump in its rule for population at $20,000, and the way it turned CO₂ into warming.</li>
+<li><strong>The model, against the data.</strong> In its first year, the model's people, income, energy and carbon match Chapter 11's 2024 data to within 1%.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the seven steps, and the loop that runs them from 2025 to 2100.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graphs and the lines under them.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/kaya">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The model is Scott Denning's, and it began as a web app written in R. Claude, from Anthropic, rebuilt it to run in your browser, brought its starting numbers up to 2024, and checked it against that app and against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
