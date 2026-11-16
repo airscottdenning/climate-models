@@ -123,7 +123,7 @@
 <canvas id="energy-now" class="arrows" role="img" aria-label="Broad arrows for the flows of energy at the ground's surface at the moment being read. Each arrow points the way its energy flows: Sunlight and Earthlight down from the sky come down into the surface, Earthlight up leaves it, and the arrows for the air, the water vapor and the soil point up or down as the heat flows. The soil's arrow is under the surface. The numbers over the arrows and the table under them give the same numbers."></canvas>
 <div class="moment"><label for="moment">Time of day</label><input type="range" id="moment" min="0" max="95" step="1" value="48"><output id="moment-time" for="moment">midnight</output></div>
 <p id="energy-readout" class="readout" aria-live="polite"></p>
-<table id="day-budget" class="budget">
+<table id="day-budget" class="budget advanced-only">
 <caption>The surface at <span id="budget-time"></span>, for one minute</caption>
 <tbody>
 <tr class="advanced-only"><th scope="row">The surface's temperature, <var>T</var><sub>1</sub></th><td id="budget-t1"></td></tr>
@@ -362,7 +362,7 @@
 <p>Nothing flows out of the bottom of the lowest layer. The model works out every flow from the temperatures at the start of the step, and only then changes the temperatures.</p>
 
 <h3 id="physics-example">A worked example</h3>
-<p>Leave the controls as the page opens them, and open the "Energy" tab. Select the graph and press the right arrow key once, which puts you at midnight. Then hold Shift and press the right arrow key once more. You're at 1:00&nbsp;a.m., and the table under the graph says the surface is at 282.566&nbsp;K, the layer under it is at 283.400&nbsp;K and the air 10&nbsp;m up is at 284.030&nbsp;K.</p>
+<p>Leave the controls as the page opens them, and open the "Energy" tab. Move the time slider under the arrows to 1:00&nbsp;a.m. (or select the graph at the bottom, press the right arrow key once for midnight, then hold Shift and press it once more). The table under the arrows says the surface is at 282.566&nbsp;K, the layer under it is at 283.400&nbsp;K and the air 10&nbsp;m up is at 284.030&nbsp;K.</p>
 <ol class="worked">
 <li><strong>Sunlight (step 1).</strong> The table says 0 at 1&nbsp;a.m.: the Sun is down, so <var>Q</var> is 0.</li>
 <li><strong>The air and the wind (step 2).</strong> The table says 10.9&nbsp;°C at 1&nbsp;a.m.; to two places it's 10.88&nbsp;°C, so <var>T</var><sub>a</sub> = 10.88 + 273.15 = 284.03&nbsp;K. The wind is <var>U</var> = 1 × 3.86 = 3.86&nbsp;m/s.</li>
@@ -374,7 +374,7 @@
 <li><strong>What's left over (step 8).</strong> 0 + 273.6 − 361.5 − (−15.5) − 0 − (−69.5) = −2.9&nbsp;W/m².</li>
 <li><strong>The cooling (step 8).</strong> Δ<var>T</var><sub>1</sub> = 60 × (−2.9) ÷ (2,000,000 × 0.01) = −0.009&nbsp;K.</li>
 </ol>
-<p>Those are the numbers in the table under the graph. The surface emits 361&nbsp;W/m². The sky gives back 274 of it, the soil 70 and the air 15. What's left cools the surface by 0.009&nbsp;K in the next minute.</p>
+<p>Those are the numbers in the table under the arrows. The surface emits 361&nbsp;W/m². The sky gives back 274 of it, the soil 70 and the air 15. What's left cools the surface by 0.009&nbsp;K in the next minute.</p>
 
 <h3 id="physics-limits">Where the equations stop</h3>
 <p>This is a toy, and it leaves a lot out.</p>

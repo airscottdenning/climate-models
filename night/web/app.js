@@ -479,22 +479,29 @@
   var COLD = [33, 102, 172], MIDDLE = [242, 242, 242], WARM = [178, 24, 43];
   var MAP_DEPTH = 50;    // cm: the heat map stops here, where the day's swing is nearly gone
   function mix(p, q, f) { return p.map(function (v, i) { return Math.round(v + (q[i] - v) * f); }); }
-  function shade(f) {    // f from −1 (coldest) to 1 (warmest)
-    var rgb = f < 0 ? mix(MIDDLE, COLD, -f) : mix(MIDDLE, WARM, f);
-    return 'rgb(' + rgb.join(',') + ')';
-  }
+  function rgbOf(f) { return f < 0 ? mix(MIDDLE, COLD, -f) : mix(MIDDLE, WARM, f); }    // f from −1 to 1
+  function shade(f) { return 'rgb(' + rgbOf(f).join(',') + ')'; }
 
-  /* The soil's temperature at a depth (in meters) at a step: straight lines between the middles of the layers,
-   * and the top layer's temperature above its middle. */
-  function soilAt(now, depths, meters, k) {
-    if (meters <= depths[0]) return now.T[0][k];
-    for (var i = 1; i < depths.length; i++) {
-      if (meters <= depths[i]) {
-        var f = (meters - depths[i - 1]) / (depths[i] - depths[i - 1]);
-        return now.T[i - 1][k] + f * (now.T[i][k] - now.T[i - 1][k]);
-      }
+  /* Slopes for a smooth curve through points (xs, ys) that never overshoots them: the Fritsch–Carlson
+   * monotone cubic. Between two points the curve can't go above or below both, so no false warm or cold
+   * spots appear between the layers. */
+  function smoothSlopes(xs, ys) {
+    var count = xs.length, gaps = [], secants = [], slopes = [], i;
+    for (i = 0; i < count - 1; i++) { gaps.push(xs[i + 1] - xs[i]); secants.push((ys[i + 1] - ys[i]) / gaps[i]); }
+    slopes.push(secants[0]);
+    for (i = 1; i < count - 1; i++) {
+      if (secants[i - 1] * secants[i] <= 0) { slopes.push(0); continue; }
+      var w1 = 2 * gaps[i] + gaps[i - 1], w2 = gaps[i] + 2 * gaps[i - 1];
+      slopes.push((w1 + w2) / (w1 / secants[i - 1] + w2 / secants[i]));
     }
-    return now.T[depths.length - 1][k];
+    slopes.push(secants[count - 2]);
+    return slopes;
+  }
+  /* The curve's value at x, inside the segment that starts at point i. */
+  function smoothAt(xs, ys, slopes, i, x) {
+    var h = xs[i + 1] - xs[i], t = (x - xs[i]) / h, t2 = t * t, t3 = t2 * t;
+    return (2 * t3 - 3 * t2 + 1) * ys[i] + (t3 - 2 * t2 + t) * h * slopes[i] +
+      (-2 * t3 + 3 * t2) * ys[i + 1] + (t3 - t2) * h * slopes[i + 1];
   }
 
   /* A heat map of the soil: the time of day across, the depth down, and the temperature as color, in bands. */
@@ -506,22 +513,42 @@
     now.T.forEach(function (line) { for (var j = 0; j < n; j++) { total += line[j]; count++; } });
     var mean = total / count;
     var lowest = Math.min.apply(null, now.T[0]), highest = Math.max.apply(null, now.T[0]);
-    // Bands of a round width in the page's units, about a dozen across the day's range at the surface.
+    // Bands of a round width in the page's units, about 15 to 20 across the day's range at the surface.
     var shownLow = toUnits(lowest), shownHigh = toUnits(highest);
-    var band = roundGap(Math.max(shownHigh - shownLow, 1), 12);
+    var band = roundGap(Math.max(shownHigh - shownLow, 1), 20);
     var reach = Math.max(toUnits(highest) - toUnits(mean), toUnits(mean) - toUnits(lowest), band);
     function bandOf(kelvin) { return Math.floor(toUnits(kelvin) / band); }
     function colorOf(index) { return shade(clamp(((index + 0.5) * band - toUnits(mean)) / reach, -1, 1)); }
     function py(cm) { return y1 + cm / MAP_DEPTH * (y0 - y1); }
-    // One cell for each quarter of an hour and each centimeter, filled with its band's color.
-    var columns = QUARTERS, rows = MAP_DEPTH, width = (x1 - x0) / columns, height = (y0 - y1) / rows;
-    for (var q = 0; q < columns; q++) {
-      var k = Math.round(moment(q + 0.5)) % n;
-      for (var r = 0; r < rows; r++) {
-        ctx.fillStyle = colorOf(bandOf(soilAt(now, depths, (r + 0.5) / 100, k)));
-        ctx.fillRect(x0 + q * width, y1 + r * height, width + 0.6, height + 0.6);
+    // Every pixel gets its own temperature, so the bands' edges are smooth. Across, the time is a straight
+    // line between the model's one-minute steps. Down, a smooth curve runs through the middles of the layers;
+    // above the top layer's middle the temperature is the top layer's.
+    var ratio = window.devicePixelRatio || 1;
+    var left = Math.round(x0 * ratio), top = Math.round(y1 * ratio);
+    var wide = Math.round(x1 * ratio) - left, tall = Math.round(y0 * ratio) - top;
+    var image = ctx.createImageData(wide, tall), pixels = image.data;
+    var rows = [], at = 0, row, col;
+    for (row = 0; row < tall; row++) {
+      var meters = (row + 0.5) / tall * MAP_DEPTH / 100;
+      while (at < depths.length - 2 && meters > depths[at + 1]) at++;
+      rows.push({ meters: meters, segment: at, above: meters <= depths[0] });
+    }
+    var palette = {};
+    for (col = 0; col < wide; col++) {
+      var step = (col + 0.5) / wide * n, k0 = Math.floor(step), f = step - k0;
+      var k1 = k0 + 1 >= n ? (now.once ? n - 1 : 0) : k0 + 1;
+      var ys = now.T.map(function (line) { return line[k0] + f * (line[k1] - line[k0]); });
+      var slopes = smoothSlopes(depths, ys);
+      for (row = 0; row < tall; row++) {
+        var spot = rows[row];
+        var kelvin = spot.above ? ys[0] : smoothAt(depths, ys, slopes, spot.segment, spot.meters);
+        var index = bandOf(kelvin);
+        var rgb = palette[index] || (palette[index] = rgbOf(clamp(((index + 0.5) * band - toUnits(mean)) / reach, -1, 1)));
+        var p = 4 * (row * wide + col);
+        pixels[p] = rgb[0]; pixels[p + 1] = rgb[1]; pixels[p + 2] = rgb[2]; pixels[p + 3] = 255;
       }
     }
+    ctx.putImageData(image, left, top);
     // Axes: the time of day along the bottom, the depth down the side.
     ctx.lineWidth = 1;
     for (var cm = 0; cm <= MAP_DEPTH; cm += 10) {
