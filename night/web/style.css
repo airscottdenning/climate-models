@@ -81,7 +81,11 @@ a:focus-visible, summary:focus-visible, pre:focus-visible, .scroll:focus-visible
 figure { margin: 0; min-width: 0; }
 canvas { display: block; width: 100%; background: #ffffff; border: 1px solid #d9d4c7; border-radius: 0.5rem; }
 canvas.graph { height: 26rem; cursor: crosshair; touch-action: pan-y; }
-canvas.bars { height: 15rem; margin-top: 0.8rem; }
+canvas.arrows { height: 28rem; max-width: 46rem; }
+#soil-map { margin-top: 0.8rem; }
+.moment { display: flex; align-items: center; gap: 0.7rem; max-width: 46rem; margin: 0.5rem 0 0; font-size: 0.95rem; }
+.moment input { flex: 1; }
+.moment output { min-width: 6.5rem; font-variant-numeric: tabular-nums; color: #152e3d; }
 canvas.profile { height: 22rem; margin-top: 0.8rem; max-width: 34rem; }
 @media (max-width: 760px) { canvas.graph { height: 21rem; } }
 .views { min-width: 0; }

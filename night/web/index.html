@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Surviving the Night: Dirt, Air and the Glow of the Sky</title>
+<title>Earthlight from the Sky</title>
 <meta name="description" content="Follow the temperature of the ground through a clear day and night. Turn down the Earthlight that comes from the sky, for a night or a whole day, and see how cold the ground gets. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
 <p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Toy Models</a></p>
-<h1>Surviving the Night: Dirt, Air and the Glow of the Sky</h1>
+<h1>Earthlight from the Sky</h1>
 <div class="top">
 <div class="top-words">
 <p class="intro standalone-only">After sunset, the ground keeps glowing in the infrared, and it cools. What keeps it from freezing solid by morning? Not the warm air: on a clear night the air near the ground goes still. Turn down the Earthlight that comes down from the sky and see.</p>
@@ -120,17 +120,8 @@
 
 <section id="panel-energy" role="tabpanel" aria-labelledby="tab-energy" tabindex="0" hidden>
 <h2>Where does the ground's energy come from, and where does it go?</h2>
-<fieldset id="energy-lines" class="switches">
-<legend>Lines on the graph</legend>
-<label><input type="checkbox" value="sun"><span class="line sun"></span>Sunlight</label>
-<label><input type="checkbox" value="sky"><span class="line sky"></span>Earthlight from the sky</label>
-<label><input type="checkbox" value="glow"><span class="line glow"></span>The ground's own glow</label>
-<label><input type="checkbox" value="air"><span class="line stir"></span>Heat from the air</label>
-<label><input type="checkbox" value="vapor"><span class="line vapor"></span>Heat into water vapor</label>
-<label><input type="checkbox" value="soil"><span class="line below"></span>Heat from the soil</label>
-</fieldset>
-<canvas id="energy-graph" class="graph" tabindex="0" role="img" aria-label="A graph of one clear day and night, from noon to the next noon, of the flows of energy at the ground's surface, each counted as energy coming in: Sunlight, Earthlight from the sky, the ground's own glow, heat from the air, heat into water vapor and heat from the soil. The bars and the table under it give the numbers for one moment. With the graph selected, the left and right arrow keys move through the day."></canvas>
-<canvas id="energy-now" class="bars" role="img" aria-label="Bars for the flows of energy at the ground's surface at the moment being read: what comes in to the right, what goes out to the left. The table under it gives the same numbers."></canvas>
+<canvas id="energy-now" class="arrows" role="img" aria-label="Broad arrows for the flows of energy at the ground's surface at the moment being read. Each arrow points the way its energy flows: Sunlight and Earthlight down from the sky come down into the surface, Earthlight up leaves it, and the arrows for the air, the water vapor and the soil point up or down as the heat flows. The soil's arrow is under the surface. The numbers over the arrows and the table under them give the same numbers."></canvas>
+<div class="moment"><label for="moment">Time of day</label><input type="range" id="moment" min="0" max="95" step="1" value="48"><output id="moment-time" for="moment">midnight</output></div>
 <p id="energy-readout" class="readout" aria-live="polite"></p>
 <table id="day-budget" class="budget">
 <caption>The surface at <span id="budget-time"></span>, for one minute</caption>
@@ -151,6 +142,16 @@
 <tr class="result"><th scope="row">The surface's warming in this minute<span class="advanced-only">, Δ<var>T</var><sub>1</sub></span></th><td id="budget-warming"></td></tr>
 </tbody>
 </table>
+<fieldset id="energy-lines" class="switches">
+<legend>Lines on the graph</legend>
+<label><input type="checkbox" value="sun"><span class="line sun"></span>Sunlight</label>
+<label><input type="checkbox" value="sky"><span class="line sky"></span>Earthlight down</label>
+<label><input type="checkbox" value="glow"><span class="line glow"></span>Earthlight up</label>
+<label><input type="checkbox" value="air"><span class="line stir"></span>Heat from the air</label>
+<label><input type="checkbox" value="vapor"><span class="line vapor"></span>Heat into water vapor</label>
+<label><input type="checkbox" value="soil"><span class="line below"></span>Heat from the soil</label>
+</fieldset>
+<canvas id="energy-graph" class="graph" tabindex="0" role="img" aria-label="A graph of one clear day and night, from noon to the next noon, of the flows of energy at the ground's surface, each counted as energy coming in: Sunlight, Earthlight down from the sky, Earthlight up from the ground, heat from the air, heat into water vapor and heat from the soil. The arrows and the table above it give the numbers for one moment. With the graph selected, the left and right arrow keys move through the day."></canvas>
 </section>
 
 <section id="panel-soil" role="tabpanel" aria-labelledby="tab-soil" tabindex="0" hidden>
@@ -162,6 +163,7 @@
 <li><span class="line cm29"></span>29&nbsp;cm down</li>
 </ul>
 <canvas id="soil-graph" class="graph" tabindex="0" role="img" aria-label="A graph of one clear day and night, from noon to the next noon, of the soil's temperature at the surface and 3, 9 and 29 centimeters down. The words under it give the numbers. With the graph selected, the left and right arrow keys move through the day."></canvas>
+<canvas id="soil-map" class="graph" tabindex="0" role="img" aria-label="A heat map of the soil from one noon to the next: the time of day across, the depth down to 50 centimeters, and the temperature as color, in bands. Blue is colder than the soil's average over the day and red is warmer. The key at the right gives each band's temperatures. With the map selected, the left and right arrow keys move through the day."></canvas>
 <canvas id="soil-now" class="profile" role="img" aria-label="The soil's temperature against depth, down to 1 meter, at the moment being read, inside the range each depth covers over the day. The words under it give the numbers."></canvas>
 <p id="soil-readout" class="readout" aria-live="polite"></p>
 </section>
@@ -192,8 +194,8 @@
 <p>Each graph follows a patch of grassland from one noon to the next, with the night shaded in the middle. There are three:</p>
 <ul>
 <li><strong>"Temperatures"</strong> is what you'd feel standing there: how warm the ground is, and the air 10&nbsp;m up. The dots are the ground's temperature measured at a real weather station on clear days like this one, so you can see how close the model gets.</li>
-<li><strong>"Energy"</strong> shows each way energy comes into the ground's surface or leaves it. Tick the boxes above the graph to show or hide each line. The bars under it take one moment apart: energy coming in to the right, energy going out to the left.</li>
-<li><strong>"Soil"</strong> shows the day's warmth soaking down into the soil and coming back up at night. The second graph is the soil at one moment, from the surface down to a meter.</li>
+<li><strong>"Energy"</strong> shows each way energy comes into the ground's surface or leaves it. Tick the boxes above the graph to show or hide each line. Above them, broad arrows take one moment apart: each points the way its energy flows, down into the ground or up out of it. Move the time slider, or the graph, to move through the day.</li>
+<li><strong>"Soil"</strong> shows the day's warmth soaking down into the soil and coming back up at night. Under it, a heat map shows the same day in color: the time of day across, the depth down, blue where the soil is colder than its average and red where it's warmer. The last graph is the soil at one moment, from the surface down to a meter.</li>
 </ul>
 <p>You can change two things:</p>
 <ul>

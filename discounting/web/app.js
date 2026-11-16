@@ -7,7 +7,7 @@
   var VIEWS = ['damage', 'about'];
   // What the page shows when the address says nothing: the example in Box 14.1 of the book. Rates are in
   // percent a year, as on the controls; model.js gets them as fractions.
-  var DEFAULTS = { view: 'damage', cool: 2.5, penalty: 0.01, disc: 4.5, income: 100, years: 100 };
+  var DEFAULTS = { view: 'damage', cool: 2.5, penalty: 0.01, disc: 4.5, income: 10000, years: 100 };
   var PLACES = { cool: 1, penalty: 2, disc: 1, income: 0, years: 0 };   // decimal places on each control
   var INK = '#152e3d', SPINE = '#87959e', TICK = '#394b57', GRID = '#e7edf0';
   var COOL = '#0072b2', HOT = '#d55e00', DAMAGE = '#7a4a14', VALUE = '#00795a';
@@ -27,13 +27,12 @@
     return x.toLocaleString('en-US', { minimumFractionDigits: places, maximumFractionDigits: places });
   }
 
-  /* An amount of money, from trillions of dollars: $1,218 trillion, $14.8 trillion, $183 billion. */
-  function money(trillions) {
-    var size = Math.abs(trillions);
-    if (size >= 999.95) return '$' + commas(trillions, 0) + NB + 'trillion';
-    if (size >= 0.9995) return '$' + commas(trillions, 1) + NB + 'trillion';
-    var billions = trillions * 1000;
-    return '$' + commas(billions, Math.abs(billions) >= 99.95 ? 0 : 1) + NB + 'billion';
+  /* An amount of money, from dollars: $121,825, $1,481, $18.35, $3.3 million, $1.2 billion. */
+  function money(dollars) {
+    var size = Math.abs(dollars);
+    if (size >= 999.95e6) return '$' + commas(dollars / 1e9, 1) + NB + 'billion';
+    if (size >= 999950) return '$' + commas(dollars / 1e6, 1) + NB + 'million';
+    return '$' + commas(dollars, size >= 99.995 ? 0 : 2);
   }
 
   function percent(x, places) { return commas(x, places) + '%'; }
@@ -117,18 +116,21 @@
     return '$' + commas(value, places);
   }
 
-  /* A graph's scale: in billions when everything in it is under $1 trillion, with `room` to spare above. */
+  /* A graph's scale, with `room` to spare above: in dollars, or in millions or billions of dollars when the
+   * numbers in it get that big. */
   function scaleOf(group, room) {
     var high = 0;
     group.forEach(function (values) { values.forEach(function (v) { high = Math.max(high, v); }); });
-    var billions = high < 1, scale = billions ? 1000 : 1;
+    var scale = high >= 1e9 ? 1e-9 : high >= 1e6 ? 1e-6 : 1;
+    var unit = scale === 1 ? 'dollars' : scale === 1e-6 ? 'million dollars' : 'billion dollars';
     high = Math.max(high * scale * room, 1e-9);
     var gap = roundGap(high, 4);
-    return { billions: billions, scale: scale, gap: gap, ceiling: Math.ceil(high / gap - 1e-9) * gap };
+    return { unit: unit, scale: scale, gap: gap, ceiling: Math.ceil(high / gap - 1e-9) * gap };
   }
 
-  /* Three graphs that share the years along the bottom: the two incomes, the damage each year, and the
-   * damage each year valued today. They're three graphs because the three are of very different sizes. */
+  /* Three graphs that share the years along the bottom: income per person in the two worlds, the damage each
+   * year, and the damage each year valued today. They're three graphs because the three are of very different
+   * sizes. */
   function drawDamage(run) {
     var c = prepare($('damage')), ctx = c.ctx, narrow = c.w < 560;
     var groups = [[run.gCool, run.gHot], [run.damage], [run.value]];
@@ -153,7 +155,7 @@
     /* One graph: its frame, grid, labels and lines, on the scale worked out for it above. */
     function panel(index, title, series, options) {
       var y1 = top + index * (each + between), y0 = y1 + each;
-      var sc = scales[index], billions = sc.billions, scale = sc.scale, gap = sc.gap, ceiling = sc.ceiling;
+      var sc = scales[index], scale = sc.scale, gap = sc.gap, ceiling = sc.ceiling;
       function py(v) { return y0 - v * scale / ceiling * (y0 - y1); }
       ctx.lineWidth = 1;
       for (var v = 0; v <= ceiling + gap / 2; v += gap) {
@@ -167,7 +169,7 @@
         line(px(year), y0, px(year), y0 + 5, SPINE);
         text(ctx, String(year), px(year), y0 + 18, { align: 'center' });
       }
-      text(ctx, title + (billions ? ' (billion dollars' : ' (trillion dollars') + (options.perYear ? ' a year)' : ')'),
+      text(ctx, title + ' (' + sc.unit + (options.perYear ? ' a year)' : ')'),
         narrow ? 4 : x0, y1 - 14, { bold: true, color: INK });
       ctx.save(); ctx.beginPath(); ctx.rect(x0, y1 - 2, x1 - x0, y0 - y1 + 2); ctx.clip();
       if (options.fill) {
@@ -188,13 +190,14 @@
       return py;
     }
 
-    var pyIncome = panel(0, 'World income', [
+    var pyIncome = panel(0, 'Income per person', [
       { values: run.gCool, color: COOL }, { values: run.gHot, color: HOT }
     ], { perYear: true, fill: { under: run.gCool, over: run.gHot, color: 'rgba(213, 94, 0, 0.25)' } });
-    var pyDamage = panel(1, 'Damage each year', [{ values: run.damage, color: DAMAGE }], { perYear: true });
-    var pyValue = panel(2, 'Damage each year, valued today', [{ values: run.value, color: VALUE }], {
+    var pyDamage = panel(1, 'Damage per person each year', [{ values: run.damage, color: DAMAGE }],
+      { perYear: true });
+    var pyValue = panel(2, 'Damage per person each year, valued today', [{ values: run.value, color: VALUE }], {
       fill: { under: run.value, color: 'rgba(0, 121, 90, 0.18)' },
-      note: 'Shaded area: ' + money(run.discounted).replace(NB, ' ') + ' today'
+      note: 'Shaded area: ' + money(run.discounted).replace(NB, ' ') + ' a person today'
     });
     text(ctx, 'Years from now', (x0 + x1) / 2, c.h - 6, { align: 'center', color: INK });
 
@@ -218,19 +221,19 @@
   function readout(run) {
     if (cursor === null) return 'Move over the graph, or select it and use the arrow keys, to read values.';
     var t = Math.min(cursor, run.years);
-    return 'In year ' + t + ', the cooler world\'s income is ' + money(run.gCool[t]) + ' a year and the hotter ' +
-      'world\'s is ' + money(run.gHot[t]) + '. The damage that year is ' + money(run.damage[t]) + ', worth ' +
-      money(run.value[t]) + ' today. The damage from now to year ' + t + ', valued today, adds up to ' +
-      money(run.soFar[t]) + '.';
+    return 'In year ' + t + ', income per person is ' + money(run.gCool[t]) + ' a year in the cooler world and ' +
+      money(run.gHot[t]) + ' in the hotter one. The damage that year is ' + money(run.damage[t]) +
+      ' a person, worth ' + money(run.value[t]) + ' today. The damage from now to year ' + t +
+      ', valued today, adds up to ' + money(run.soFar[t]) + ' a person.';
   }
 
   function summary(run) {
     var T = run.years;
-    return 'In ' + T + ' years the cooler world\'s income is ' + money(run.gCool[T]) + ' a year and the hotter ' +
-      'world\'s is ' + money(run.gHot[T]) + ', ' + percent(run.lastShortfall * 100, 1) + ' lower. Added up over ' +
-      'the ' + T + ' years, the hotter world loses ' + money(run.notDiscounted) + ', not discounted. Discounted at ' +
-      percent(state.disc, 1) + ' a year, that damage is worth ' + money(run.discounted) + ' today. It would pay ' +
-      'to spend up to that much this year to avoid it.';
+    return 'In ' + T + ' years, income per person is ' + money(run.gCool[T]) + ' a year in the cooler world and ' +
+      money(run.gHot[T]) + ' in the hotter one, ' + percent(run.lastShortfall * 100, 1) + ' lower. Added up over ' +
+      'the ' + T + ' years, the hotter world loses ' + money(run.notDiscounted) + ' a person, not discounted. ' +
+      'Discounted at ' + percent(state.disc, 1) + ' a year, that damage is worth ' + money(run.discounted) +
+      ' a person today. It would pay to spend up to that much a person this year to avoid it.';
   }
 
   /* Change the words only when they're different, so a screen reader isn't told the same thing twice. */

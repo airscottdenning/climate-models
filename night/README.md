@@ -1,4 +1,4 @@
-# Surviving the Night: Dirt, Air and the Glow of the Sky
+# Earthlight from the Sky
 
 A page for teaching why a clear night on Earth isn't bitterly cold. The ground glows in the infrared all night and cools. The soil gives back some of the day's heat. The warm air hardly helps, because the air next to cold ground goes still. What saves the night is the Earthlight that comes down from the sky. The reader turns that down, for every night or for one night only, and watches the ground under a grassland through a day and a night. With the sky's glow gone for one night, the ground goes from 17.6 °C at sunset to −21.7 °C at sunrise; with the sky as measured, it ends the night at 6.8 °C. It goes with Chapter 2 (Box 2.2 asks how cold the ground would get in one night if its own glow were its only energy transfer) and Chapter 3.
 
@@ -34,8 +34,8 @@ The model is physics-heavy, so the page has two views of it (Scott, 14 November 
 | Tab | Simple | Advanced | What it shows |
 |---|---|---|---|
 | Temperatures | yes | yes | What the day and night feel like: the ground and the air 10 m up, with the station's measured ground temperature as dots, and three tiles (the ground at sunset and sunrise, the air at sunrise) |
-| Energy | yes | yes | The flows of energy at the surface over the day, each line switched on or off by the reader, and bars for one moment. Advanced adds T₁, T₂, Tₐ, U, Ri and f to the table under it, which the worked example uses |
-| Soil | yes | yes | The soil at the surface and 3, 9 and 29 cm down over the day, and the whole column at one moment inside the day's range |
+| Energy | yes | yes | At the top, broad arrows for one moment, each pointing the way its energy flows (Sunlight and "Earthlight down" into the surface, "Earthlight up" out of it, the air's, the water vapor's and the soil's up or down as the heat flows; the soil's under the surface), with a time slider that moves the same moment as the graphs. Then the table for that moment (Advanced adds T₁, T₂, Tₐ, U, Ri and f, which the worked example uses), and at the bottom the flows over the day, each line switched on or off by the reader |
+| Soil | yes | yes | The soil at the surface and 3, 9 and 29 cm down over the day; a heat map of the top 50 cm over the day (time across, depth down, color in bands: blue colder than the soil's daily average, red warmer); and the whole column at one moment inside the day's range |
 | About | yes | yes | The story (Box 2.2), how to use the page, things to try and where the numbers come from, with no equations |
 | Physics | | yes | The eight steps with every equation, the measured day's table, a worked example, the limits, things to try with the Advanced controls, the sources and how it was checked |
 | Code | | yes | `model.js` and `app.js`, shown in the page |
@@ -140,9 +140,9 @@ Scott's homework "Surviving Night" (Module 2) and his Shiny app "Bulk Aerodynami
 
 - 13 November 2026: first version, dry soil (k = 0.3, c = 1.5 million, no evaporation), air set to 15 ± 5 °C, sky ε σTₐ⁴ with Brutsaert's ε.
 - 14 November 2026 (Scott): loam, k = 1; then c = 2 million, Bowen ratio 1.5, and the air and sky measured at Table Mountain instead of a formula; then the Sunlight measured there too (replacing 1,361 × 0.75 × cos θ), and the air's density from the standard atmosphere at 1,689 m (replacing 1.2 kg/m³); then the unstable case of his app's stirring by day (replacing f = 1); then the station's measured reflected Sunlight and grass roughness, 0.03 m (replacing bare soil's 0.17 and 0.01 m); then heat's roughness z₀/10 and the station's measured hourly wind (replacing one roughness and a fixed 3 m/s, which had left the afternoon peak at 27.7 °C); then the Simple and Advanced views, the three graph tabs, the About and Physics tabs, the Advanced controls and the °C/°F switch; then a third choice, one whole day and night without the sky from noon, and the link to Chapter 3's energy budget.
+- 16 November 2026 (Scott): the title "Earthlight from the Sky" (it was "Surviving the Night: Dirt, Air and the Glow of the Sky", which undersold the whole-day choice); the energy lines renamed "Earthlight down" and "Earthlight up"; the Energy tab's bars remade as up-and-down arrows with a time slider, moved to the top, with the graph over the day at the bottom; and a heat map on the Soil tab.
 
 ## Still to do
 
-- **The title.** "Surviving the Night" undersells the whole-day choice (Scott, 14 November 2026). A new title is Scott's call.
 - A chapter can name the page and its address (Chapter 2's Box 2.2, Chapter 3's greenhouse effect). That's chapter text, so it waits for Scott.
 - The site card's image (`site/img/models/night.jpg`) is a crop of the old single graph. Remake it from the new temperature tab once Scott is happy with the look.

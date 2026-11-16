@@ -38,14 +38,21 @@
     { name: '3 cm', color: '#8c510a', width: 1.8, value: layer(2) },
     { name: 'Surface', color: INK, width: 2.4, value: layer(0) }
   ];
-  // The energy graph's lines: each flow of energy at the surface, counted as energy coming into it.
+  // The energy graph's lines: each flow of energy at the surface, counted as energy coming into it. `up` is the
+  // same flow counted the way the arrows draw it: upward is positive. The soil's arrow is under the surface.
   var FLOWS = [
-    { key: 'sun', name: 'Sunlight', color: '#e69f00', value: function (run, k) { return run.sunlight[k]; } },
-    { key: 'sky', name: 'From the sky', color: '#0072b2', value: function (run, k) { return run.sky[k]; } },
-    { key: 'glow', name: 'Ground’s glow', color: '#cc79a7', value: function (run, k) { return -run.glow[k]; } },
-    { key: 'air', name: 'From the air', color: '#009e73', value: function (run, k) { return -run.airHeat[k]; } },
-    { key: 'vapor', name: 'Into vapor', color: '#56b4e9', value: function (run, k) { return -run.vapor[k]; } },
-    { key: 'soil', name: 'From the soil', color: '#8c510a', value: function (run, k) { return -run.down[k]; } }
+    { key: 'sun', name: 'Sunlight', color: '#e69f00', value: function (run, k) { return run.sunlight[k]; },
+      up: function (run, k) { return -run.sunlight[k]; } },
+    { key: 'sky', name: 'Earthlight down', color: '#0072b2', value: function (run, k) { return run.sky[k]; },
+      up: function (run, k) { return -run.sky[k]; } },
+    { key: 'glow', name: 'Earthlight up', color: '#cc79a7', value: function (run, k) { return -run.glow[k]; },
+      up: function (run, k) { return run.glow[k]; } },
+    { key: 'air', name: 'From the air', color: '#009e73', value: function (run, k) { return -run.airHeat[k]; },
+      up: function (run, k) { return run.airHeat[k]; } },
+    { key: 'vapor', name: 'Into vapor', color: '#56b4e9', value: function (run, k) { return -run.vapor[k]; },
+      up: function (run, k) { return run.vapor[k]; } },
+    { key: 'soil', name: 'From the soil', color: '#8c510a', value: function (run, k) { return -run.down[k]; },
+      up: function (run, k) { return -run.down[k]; }, below: true }
   ];
   var FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
   var NB = ' ';     // a space that keeps a number and its unit on one line
@@ -385,6 +392,7 @@
     dayGraph('soil-graph', { lines: SOIL.map(function (each) { return Object.assign({ run: now }, each); }),
                              toShown: toUnits, span: span(), ticks: 5,
                              title: 'Temperature in the soil (' + unitName() + ')' });
+    drawHeatMap(now);
     drawProfile(now);
   }
 
@@ -394,36 +402,163 @@
       .map(function (each) { return Object.assign({ run: now, width: 2 }, each); });
     dayGraph('energy-graph', { lines: lines, toShown: same, span: 20, ticks: 7, floor: 0,
                                title: 'Energy coming into the surface (W/m²)' });
-    drawBars(now);
+    drawArrows(now);
+    showMoment();
   }
 
-  /* The surface's energy at one moment, as bars: what comes in to the right, what goes out to the left. */
-  function drawBars(now) {
-    var c = prepare($('energy-now')), ctx = c.ctx, at = reading(), narrow = c.w < 560;
-    var labelWidth = narrow ? 104 : 130, x0 = labelWidth + 10, x1 = c.w - 16, top = 34, row = 30;
-    var values = FLOWS.map(function (each) { return each.value(now, at); });
-    // Room past the longest bar for its number.
-    var reach = Math.max(100, 1.25 * Math.max.apply(null, values.map(Math.abs)));
-    var gap = roundGap(reach, 3);
-    reach = Math.ceil(reach / gap) * gap;
-    var mid = (x0 + x1) / 2;
-    function px(value) { return mid + value / reach * (x1 - mid); }
-    text(ctx, 'At ' + clock(at) + ': in (right) and out (left), W/m²', 6, 18, { bold: true, color: INK });
-    ctx.lineWidth = 1;
-    for (var v = -reach; v <= reach + gap / 2; v += gap) {
-      segment(ctx, px(v), top - 4, px(v), top + row * FLOWS.length, Math.abs(v) < gap / 2 ? SPINE : GRID);
-      text(ctx, fixed(v, 0), px(v), top + row * FLOWS.length + 15, { align: 'center', size: 11 });
+  /* A broad arrow down the middle of a column, from y `from` to its point at y `to`. */
+  function broadArrow(ctx, x, from, to, shaft, color) {
+    var length = Math.abs(to - from), sign = to > from ? 1 : -1;
+    var head = Math.min(length * 0.6, shaft * 0.9), wing = shaft * 0.85, neck = to - sign * head;
+    ctx.beginPath();
+    ctx.moveTo(x - shaft / 2, from); ctx.lineTo(x - shaft / 2, neck); ctx.lineTo(x - wing, neck);
+    ctx.lineTo(x, to); ctx.lineTo(x + wing, neck); ctx.lineTo(x + shaft / 2, neck); ctx.lineTo(x + shaft / 2, from);
+    ctx.closePath(); ctx.fillStyle = color; ctx.fill();
+  }
+
+  /* A column's name in one line, or two if it's too wide for the column. */
+  function columnName(ctx, name, x, y, width) {
+    ctx.font = '600 12px ' + FONT;
+    if (ctx.measureText(name).width <= width - 4 || name.indexOf(' ') < 0) {
+      text(ctx, name, x, y, { align: 'center', size: 12, bold: true, color: INK });
+      return y;
     }
-    FLOWS.forEach(function (each, i) {
-      var y = top + i * row + row / 2, value = values[i], end = px(value);
-      text(ctx, each.name, labelWidth, y, { align: 'right', baseline: 'middle', color: INK, size: 12 });
-      ctx.fillStyle = each.color;
-      var left = Math.min(mid, end), width = Math.max(Math.abs(end - mid), value === 0 ? 0 : 1);
-      ctx.fillRect(left, y - 9, width, 18);
-      var label = fixed(value, 0), outside = value >= 0 ? end + 5 : end - 5;
-      text(ctx, label, outside, y, { align: value >= 0 ? 'left' : 'right', baseline: 'middle', size: 12,
-                                     halo: '#ffffff' });
+    var cut = name.indexOf(' ');
+    text(ctx, name.slice(0, cut), x, y, { align: 'center', size: 12, bold: true, color: INK });
+    text(ctx, name.slice(cut + 1), x, y + 14, { align: 'center', size: 12, bold: true, color: INK });
+    return y + 14;
+  }
+
+  /* The surface's energy at one moment, as broad arrows that point the way each flow goes: Sunlight and the
+   * Earthlight from the sky come down, the ground's Earthlight goes up, and so on. The soil's arrow is under the
+   * surface. Every arrow on a day is drawn to the same scale, so they grow and shrink as the time moves. */
+  function drawArrows(now) {
+    var c = prepare($('energy-now')), ctx = c.ctx, at = reading(), n = DAY_STEPS();
+    var columns = FLOWS.length, left = 8, right = c.w - 8, column = (right - left) / columns;
+    var namesY = 46, top = 82, bottom = c.h - 12;
+    // The biggest flow above the surface and below it over the whole day sets the scale.
+    var above = 1, below = 1, k;
+    FLOWS.forEach(function (each) {
+      for (k = 0; k < n; k++) {
+        var size = Math.abs(each.up(now, k));
+        if (each.below) below = Math.max(below, size); else above = Math.max(above, size);
+      }
     });
+    var scale = (bottom - top) / (above + below), ground = top + above * scale;
+    text(ctx, 'At ' + clock(at) + ': energy at the surface (W/m²)', 6, 18, { bold: true, color: INK });
+    // The soil, under the surface.
+    ctx.fillStyle = '#efe4d2'; ctx.fillRect(0, ground, c.w, c.h - ground);
+    text(ctx, 'Soil', 8, c.h - 10, { size: 12, color: '#6b5a3e' });
+    text(ctx, 'Air', 8, top + 4, { size: 12, color: '#4a5a66', baseline: 'top' });
+    var shaft = clamp(column * 0.38, 12, 34);
+    FLOWS.forEach(function (each, i) {
+      var x = left + (i + 0.5) * column, flow = each.up(now, at), size = Math.abs(flow), length = size * scale;
+      var last = columnName(ctx, each.name, x, namesY - 14, column);
+      text(ctx, fixed(size, 0), x, last + 16, { align: 'center', size: 12, color: TICK });
+      if (length < 1) return;
+      var from, to;
+      if (each.below) { from = flow > 0 ? ground + length : ground; to = flow > 0 ? ground : ground + length; }
+      else { from = flow > 0 ? ground : ground - length; to = flow > 0 ? ground - length : ground; }
+      broadArrow(ctx, x, from, to, shaft, each.color);
+    });
+    ctx.lineWidth = 2;
+    segment(ctx, 0, ground, c.w, ground, INK);
+  }
+
+  /* The time slider under the arrows: it and the cursor on every graph are the same moment. */
+  function showMoment() {
+    var slider = $('moment'), at = cursor === null ? QUARTERS / 2 : cursor;
+    slider.value = at;
+    var words = clock(moment(at));
+    slider.setAttribute('aria-valuetext', words);
+    say('moment-time', words);
+  }
+
+  // The heat map's colors: blue for colder than the soil's average over the day, red for warmer, and a light
+  // gray for the average itself. Every layer has the same average over a day that repeats.
+  var COLD = [33, 102, 172], MIDDLE = [242, 242, 242], WARM = [178, 24, 43];
+  var MAP_DEPTH = 50;    // cm: the heat map stops here, where the day's swing is nearly gone
+  function mix(p, q, f) { return p.map(function (v, i) { return Math.round(v + (q[i] - v) * f); }); }
+  function shade(f) {    // f from −1 (coldest) to 1 (warmest)
+    var rgb = f < 0 ? mix(MIDDLE, COLD, -f) : mix(MIDDLE, WARM, f);
+    return 'rgb(' + rgb.join(',') + ')';
+  }
+
+  /* The soil's temperature at a depth (in meters) at a step: straight lines between the middles of the layers,
+   * and the top layer's temperature above its middle. */
+  function soilAt(now, depths, meters, k) {
+    if (meters <= depths[0]) return now.T[0][k];
+    for (var i = 1; i < depths.length; i++) {
+      if (meters <= depths[i]) {
+        var f = (meters - depths[i - 1]) / (depths[i] - depths[i - 1]);
+        return now.T[i - 1][k] + f * (now.T[i][k] - now.T[i - 1][k]);
+      }
+    }
+    return now.T[depths.length - 1][k];
+  }
+
+  /* A heat map of the soil: the time of day across, the depth down, and the temperature as color, in bands. */
+  function drawHeatMap(now) {
+    var c = prepare($('soil-map')), ctx = c.ctx, narrow = c.w < 560, n = DAY_STEPS(), depths = M.depths();
+    var x0 = narrow ? 40 : 52, x1 = c.w - (narrow ? 70 : 92), y1 = 30, y0 = c.h - 48;
+    plots['soil-map'] = { x0: x0, x1: x1 };
+    var total = 0, count = 0;
+    now.T.forEach(function (line) { for (var j = 0; j < n; j++) { total += line[j]; count++; } });
+    var mean = total / count;
+    var lowest = Math.min.apply(null, now.T[0]), highest = Math.max.apply(null, now.T[0]);
+    // Bands of a round width in the page's units, about a dozen across the day's range at the surface.
+    var shownLow = toUnits(lowest), shownHigh = toUnits(highest);
+    var band = roundGap(Math.max(shownHigh - shownLow, 1), 12);
+    var reach = Math.max(toUnits(highest) - toUnits(mean), toUnits(mean) - toUnits(lowest), band);
+    function bandOf(kelvin) { return Math.floor(toUnits(kelvin) / band); }
+    function colorOf(index) { return shade(clamp(((index + 0.5) * band - toUnits(mean)) / reach, -1, 1)); }
+    function py(cm) { return y1 + cm / MAP_DEPTH * (y0 - y1); }
+    // One cell for each quarter of an hour and each centimeter, filled with its band's color.
+    var columns = QUARTERS, rows = MAP_DEPTH, width = (x1 - x0) / columns, height = (y0 - y1) / rows;
+    for (var q = 0; q < columns; q++) {
+      var k = Math.round(moment(q + 0.5)) % n;
+      for (var r = 0; r < rows; r++) {
+        ctx.fillStyle = colorOf(bandOf(soilAt(now, depths, (r + 0.5) / 100, k)));
+        ctx.fillRect(x0 + q * width, y1 + r * height, width + 0.6, height + 0.6);
+      }
+    }
+    // Axes: the time of day along the bottom, the depth down the side.
+    ctx.lineWidth = 1;
+    for (var cm = 0; cm <= MAP_DEPTH; cm += 10) {
+      segment(ctx, x0 - 4, py(cm), x0, py(cm), SPINE);
+      text(ctx, cm + '', x0 - 8, py(cm), { align: 'right', baseline: 'middle' });
+    }
+    for (var hour = 0; hour <= 24; hour += 2) {
+      segment(ctx, x0 + hour / 24 * (x1 - x0), y0, x0 + hour / 24 * (x1 - x0), y0 + (hour % 6 ? 3 : 6), SPINE);
+    }
+    (narrow ? ['Noon', '', 'Midnight', '', 'Noon'] : ['Noon', '6 p.m.', 'Midnight', '6 a.m.', 'Noon'])
+      .forEach(function (name, at) { text(ctx, name, x0 + at / 4 * (x1 - x0), y0 + 19, { align: 'center' }); });
+    [0.25, 0.75].forEach(function (share) {     // sunset and sunrise
+      var x = x0 + share * (x1 - x0);
+      ctx.setLineDash([3, 3]); segment(ctx, x, y1, x, y0, '#ffffff'); ctx.setLineDash([]);
+    });
+    ctx.strokeStyle = SPINE; ctx.strokeRect(x0, y1, x1 - x0, y0 - y1);
+    text(ctx, 'Depth (cm)', narrow ? 6 : x0, y1 - 10, { bold: true, color: INK });
+    text(ctx, 'Time of day', (x0 + x1) / 2, c.h - 7, { align: 'center', color: INK });
+    // The key: each band's color, with its edges in the page's units.
+    var first = bandOf(lowest), last = bandOf(highest), keyX = x1 + 12, keyW = 14;
+    var step = Math.min(22, (y0 - y1) / (last - first + 1));
+    text(ctx, unitName(), keyX, y1 - 10, { color: INK, bold: true });
+    for (var b = last; b >= first; b--) {
+      var y = y1 + (last - b) * step;
+      ctx.fillStyle = colorOf(b); ctx.fillRect(keyX, y, keyW, step);
+      var every = Math.ceil(16 / step);
+      if ((last - b) % every === 0) {
+        text(ctx, fixed((b + 1) * band, band < 1 ? 1 : 0), keyX + keyW + 4, y, { baseline: 'middle', size: 11 });
+      }
+    }
+    var keyBottom = y1 + (last - first + 1) * step;
+    text(ctx, fixed(first * band, band < 1 ? 1 : 0), keyX + keyW + 4, keyBottom, { baseline: 'middle', size: 11 });
+    ctx.strokeStyle = SPINE; ctx.strokeRect(keyX, y1, keyW, keyBottom - y1);
+
+    if (cursor === null) return;
+    var x = x0 + moment(cursor) / n * (x1 - x0);
+    ctx.lineWidth = 1.5; segment(ctx, x, y1, x, y0, INK);
   }
 
   /* The soil's temperature against depth at one moment, inside the range it covers over the day. */
@@ -728,7 +863,8 @@
     Array.prototype.forEach.call(document.querySelectorAll('details[data-src]'), function (details) {
       details.addEventListener('toggle', function () { showCode(details); });
     });
-    ['temps-graph', 'energy-graph', 'soil-graph'].forEach(function (id) {
+    $('moment').addEventListener('input', function () { cursor = clamp(+this.value, 0, QUARTERS - 1); changed(); });
+    ['temps-graph', 'energy-graph', 'soil-graph', 'soil-map'].forEach(function (id) {
       $(id).addEventListener('pointermove', point);
       $(id).addEventListener('pointerdown', point);
       $(id).addEventListener('keydown', keys);
