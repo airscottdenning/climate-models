@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Surviving the Night: Dirt, Air and the Glow of the Sky</title>
+<meta name="description" content="Follow the temperature of the ground through a clear day and night. Turn down the Earthlight that comes from the sky, for a night or a whole day, and see how cold the ground gets. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Toy Models</a></p>
+<h1>Surviving the Night: Dirt, Air and the Glow of the Sky</h1>
+<div class="top">
+<div class="top-words">
+<p class="intro standalone-only">After sunset, the ground keeps glowing in the infrared, and it cools. What keeps it from freezing solid by morning? Not the warm air: on a clear night the air near the ground goes still. Turn down the Earthlight that comes down from the sky and see.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+</div>
+<p class="when-where"><strong>When and where.</strong> A clear day and night in early autumn, near the equinox, on open grassland at Table Mountain, near Boulder, Colorado: 40°&nbsp;N, about as far north as Denver, Philadelphia, Madrid or Beijing, and 1,689&nbsp;m up. The Sun rises about 6&nbsp;a.m. and sets about 6&nbsp;p.m., so the night is 12 hours long. On a usual day the air 10&nbsp;m up is 22&nbsp;°C (71&nbsp;°F) in the afternoon and 10&nbsp;°C (50&nbsp;°F) before sunrise. The model's day is the average of 11 clear days and nights measured there: nine from mid-September to mid-October, and two in March and April.</p>
+<figure class="station">
+<img src="station.jpg" width="768" height="1024" alt="A thin metal tower about 10 meters tall, held up by guy wires, standing in dry, tan grassland with clumps of yucca. Instruments for the wind sit at its top, and an arm below them holds two radiometers looking down at the ground. Wooded foothills and a blue sky with scattered clouds are behind it.">
+<figcaption>The station's 10&nbsp;m tower at Table Mountain, on the grass. Photo: NOAA Global Monitoring Laboratory (public domain).</figcaption>
+</figure>
+</div>
+
+<div class="switchbar">
+<div class="mode" role="group" aria-label="How much of the model to show">
+<button type="button" id="mode-simple" aria-pressed="true">Simple</button>
+<button type="button" id="mode-advanced" aria-pressed="false">Advanced</button>
+</div>
+<div class="mode" role="group" aria-label="Temperatures in">
+<button type="button" id="unit-c" aria-pressed="true">°C</button>
+<button type="button" id="unit-f" aria-pressed="false">°F</button>
+</div>
+<span class="mode-hint">Advanced adds the physics, the code, and controls for the wind and the soil.</span>
+</div>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-temps" aria-controls="panel-temps" aria-selected="true">Temperatures</button>
+<button type="button" role="tab" id="tab-energy" aria-controls="panel-energy" aria-selected="false" tabindex="-1">Energy</button>
+<button type="button" role="tab" id="tab-soil" aria-controls="panel-soil" aria-selected="false" tabindex="-1">Soil</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+<button type="button" role="tab" id="tab-physics" aria-controls="panel-physics" aria-selected="false" tabindex="-1" hidden>Physics</button>
+<button type="button" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false" tabindex="-1" hidden>Code</button>
+</div>
+
+<div id="workspace">
+<div class="layout">
+<form class="controls" aria-label="Controls">
+<div class="control">
+<label for="sky">Earthlight from the sky (% of what was measured)</label>
+<div class="pair"><input type="range" id="sky-range" min="0" max="150" step="1" aria-label="Earthlight from the sky, slider"><input type="number" id="sky" min="0" max="150" step="1"></div>
+<p class="hint" id="sky-hint"></p>
+<p class="hint">100% is the sky measured on clear days and nights at Table Mountain, Colorado.</p>
+</div>
+<div class="presets" role="group" aria-label="Quick choices for the sky">
+<button type="button" data-share="100">The sky as measured</button>
+<button type="button" data-share="0">No Earthlight from the sky</button>
+</div>
+<fieldset class="control when">
+<legend>When the sky changes</legend>
+<label class="check"><input type="radio" name="when" value="0" id="when-every"> Every day and night</label>
+<label class="check"><input type="radio" name="when" value="1" id="when-tonight"> Tonight only</label>
+<label class="check"><input type="radio" name="when" value="2" id="when-day"> One day and night, from noon</label>
+<p class="hint">For tonight only, or one day and night, the days before have the sky as measured.</p>
+</fieldset>
+<fieldset class="ground advanced-only">
+<legend>The wind and the soil</legend>
+<div class="control">
+<label for="wind">Wind (% of what was measured)</label>
+<div class="pair"><input type="range" id="wind-range" min="25" max="200" step="5" aria-label="Wind, slider"><input type="number" id="wind" min="25" max="200" step="5"></div>
+<p class="hint" id="wind-hint"></p>
+</div>
+<div class="control">
+<label for="rough">How rough the ground is</label>
+<select id="rough">
+<option value="0.005">Smooth: bare, flat ground or snow (z₀ = 0.005 m)</option>
+<option value="0.03">Open: short grass (z₀ = 0.03 m)</option>
+<option value="0.1">Roughly open: low crops (z₀ = 0.1 m)</option>
+<option value="0.25">Rough: high crops, scattered obstacles (z₀ = 0.25 m)</option>
+</select>
+</div>
+<div class="control">
+<label for="bowen">Bowen ratio, β (higher is drier)</label>
+<div class="pair"><input type="range" id="bowen-range" min="0.5" max="5" step="0.1" aria-label="Bowen ratio, slider"><input type="number" id="bowen" min="0.5" max="5" step="0.1"></div>
+</div>
+<div class="control">
+<label for="k">Soil conductivity, k (W/m per K)</label>
+<div class="pair"><input type="range" id="k-range" min="0.2" max="2.5" step="0.1" aria-label="Soil conductivity, slider"><input type="number" id="k" min="0.2" max="2.5" step="0.1"></div>
+</div>
+<div class="control">
+<label for="c">Soil heat capacity, c (million J/m³ per K)</label>
+<div class="pair"><input type="range" id="c-range" min="1" max="3" step="0.1" aria-label="Soil heat capacity, slider"><input type="number" id="c" min="1" max="3" step="0.1"></div>
+</div>
+<p class="hint" id="ground-note" hidden>These aren't the usual settings. The Simple view always uses the usual ones.</p>
+</fieldset>
+<p><button type="button" id="reset">Back to a usual night</button></p>
+<p><button type="button" id="keep">Keep this day to compare</button></p>
+<p id="kept-line" hidden><button type="button" id="unkeep">Let the kept day go</button></p>
+</form>
+
+<div class="views">
+<section id="panel-temps" role="tabpanel" aria-labelledby="tab-temps" tabindex="0">
+<h2>How warm is it, from one noon to the next?</h2>
+<ul class="key">
+<li><span class="line air"></span>The air 10&nbsp;m up</li>
+<li><span class="line"></span>The ground (the top 1&nbsp;cm)</li>
+<li><span class="dotkey"></span>The ground, measured at the station on the usual days</li>
+<li id="key-kept" hidden><span class="line kept"></span>The ground on the day you kept</li>
+</ul>
+<canvas id="temps-graph" class="graph" tabindex="0" role="img" aria-label="A graph of one clear day and night, from noon to the next noon, with the night in the middle. It shows the temperature of the air 10 meters up and of the ground, and dots for the ground's temperature measured at the station. The words under the graph give the numbers. With the graph selected, the left and right arrow keys move through the day."></canvas>
+<p id="temps-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read the temperatures.</p>
+<dl class="tiles">
+<div><dt>The ground at sunset</dt><dd id="tile-sunset"></dd></div>
+<div><dt>The ground at sunrise</dt><dd id="tile-sunrise"></dd></div>
+<div><dt>The air 10&nbsp;m up at sunrise</dt><dd id="tile-air"></dd></div>
+</dl>
+<p id="tile-frost" class="frost" aria-live="polite"></p>
+</section>
+
+<section id="panel-energy" role="tabpanel" aria-labelledby="tab-energy" tabindex="0" hidden>
+<h2>Where does the ground's energy come from, and where does it go?</h2>
+<fieldset id="energy-lines" class="switches">
+<legend>Lines on the graph</legend>
+<label><input type="checkbox" value="sun"><span class="line sun"></span>Sunlight</label>
+<label><input type="checkbox" value="sky"><span class="line sky"></span>Earthlight from the sky</label>
+<label><input type="checkbox" value="glow"><span class="line glow"></span>The ground's own glow</label>
+<label><input type="checkbox" value="air"><span class="line stir"></span>Heat from the air</label>
+<label><input type="checkbox" value="vapor"><span class="line vapor"></span>Heat into water vapor</label>
+<label><input type="checkbox" value="soil"><span class="line below"></span>Heat from the soil</label>
+</fieldset>
+<canvas id="energy-graph" class="graph" tabindex="0" role="img" aria-label="A graph of one clear day and night, from noon to the next noon, of the flows of energy at the ground's surface, each counted as energy coming in: Sunlight, Earthlight from the sky, the ground's own glow, heat from the air, heat into water vapor and heat from the soil. The bars and the table under it give the numbers for one moment. With the graph selected, the left and right arrow keys move through the day."></canvas>
+<canvas id="energy-now" class="bars" role="img" aria-label="Bars for the flows of energy at the ground's surface at the moment being read: what comes in to the right, what goes out to the left. The table under it gives the same numbers."></canvas>
+<p id="energy-readout" class="readout" aria-live="polite"></p>
+<table id="day-budget" class="budget">
+<caption>The surface at <span id="budget-time"></span>, for one minute</caption>
+<tbody>
+<tr class="advanced-only"><th scope="row">The surface's temperature, <var>T</var><sub>1</sub></th><td id="budget-t1"></td></tr>
+<tr class="advanced-only"><th scope="row">The layer under it, <var>T</var><sub>2</sub></th><td id="budget-t2"></td></tr>
+<tr class="advanced-only"><th scope="row">The air 10&nbsp;m up, <var>T</var><sub>a</sub></th><td id="budget-ta"></td></tr>
+<tr class="advanced-only"><th scope="row">The wind 10&nbsp;m up, <var>U</var></th><td id="budget-u"></td></tr>
+<tr><th scope="row">Sunlight taken in<span class="advanced-only">, <var>Q</var></span></th><td id="budget-q"></td></tr>
+<tr><th scope="row">Earthlight from the sky<span class="advanced-only">, <var>L</var></span></th><td id="budget-l"></td></tr>
+<tr><th scope="row">Earthlight the ground emits<span class="advanced-only">, <var>E</var></span></th><td id="budget-e"></td></tr>
+<tr class="advanced-only"><th scope="row">How strongly the air resists stirring, Ri</th><td id="budget-ri"></td></tr>
+<tr class="advanced-only"><th scope="row">The stirring, as a share of neutral air's, <var>f</var></th><td id="budget-f-stir"></td></tr>
+<tr><th scope="row">Heat the air carries up<span class="advanced-only">, <var>H</var></span></th><td id="budget-h"></td></tr>
+<tr><th scope="row">Heat that leaves as water vapor<span class="advanced-only">, <var>V</var></span></th><td id="budget-v"></td></tr>
+<tr><th scope="row">Heat flowing down into the soil<span class="advanced-only">, <var>F</var><sub>1</sub></span></th><td id="budget-f"></td></tr>
+<tr><th scope="row">Left over<span class="advanced-only">, <var>Q</var> + <var>L</var> − <var>E</var> − <var>H</var> − <var>V</var> − <var>F</var><sub>1</sub></span></th><td id="budget-left"></td></tr>
+<tr class="result"><th scope="row">The surface's warming in this minute<span class="advanced-only">, Δ<var>T</var><sub>1</sub></span></th><td id="budget-warming"></td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="panel-soil" role="tabpanel" aria-labelledby="tab-soil" tabindex="0" hidden>
+<h2>How deep do the day's warmth and the night's cold reach?</h2>
+<ul class="key">
+<li><span class="line"></span>The surface</li>
+<li><span class="line cm3"></span>3&nbsp;cm down</li>
+<li><span class="line cm9"></span>9&nbsp;cm down</li>
+<li><span class="line cm29"></span>29&nbsp;cm down</li>
+</ul>
+<canvas id="soil-graph" class="graph" tabindex="0" role="img" aria-label="A graph of one clear day and night, from noon to the next noon, of the soil's temperature at the surface and 3, 9 and 29 centimeters down. The words under it give the numbers. With the graph selected, the left and right arrow keys move through the day."></canvas>
+<canvas id="soil-now" class="profile" role="img" aria-label="The soil's temperature against depth, down to 1 meter, at the moment being read, inside the range each depth covers over the day. The words under it give the numbers."></canvas>
+<p id="soil-readout" class="readout" aria-live="polite"></p>
+</section>
+<p id="summary" class="summary" aria-live="polite"></p>
+</div>
+</div>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>After sunset, nothing warms the ground from the Sun. But the ground keeps glowing in the infrared, the way everything does. On a clear evening a patch of dry ground at 20&nbsp;°C emits about 420&nbsp;W/m² of <strong>Earthlight</strong>. Chapter 2 of the book asks what that does over a 12-hour night, if the ground's own glow were its only energy transfer. Box 2.2 works it out: around −50&nbsp;°C (−58&nbsp;°F) by sunrise. Everybody would freeze to death, every night.</p>
+<p>So where does the energy come from? There are three places it could come from:</p>
+<ul>
+<li><strong>The soil.</strong> The day's Sunlight soaked down into it, and at night that heat flows back up.</li>
+<li><strong>The air.</strong> It's warmer than the ground for most of the night, and moving air can carry heat down to it.</li>
+<li><strong>The sky.</strong> The air glows in the infrared too, because its water vapor and carbon dioxide absorb and emit Earthlight. Some of that glow comes down.</li>
+</ul>
+<p>This model has all three. It shows that the soil helps a lot, and the air hardly helps at all. Once the ground is colder than the air over it, the cold, heavy air near the ground is hardly stirred, and it carries little heat. Take away the Earthlight that comes down from the sky for one night, and the ground goes from 17.6&nbsp;°C at sunset to −21.7&nbsp;°C by sunrise. Measured on clear days and nights in Colorado, the sky sends down 280&nbsp;W/m², averaged over the day and the night. That's more than the Sunlight the ground takes in, 187&nbsp;W/m² on the same average. That glow from the sky is the <strong>greenhouse effect</strong>, seen from the ground.</p>
+<p>The same is true of the whole Earth. Chapter 3's diagram of Earth's energy budget, averaged over the whole planet and the whole year, has the surface taking in 160&nbsp;W/m² of Sunlight and 342&nbsp;W/m² of Earthlight from the sky: more than twice as much. The Earthlight from the sky isn't a small correction to the Sunlight. It's the biggest flow of energy into the ground, day and night, and this model lets you take it away and see what happens.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-try">Things to try</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>Each graph follows a patch of grassland from one noon to the next, with the night shaded in the middle. There are three:</p>
+<ul>
+<li><strong>"Temperatures"</strong> is what you'd feel standing there: how warm the ground is, and the air 10&nbsp;m up. The dots are the ground's temperature measured at a real weather station on clear days like this one, so you can see how close the model gets.</li>
+<li><strong>"Energy"</strong> shows each way energy comes into the ground's surface or leaves it. Tick the boxes above the graph to show or hide each line. The bars under it take one moment apart: energy coming in to the right, energy going out to the left.</li>
+<li><strong>"Soil"</strong> shows the day's warmth soaking down into the soil and coming back up at night. The second graph is the soil at one moment, from the surface down to a meter.</li>
+</ul>
+<p>You can change two things:</p>
+<ul>
+<li><strong>The Earthlight from the sky,</strong> from 0% to 150% of what was measured on clear days and nights at Table Mountain, Colorado. The page opens at 100%, the sky as measured. The two buttons under the slider set 100% and 0%. A cloudy night sends down more than a clear one, so the slider goes past 100%.</li>
+<li><strong>When the sky changes.</strong> "Every day and night" gives every hour the sky you chose, and the model runs day after day until one day repeats the day before. "Tonight only" gives the days before the sky as measured, and the sky you chose comes out only from tonight's sunset to tomorrow's sunrise. That's the question in Box 2.2: the ground starts the night as usual, and then what? "One day and night, from noon" is the same, but the sky you chose comes out at noon, with the Sun high, and stays until the next noon.</li>
+</ul>
+<p>Move over a graph to read it at that time of day. Or select the graph and press the left or right arrow key. The first press starts at midnight, and each press after it moves a quarter of an hour, or an hour with Shift. The °C and °F buttons at the top switch every temperature on the graphs and under them.</p>
+<p>"Keep this day to compare" leaves the ground's line on the temperature graph, dashed, while you change the controls. "Let the kept day go" takes it away, and "Back to a usual night" puts every control back where it started.</p>
+<p>The "Advanced" button at the top adds two tabs. "Physics" has every equation in the model, with a worked example, and "Code" has the code itself. Advanced also adds controls for the wind and the soil, and more numbers in the table on the energy tab. "Simple" takes them away again.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 2, "Energy and Radiation", and Chapter 3, "How Climate Works".</p>
+
+<h3 id="about-try">Things to try</h3>
+<ol>
+<li><strong>A usual night.</strong> On the page as it opens, the ground is at 17.6&nbsp;°C at sunset and 6.8&nbsp;°C at sunrise. Open "Energy" and move along the night. The sky sends down between 269 and 290&nbsp;W/m² all night. The soil brings up between 65 and 110&nbsp;W/m². The air brings down never more than 15.5&nbsp;W/m².</li>
+<li><strong>Turn off the sky for one night.</strong> Choose "Tonight only", then press "No Earthlight from the sky". The ground starts the night at 17.6&nbsp;°C, as usual, and falls to −21.7&nbsp;°C by sunrise. The air over it is just as warm as before, but about an hour after sunset it goes still and carries nothing more all night. The soil works hard, bringing up as much as 298&nbsp;W/m², and it still isn't nearly enough.</li>
+<li><strong>Turn it off for a whole day.</strong> Now choose "One day and night, from noon". The Sun shines all afternoon as usual, but without the sky's glow the ground cools anyway: from 30.5&nbsp;°C at noon to 1.6&nbsp;°C by sunset, when on a usual day it's still 17.6&nbsp;°C. By sunrise it's −24.0&nbsp;°C. Sunlight alone can't keep the ground warm, even in the middle of the day.</li>
+<li><strong>Turn it off for good.</strong> Now choose "Every day and night". With no Earthlight from the sky on any night, the soil never gets back the heat it gave up. The ground is never warmer than −7.8&nbsp;°C, even at midday, and it's −53.1&nbsp;°C at sunrise. Open "Soil": 29&nbsp;cm down it settles near −35&nbsp;°C. The air 10&nbsp;m up is still swinging between 10 and 22&nbsp;°C, and it makes no difference.</li>
+<li><strong>Half the sky.</strong> Choose "Tonight only" again and set the slider to 50%. The ground is at −7.1&nbsp;°C at sunrise: even half the sky's glow keeps the night from being bitter, but it isn't enough to stop a frost.</li>
+<li><strong>A cloudy night.</strong> Choose "Every day and night" and set the slider to 130%. Low clouds glow almost as a black surface at the air's temperature would. The ground is at 11.7&nbsp;°C at sunrise, and it stays warmer than the air all night, so the air carries heat up from it even at night.</li>
+<li><strong>Two days on one graph.</strong> Press "Keep this day to compare" before you change a control, and the ground's line from the day you kept stays on the temperature graph as a dashed line.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>Five things in the model are measured, not worked out: the Sunlight reaching the ground, the Sunlight the ground reflects, the temperature of the air 10&nbsp;m up, the wind, and the Earthlight that comes down from the sky. They're the average of 11 clear days and nights at Table Mountain, a NOAA weather station on open grassland near Boulder, Colorado, measured in 2018 to 2024. They stay the same whatever the ground does. The model works out everything else: the temperature of the ground and the soil, and every flow of energy between them, the air and the sky.</p>
+<p>The soil is moist loam, partway between soaked and dry. The Physics tab, in the Advanced view, has every number and where it comes from.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The question is Scott Denning's homework problem, "Surviving Night", and the stirring of the air is from his earlier web app on the air's resistance. The Sunlight, the air's temperature, the wind and the Earthlight from the sky were measured by NOAA's SURFRAD station at Table Mountain, Colorado. The photo of the station's tower is by NOAA's Global Monitoring Laboratory, from its <a href="https://gml.noaa.gov/grad/surfrad/tablemt.html">page on the station</a>, and is in the public domain. Claude, from Anthropic, built this model from them, to run in your browser.</p>
+</section>
+
+<section id="panel-physics" role="tabpanel" aria-labelledby="tab-physics" tabindex="0" hidden>
+<h2>The physics</h2>
+<p>This tab is the whole model, written out. You don't need any of it to use the page. But the model is eight steps, and you can follow every one of them with a calculator.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#physics-equations">The equations</a></li>
+<li><a href="#physics-example">A worked example</a></li>
+<li><a href="#physics-limits">Where the equations stop</a></li>
+<li><a href="#physics-try">See the equations at work</a></li>
+<li><a href="#physics-data">Where the numbers come from</a></li>
+<li><a href="#physics-checked">How it was checked</a></li>
+</ul></nav>
+
+<h3 id="physics-equations">The equations</h3>
+<p>The model cuts the top meter of the soil into 11 layers, thin at the top and thicker farther down, and gives each layer one temperature. Then it asks one question, over and over: <strong>how much does each layer warm or cool in the next minute?</strong> It adds the answer to the layer's temperature, moves the clock on a minute, and asks again.</p>
+<p>Five things come from measurements at Table Mountain, near Boulder, Colorado, averaged over 11 clear days and nights: the Sunlight reaching the ground, the Sunlight the ground reflects, the air's temperature 10&nbsp;m up, the wind and the Earthlight from the sky. They're in the table in step 1. You choose <var>s</var>, the share of the measured Earthlight from the sky. These numbers never change unless you change them with the controls for the wind and the soil:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Letter</th><th scope="col">What it is</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row"><var>σ</var></th><td>the Stefan–Boltzmann constant of Chapter 2 (the Greek letter sigma), in W/m² per K⁴</td><td>5.67&nbsp;×&nbsp;10⁻⁸</td></tr>
+<tr><th scope="row"><var>g</var></th><td>gravity, in m/s²</td><td>9.81</td></tr>
+<tr><th scope="row"><var>z</var></th><td>the height of the air's temperature and wind, in meters</td><td>10</td></tr>
+<tr><th scope="row"><var>w</var></th><td>the share of the measured wind; the Advanced controls set it from 25% to 200%</td><td>1</td></tr>
+<tr><th scope="row"><var>z</var><sub>0</sub></th><td>the roughness of short grass, in meters</td><td>0.03</td></tr>
+<tr><th scope="row"><var>κ</var></th><td>von Kármán's constant (the Greek letter kappa)</td><td>0.4</td></tr>
+<tr><th scope="row"><var>P</var></th><td>the air's pressure at Table Mountain, 1,689&nbsp;m up, in pascals, from the standard atmosphere</td><td>82,613</td></tr>
+<tr><th scope="row"><var>R</var></th><td>the gas constant for dry air, in J/kg per K</td><td>287</td></tr>
+<tr><th scope="row"><var>c</var><sub>p</sub></th><td>the heat capacity of air: the joules it takes to warm a kilogram of it by 1&nbsp;K</td><td>1,004</td></tr>
+<tr><th scope="row"><var>β</var></th><td>the Bowen ratio (the Greek letter beta): the heat the air carries away, for each unit of heat that leaves as water vapor</td><td>1.5</td></tr>
+<tr><th scope="row"><var>k</var></th><td>the soil's conductivity, which is how well it carries heat, in W/m per K</td><td>1</td></tr>
+<tr><th scope="row"><var>c</var></th><td>the soil's heat capacity: the joules it takes to warm a cubic meter of it by 1&nbsp;K</td><td>2,000,000</td></tr>
+<tr><th scope="row">Δ<var>z</var><sub>1</sub></th><td>the thickness of the top layer, in meters. Each layer is 1.4 times as thick as the one above it, so Δ<var>z</var><sub>2</sub> is 0.014.</td><td>0.01</td></tr>
+<tr><th scope="row">Δ<var>t</var></th><td>the time step, in seconds. Δ is the Greek capital letter delta. Here it means a small piece of something, or a small change in it.</td><td>60</td></tr>
+</tbody>
+</table>
+<p>The layers are numbered from the top. <var>T</var><sub>1</sub> is the temperature of the top layer, which the page calls the surface. <var>T</var><sub>2</sub> is the temperature of the layer under it, and so on down to <var>T</var><sub>11</sub>. They're all in kelvins.</p>
+
+<h4>1. How much Sunlight does the surface take in?</h4>
+<p>The station measures the Sunlight reaching the ground every minute, <var>S</var><sub>m</sub>, and the Sunlight the ground reflects back up, <var>S</var><sub>r</sub>. Both are in the table below. Between two hours, the model draws a straight line. The surface takes in the difference:</p>
+<div class="eq" data-eq="sunlight"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><msub><mi mathvariant="normal">S</mi><mi mathvariant="normal">m</mi></msub><mo>−</mo><msub><mi mathvariant="normal">S</mi><mi mathvariant="normal">r</mi></msub></mrow></math></div>
+<p>in W/m². At noon the station's grass reflects 21% of the Sunlight, its <strong>albedo</strong>, and takes in 642&nbsp;W/m². When the Sun is low it reflects more: 31% at 5&nbsp;p.m. The Sun sets at 6&nbsp;p.m. and rises at 6&nbsp;a.m., as it does everywhere at an equinox. Each number in the table is an average over the hour around it, so the Sunlight fades out over the half hour after sunset, and comes on over the half hour before sunrise.</p>
+<table class="symbols measured">
+<caption>The average clear day and night at Table Mountain</caption>
+<thead><tr><th scope="col">Time</th><th scope="col">Sunlight (W/m²)</th><th scope="col">Reflected (W/m²)</th><th scope="col">Air 10&nbsp;m up (°C)</th><th scope="col">Wind (m/s)</th><th scope="col">Earthlight from the sky (W/m²)</th><th scope="col">The ground (°C)</th></tr></thead>
+<tbody id="measured-rows">
+<tr><th scope="row">noon</th><td>815.0</td><td>172.8</td><td>20.0</td><td>2.8</td><td>284.7</td><td>30.4</td></tr>
+<tr><th scope="row">1 p.m.</th><td>772.4</td><td>165.7</td><td>21.0</td><td>2.9</td><td>288.9</td><td>30.6</td></tr>
+<tr><th scope="row">2 p.m.</th><td>667.5</td><td>148.2</td><td>21.7</td><td>3.0</td><td>291.9</td><td>29.3</td></tr>
+<tr><th scope="row">3 p.m.</th><td>508.5</td><td>120.9</td><td>21.9</td><td>3.4</td><td>293.8</td><td>26.6</td></tr>
+<tr><th scope="row">4 p.m.</th><td>309.9</td><td>83.3</td><td>21.5</td><td>3.1</td><td>294.2</td><td>22.9</td></tr>
+<tr><th scope="row">5 p.m.</th><td>115.7</td><td>35.3</td><td>20.1</td><td>2.5</td><td>292.8</td><td>17.0</td></tr>
+<tr><th scope="row">6 p.m.</th><td>10.7</td><td>2.7</td><td>16.4</td><td>3.2</td><td>289.5</td><td>12.1</td></tr>
+<tr><th scope="row">7 p.m.</th><td>0.0</td><td>0.0</td><td>14.4</td><td>4.1</td><td>284.7</td><td>10.9</td></tr>
+<tr><th scope="row">8 p.m.</th><td>0.0</td><td>0.0</td><td>13.3</td><td>4.3</td><td>283.1</td><td>10.1</td></tr>
+<tr><th scope="row">9 p.m.</th><td>0.0</td><td>0.0</td><td>12.4</td><td>4.5</td><td>281.2</td><td>9.5</td></tr>
+<tr><th scope="row">10 p.m.</th><td>0.0</td><td>0.0</td><td>11.8</td><td>4.4</td><td>278.9</td><td>8.8</td></tr>
+<tr><th scope="row">11 p.m.</th><td>0.0</td><td>0.0</td><td>11.4</td><td>4.0</td><td>277.0</td><td>8.3</td></tr>
+<tr><th scope="row">midnight</th><td>0.0</td><td>0.0</td><td>11.3</td><td>3.7</td><td>275.7</td><td>7.6</td></tr>
+<tr><th scope="row">1 a.m.</th><td>0.0</td><td>0.0</td><td>10.9</td><td>3.9</td><td>273.6</td><td>7.2</td></tr>
+<tr><th scope="row">2 a.m.</th><td>0.0</td><td>0.0</td><td>10.5</td><td>3.4</td><td>271.7</td><td>6.6</td></tr>
+<tr><th scope="row">3 a.m.</th><td>0.0</td><td>0.0</td><td>10.0</td><td>3.6</td><td>270.6</td><td>6.3</td></tr>
+<tr><th scope="row">4 a.m.</th><td>0.0</td><td>0.0</td><td>9.7</td><td>2.9</td><td>269.6</td><td>5.5</td></tr>
+<tr><th scope="row">5 a.m.</th><td>0.0</td><td>0.0</td><td>10.0</td><td>2.7</td><td>268.9</td><td>4.9</td></tr>
+<tr><th scope="row">6 a.m.</th><td>16.6</td><td>6.1</td><td>10.4</td><td>2.7</td><td>269.5</td><td>5.8</td></tr>
+<tr><th scope="row">7 a.m.</th><td>155.7</td><td>48.6</td><td>13.0</td><td>1.8</td><td>268.8</td><td>10.9</td></tr>
+<tr><th scope="row">8 a.m.</th><td>363.0</td><td>90.5</td><td>15.7</td><td>1.5</td><td>272.7</td><td>17.4</td></tr>
+<tr><th scope="row">9 a.m.</th><td>552.5</td><td>121.0</td><td>17.0</td><td>1.9</td><td>276.8</td><td>22.5</td></tr>
+<tr><th scope="row">10 a.m.</th><td>697.2</td><td>140.2</td><td>18.7</td><td>2.2</td><td>282.2</td><td>26.9</td></tr>
+<tr><th scope="row">11 a.m.</th><td>783.1</td><td>148.9</td><td>20.6</td><td>2.5</td><td>289.3</td><td>30.4</td></tr>
+</tbody>
+</table>
+<p>The last column is the ground's own temperature, which the station works out from the Earthlight the ground emits. The model doesn't use it. The dots on the temperature graph are these numbers, and "How it was checked" compares the model with them.</p>
+
+<h4>2. How warm is the air, and how hard is the wind blowing?</h4>
+<p>The model doesn't work out the air's temperature or the wind. It reads them from the table, again with straight lines between the hours. The air 10&nbsp;m up is warmest at 3&nbsp;p.m., at 21.9&nbsp;°C, and coolest at 4&nbsp;a.m., at 9.7&nbsp;°C. The model's <var>T</var><sub>a</sub> is that, in kelvins. Call the measured wind <var>U</var><sub>m</sub>. The model's wind is</p>
+<div class="eq" data-eq="wind"><math displaystyle="true"><mrow><mi mathvariant="normal">U</mi><mo>=</mo><mi mathvariant="normal">w</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">U</mi><mi mathvariant="normal">m</mi></msub></mrow></math></div>
+<p>in m/s, where <var>w</var> is 1 unless you change it in the Advanced view. Look at the wind in the table: it blows harder in the evening, 4.5&nbsp;m/s at 9&nbsp;p.m., than in the morning, 1.5&nbsp;m/s at 8&nbsp;a.m. On clear nights at the foot of the Rockies, cold air drains down off the mountains.</p>
+
+<h4>3. How much Earthlight comes down from the sky?</h4>
+<p>The air glows in the infrared, mostly from its water vapor and carbon dioxide, and some of that glow comes down to the ground. The station measures it. Call what it measured <var>L</var><sub>m</sub>, from the table. The model's sky sends down the share <var>s</var> of that:</p>
+<div class="eq" data-eq="sky"><math displaystyle="true"><mrow><mi mathvariant="normal">L</mi><mo>=</mo><mi mathvariant="normal">s</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">L</mi><mi mathvariant="normal">m</mi></msub></mrow></math></div>
+<p>in W/m². <var>s</var> is the number on the slider, as a fraction: 100% is 1. Look at the table: the sky's glow hardly changes from day to night. From 4&nbsp;p.m. to 7&nbsp;a.m. the air 10&nbsp;m up cools by 8.5&nbsp;K, but the Earthlight from the sky falls by only 25&nbsp;W/m². Most of that glow comes from air far above the ground, which hardly feels the night.</p>
+
+<h4>4. How much Earthlight does the surface emit?</h4>
+<p>This is the Stefan–Boltzmann law of Chapter 2:</p>
+<div class="eq" data-eq="emitted"><math displaystyle="true"><mrow><mi mathvariant="normal">E</mi><mo>=</mo><mi mathvariant="normal">σ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mn>4</mn></msup></mrow></math></div>
+<p>in W/m². Chapter 2 writes it with the letter <var>F</var>. Here it's <var>E</var>, for emitted, because step 7 needs the <var>F</var>.</p>
+
+<h4>5. Is the air near the ground being stirred?</h4>
+<p>Air carries heat to or from the ground only while it's stirred: while gusts and swirls, called eddies, keep swapping air near the ground for air from higher up. The wind makes eddies. But when the ground is colder than the air over it, the air next to the ground is colder and heavier than the air above it. An eddy has to lift that heavy air, and the wind has to do the work. A number called the <strong>Richardson number</strong>, Ri, compares the two:</p>
+<div class="eq" data-eq="richardson"><math displaystyle="true"><mrow><mi mathvariant="normal">Ri</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">g</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">z</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">a</mi></msub><mo>−</mo><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">a</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">U</mi><mn>2</mn></msup></mrow></mfrac></mrow></math></div>
+<p>The top is how hard the heavy air resists being lifted. The bottom is how hard the wind stirs (<var>U</var>²). By day the ground is warmer than the air, so Ri is below zero: the warm air near the ground rises by itself. At night Ri is above zero. The colder the ground gets, the bigger Ri gets, and the gentler the wind, the faster it grows.</p>
+
+<h4>6. How much heat do the air and water vapor carry?</h4>
+<p>First, how hard is it to push heat through well-stirred air between the ground and 10&nbsp;m up? That's the air's <strong>resistance</strong>, <var>r</var>, in seconds per meter. Two roughness lengths go into it. The wind feels the grass as <var>z</var><sub>0</sub>. Heat has to cross the still layer of air that clings to each blade of grass, so it feels the ground as smoother, with a roughness length a tenth as big:</p>
+<div class="eq" data-eq="heat-roughness"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">z</mi><mrow><mn>0</mn><mi mathvariant="normal">h</mi></mrow></msub><mo>=</mo><mfrac><msub><mi mathvariant="normal">z</mi><mn>0</mn></msub><mn>10</mn></mfrac></mrow></math></div>
+<div class="eq" data-eq="resistance"><math displaystyle="true"><mrow><mi mathvariant="normal">r</mi><mo>=</mo><mfrac><mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mn>0</mn></msub></mfrac></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mrow><mn>0</mn><mi mathvariant="normal">h</mi></mrow></msub></mfrac></mrow></mrow><mrow><msup><mi mathvariant="normal">κ</mi><mn>2</mn></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">U</mi></mrow></mfrac></mrow></math></div>
+<p>ln is the natural logarithm. A stronger wind (<var>U</var>) and rougher ground (<var>z</var><sub>0</sub>) make more eddies, so the resistance is lower. With the wind as measured, <var>r</var> runs from 66&nbsp;s/m in the windiest hour to 195&nbsp;s/m in the calmest.</p>
+<p>Second, how much stronger or weaker is the stirring than in neutral air, with the ground and the air at the same temperature? Call that <var>f</var>. It comes from a theory of the air near the ground called Monin–Obukhov similarity, as Scott Denning's earlier app wrote it. The stability, <var>ζ</var> (the Greek letter zeta), goes with Ri this way:</p>
+<div class="eq" data-eq="ri-zeta"><math displaystyle="true"><mrow><mi mathvariant="normal">Ri</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">ζ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mrow><mn>0</mn><mi mathvariant="normal">h</mi></mrow></msub></mfrac></mrow><mo>−</mo><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">h</mi></msub><mo stretchy="false">)</mo></mrow></mrow><msup><mrow><mo stretchy="false">(</mo><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mn>0</mn></msub></mfrac></mrow><mo>−</mo><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">m</mi></msub><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mfrac></mrow></math></div>
+<p>where <var>ψ</var><sub>m</sub> and <var>ψ</var><sub>h</sub> (the Greek letter psi) are how much the air's stability changes the stirring of the wind and of heat. At night, when the ground is colder than the air, <var>ζ</var> is above zero, and <var>ψ</var><sub>h</sub> is the same as</p>
+<div class="eq" data-eq="psi-stable"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">m</mi></msub><mo>=</mo><mo>−</mo><mn>5</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">ζ</mi></mrow></math></div>
+<p>Put that into the equation for Ri, and it's a quadratic in <var>ζ</var>: the model solves it exactly. As Ri grows toward 0.2, <var>ζ</var> grows without end, and the stirring dies away. When Ri reaches 0.2 the model sets <var>f</var> to 0. The air near the ground has gone still, and it carries no heat at all.</p>
+<p>By day, when the ground is warmer than the air, <var>ζ</var> is below zero. Warm air near the ground rises by itself, and the <var>ψ</var>'s come from</p>
+<div class="eq" data-eq="x"><math displaystyle="true"><mrow><mi mathvariant="normal">x</mi><mo>=</mo><msup><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mn>16</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">ζ</mi><mo stretchy="false">)</mo></mrow><mfrac><mn>1</mn><mn>4</mn></mfrac></msup></mrow></math></div>
+<div class="eq" data-eq="psi-m"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">m</mi></msub><mo>=</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mrow><mn>1</mn><mo>+</mo><mi mathvariant="normal">x</mi></mrow><mn>2</mn></mfrac></mrow><mo>+</mo><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mrow><mn>1</mn><mo>+</mo><msup><mi mathvariant="normal">x</mi><mn>2</mn></msup></mrow><mn>2</mn></mfrac></mrow><mo>−</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>arctan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">x</mi></mrow><mo>+</mo><mfrac><mi mathvariant="normal">π</mi><mn>2</mn></mfrac></mrow></math></div>
+<div class="eq" data-eq="psi-h"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">h</mi></msub><mo>=</mo><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mrow><mn>1</mn><mo>+</mo><msup><mi mathvariant="normal">x</mi><mn>2</mn></msup></mrow><mn>2</mn></mfrac></mrow></mrow></math></div>
+<p>arctan is the inverse tangent, in radians. There's no way to turn the equation for Ri round and get <var>ζ</var> from it directly, so by day the model finds it by trying: it starts with <var>ζ</var> between −2 and 0, and halves that range 50 times, each time keeping the half whose Ri is on the right side. Far below −2 these equations break down over grass this smooth. So when Ri is below −0.61, the model takes <var>ζ</var> as −2. In the day that repeats, Ri never gets below −0.50, so that only happens in the first hours of a run. It happens in the afternoon too if you set the sky to 120% or more, or turn the wind down in the Advanced view: the ground gets hot enough that the model holds <var>ζ</var> at −2 for an hour or more. Day or night,</p>
+<div class="eq" data-eq="stirring"><math displaystyle="true"><mrow><mi mathvariant="normal">f</mi><mo>=</mo><mfrac><mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mn>0</mn></msub></mfrac></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mrow><mn>0</mn><mi mathvariant="normal">h</mi></mrow></msub></mfrac></mrow></mrow><mrow><mrow><mo stretchy="false">(</mo><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mn>0</mn></msub></mfrac></mrow><mo>−</mo><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">m</mi></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">z</mi><msub><mi mathvariant="normal">z</mi><mrow><mn>0</mn><mi mathvariant="normal">h</mi></mrow></msub></mfrac></mrow><mo>−</mo><msub><mi mathvariant="normal">ψ</mi><mi mathvariant="normal">h</mi></msub><mo stretchy="false">)</mo></mrow></mrow></mfrac></mrow></math></div>
+<p>At noon on the page as it opens, Ri is −0.46 and <var>f</var> is 1.79: rising air stirs almost twice as hard as the wind alone.</p>
+<p>Third, how much does a cubic meter of air weigh? Table Mountain is 1,689&nbsp;m up, where the air is thinner than at sea level. The ideal gas law gives its density, <var>ρ</var> (the Greek letter rho), from its pressure and its temperature:</p>
+<div class="eq" data-eq="density"><math displaystyle="true"><mrow><mi mathvariant="normal">ρ</mi><mo>=</mo><mfrac><mi mathvariant="normal">P</mi><mrow><mi mathvariant="normal">R</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">a</mi></msub></mrow></mfrac></mrow></math></div>
+<p>in kg/m³. At 15&nbsp;°C it's 1.00&nbsp;kg/m³; at sea level it would be about 1.2. Thinner air carries less heat.</p>
+<p>Then the heat the air carries up from the surface is</p>
+<div class="eq" data-eq="heat"><math displaystyle="true"><mrow><mi mathvariant="normal">H</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">ρ</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">p</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">a</mi></msub><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">f</mi></mrow><mi mathvariant="normal">r</mi></mfrac></mrow></math></div>
+<p>in W/m². By day the surface is warmer than the air, so <var>H</var> is above zero and the air carries heat away. At night <var>H</var> is below zero: the air brings heat down. But the colder the ground, the smaller <var>f</var>, so the air brings down less just when the ground needs it more.</p>
+<p>Last, some heat leaves as water vapor. The soil is moist, between the wettest it stays after rain drains away and the driest that plants can still draw water from. Water that evaporates from it takes heat with it. The model takes that heat to be a fixed share of <var>H</var>:</p>
+<div class="eq" data-eq="vapor"><math displaystyle="true"><mrow><mi mathvariant="normal">V</mi><mo>=</mo><mfrac><mi mathvariant="normal">H</mi><mi mathvariant="normal">β</mi></mfrac></mrow></math></div>
+<p>in W/m², while <var>H</var> is above zero. When the ground is colder than the air, nothing evaporates, and <var>V</var> is 0.</p>
+
+<h4>7. How much heat flows down through the soil?</h4>
+<p>Heat flows from a warmer layer to a cooler one. From the top layer into the second layer, it flows at</p>
+<div class="eq" data-eq="flow"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">F</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">k</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">T</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>1</mn></msub></mrow><mo>+</mo><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>2</mn></msub></mrow></mrow></mfrac></mrow></math></div>
+<p>in W/m². A bigger difference in temperature makes a faster flow, and a longer way to go makes a slower one. The middles of the two layers are half of Δ<var>z</var><sub>1</sub> + Δ<var>z</var><sub>2</sub> apart, and that half is where the 2 on top comes from. At night the soil under the surface is warmer than the surface, so <var>F</var><sub>1</sub> is below zero: heat flows up.</p>
+
+<h4>8. How much does a layer warm in one step?</h4>
+<p>The top layer keeps what's left over: the Sunlight and the Earthlight from the sky that it takes in, less the Earthlight it emits, less what the air and the water vapor carry away, less what flows on down. In one time step that warms it by</p>
+<div class="eq" data-eq="warming"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">T</mi><mn>1</mn></msub></mrow><mo>=</mo><mfrac><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">t</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">Q</mi><mo>+</mo><mi mathvariant="normal">L</mi><mo>−</mo><mi mathvariant="normal">E</mi><mo>−</mo><mi mathvariant="normal">H</mi><mo>−</mo><mi mathvariant="normal">V</mi><mo>−</mo><msub><mi mathvariant="normal">F</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><mi mathvariant="normal">c</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>1</mn></msub></mrow></mrow></mfrac></mrow></math></div>
+<p>kelvins. The top of the fraction is the energy left over in the step, in joules for each square meter. The bottom is the energy it takes to warm a square meter of the layer by 1&nbsp;K. When more goes out than comes in, Δ<var>T</var><sub>1</sub> is below zero and the layer cools.</p>
+<p>A layer farther down gets no light and touches no air. It keeps what flows in from above, less what flows out below:</p>
+<div class="eq" data-eq="warming-below"><math displaystyle="true"><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">T</mi><mn>2</mn></msub></mrow><mo>=</mo><mfrac><mrow><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">t</mi></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">F</mi><mn>1</mn></msub><mo>−</mo><msub><mi mathvariant="normal">F</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow><mrow><mi mathvariant="normal">c</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo lspace="0" rspace="0">Δ</mo><msub><mi mathvariant="normal">z</mi><mn>2</mn></msub></mrow></mrow></mfrac></mrow></math></div>
+<p>Nothing flows out of the bottom of the lowest layer. The model works out every flow from the temperatures at the start of the step, and only then changes the temperatures.</p>
+
+<h3 id="physics-example">A worked example</h3>
+<p>Leave the controls as the page opens them, and open the "Energy" tab. Select the graph and press the right arrow key once, which puts you at midnight. Then hold Shift and press the right arrow key once more. You're at 1:00&nbsp;a.m., and the table under the graph says the surface is at 282.566&nbsp;K, the layer under it is at 283.400&nbsp;K and the air 10&nbsp;m up is at 284.030&nbsp;K.</p>
+<ol class="worked">
+<li><strong>Sunlight (step 1).</strong> The table says 0 at 1&nbsp;a.m.: the Sun is down, so <var>Q</var> is 0.</li>
+<li><strong>The air and the wind (step 2).</strong> The table says 10.9&nbsp;°C at 1&nbsp;a.m.; to two places it's 10.88&nbsp;°C, so <var>T</var><sub>a</sub> = 10.88 + 273.15 = 284.03&nbsp;K. The wind is <var>U</var> = 1 × 3.86 = 3.86&nbsp;m/s.</li>
+<li><strong>Earthlight from the sky (step 3).</strong> <var>L</var> = 1 × 273.6 = 273.6&nbsp;W/m².</li>
+<li><strong>Earthlight from the surface (step 4).</strong> <var>E</var> = 5.67&nbsp;×&nbsp;10⁻⁸ × 282.566⁴ = 361.5&nbsp;W/m².</li>
+<li><strong>Stirring (step 5).</strong> Ri = 9.81 × 10 × (284.03 − 282.566) ÷ (284.03 × 3.86²) = 0.034.</li>
+<li><strong>The air's heat (step 6).</strong> The two logarithms are ln(10 ÷ 0.03) = 5.809 and ln(10 ÷ 0.003) = 8.112, so <var>r</var> = 5.809 × 8.112 ÷ (0.4² × 3.86) = 76.3&nbsp;s/m. Ri is above zero, and solving the quadratic gives <var>ζ</var> = 0.168, so <var>ψ</var><sub>m</sub> = <var>ψ</var><sub>h</sub> = −5 × 0.168 = −0.84. Then <var>f</var> = 5.809 × 8.112 ÷ ((5.809 + 0.84) × (8.112 + 0.84)) = 0.792, and <var>ρ</var> = 82,613 ÷ (287 × 284.03) = 1.013. So <var>H</var> = 1.013 × 1,004 × (282.566 − 284.03) × 0.792 ÷ 76.3 = −15.5&nbsp;W/m². The air is bringing 15.5&nbsp;W/m² down to the ground. <var>H</var> is below zero, so <var>V</var> is 0.</li>
+<li><strong>The soil's heat (step 7).</strong> <var>F</var><sub>1</sub> = 2 × 1 × (282.566 − 283.400) ÷ (0.01 + 0.014) = −69.5&nbsp;W/m². The soil is bringing 69.5&nbsp;W/m² up.</li>
+<li><strong>What's left over (step 8).</strong> 0 + 273.6 − 361.5 − (−15.5) − 0 − (−69.5) = −2.9&nbsp;W/m².</li>
+<li><strong>The cooling (step 8).</strong> Δ<var>T</var><sub>1</sub> = 60 × (−2.9) ÷ (2,000,000 × 0.01) = −0.009&nbsp;K.</li>
+</ol>
+<p>Those are the numbers in the table under the graph. The surface emits 361&nbsp;W/m². The sky gives back 274 of it, the soil 70 and the air 15. What's left cools the surface by 0.009&nbsp;K in the next minute.</p>
+
+<h3 id="physics-limits">Where the equations stop</h3>
+<p>This is a toy, and it leaves a lot out.</p>
+<ul>
+<li><strong>The air, the wind and the sky are measured, not worked out.</strong> They follow the same day whatever the ground does. Real air near the ground cools at night partly because it loses heat to the ground.</li>
+<li><strong>Evaporation is a fixed share.</strong> Real evaporation depends on how wet the soil is, how dry the air is and how hard the wind blows. The model only knows that it takes two-thirds as much heat as the air carries away.</li>
+<li><strong>The Sun shines whatever the sky.</strong> The Sunlight is measured on clear days, so a sky above 100% is a cloud that lets the Sunlight through.</li>
+<li><strong>Stirring stops at once.</strong> Real air near the ground on a still night is stirred now and then, in gusts. The model's air is either stirred or still. By day, the deep layer of rising air, a kilometer or more, makes gusts of its own in light winds; the model leaves those out.</li>
+<li><strong>The ground is soil with grass on it, as one layer.</strong> The model's top centimeter is soil, and its roughness and the Sunlight it reflects are the grass's. Real grass is a thin layer of leaves over the soil, and it cools faster at sunset than soil does.</li>
+<li><strong>The same soil all the way down,</strong> and nothing flows in or out through the bottom of the lowest layer, almost a meter down.</li>
+</ul>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>The layers.</strong> There are 11. The top one is 1&nbsp;cm thick and the lowest one ends 0.99&nbsp;m down. The soil graph's lines for 3, 9 and 29&nbsp;cm are the layers whose middles are 3.4, 9.0 and 29.1&nbsp;cm down.</li>
+<li><strong>Reaching a day that repeats.</strong> The model starts every layer at 288.15&nbsp;K and runs day after day. It stops when the surface's average for the day is within 0.002&nbsp;K of the day before, and every layer's average is within 0.002&nbsp;K of the surface's. That takes 5 days for the sky as measured.</li>
+<li><strong>A shortcut for the deep layers.</strong> Left to itself, the soil a meter down would take months to settle. But over a day that repeats, no layer gains or loses heat on balance, so every layer has the same average temperature. After each day the model moves each layer by the difference between the surface's average and its own.</li>
+<li><strong>Where the soil ends up.</strong> The starting 288.15&nbsp;K doesn't matter: the day that repeats is the same from any start. Nothing sets the soil's temperature. It settles wherever the surface's energy balances over a day. On the page as it opens, every layer averages 16.9&nbsp;°C, warmer than the air's average of 15&nbsp;°C, because the ground in the Sun gets hot by day. With no Earthlight from the sky on any night, every layer averages −35.1&nbsp;°C.</li>
+<li><strong>Tonight only, or one day and night.</strong> With "Tonight only" or "One day and night, from noon", the model first reaches the day that repeats with the sky as measured. Then it runs one more day, from noon to noon, with the sky you chose between sunset and sunrise, or all through it. So the change starts from soil that has had usual days.</li>
+</ul>
+
+<h3 id="physics-try">See the equations at work</h3>
+<p>These use the controls for the wind and the soil, which are only in the Advanced view. Press "Back to a usual night" between them.</p>
+<ol>
+<li><strong>When does the air bring heat down?</strong> On the page as it opens, open "Energy" and move along the night. Until about 8:10&nbsp;p.m. the ground is still warmer than the air 10&nbsp;m up, and the air carries heat away from it. After that the air brings some down, but never more than 15.5&nbsp;W/m², because the colder the ground gets, the less the air near it is stirred (step 6). Without the sky's glow, Ri passes 0.2 within 65 minutes of sunset, and the air carries nothing more all night.</li>
+<li><strong>Change the wind.</strong> Set the wind to 50%. The afternoon gets hotter: the ground peaks at 35.3&nbsp;°C instead of 31.0&nbsp;°C, because the air carries less of the Sun's heat away. Set it to 200%, and the peak is 28.7&nbsp;°C, and the ground is at 8.3&nbsp;°C at sunrise instead of 6.8&nbsp;°C. Over a usual night the air now brings down 18.5&nbsp;W/m² on average, instead of 6.9.</li>
+<li><strong>Can the wind save the night?</strong> Keep the wind at 200%, then choose "Tonight only" and press "No Earthlight from the sky". A wind this strong keeps the air stirred until about 4:15&nbsp;a.m., when the wind drops, and over the night it brings down 128&nbsp;W/m² on average. The ground still falls to −14.5&nbsp;°C by sunrise. At the wind as measured, it's −21.7&nbsp;°C. Wind helps a lot, but only the sky keeps the night mild.</li>
+<li><strong>Rougher or smoother ground.</strong> Over smooth ground, with roughness 0.005&nbsp;m, the ground peaks at 34.8&nbsp;°C. Over the roughest choice, 0.25&nbsp;m, it peaks at 27.0&nbsp;°C. Roughness acts only through the eddies the wind makes as it drags over the ground, so it matters most when the wind is strong.</li>
+<li><strong>Dry sand.</strong> Set the soil's conductivity to 0.3, about what dry, sandy soil has. The soil can't give back the day's heat as fast: the ground is at 2.0&nbsp;°C at sunrise on a usual night. Without the sky's glow for one night, it falls to −39.3&nbsp;°C.</li>
+<li><strong>Drier soil.</strong> Set the Bowen ratio to 5. Less of the Sun's heat goes into water vapor, and the ground peaks at 33.0&nbsp;°C.</li>
+</ol>
+
+<h3 id="physics-data">Where the numbers come from</h3>
+<p>The Stefan–Boltzmann constant is the book's own, from Chapter 2. The ground at Table Mountain is grass. The station measures the Sunlight it reflects, but not how rough it is. For that the model takes 0.03&nbsp;m, the roughness of the “open” class in the classification of terrain that the World Meteorological Organization uses: level country with low vegetation, such as grass, and few obstacles. The roughness choices in the Advanced view are four of that classification's classes. Heat's roughness length is a tenth of the wind's, as in Scott Denning's earlier app, which follows the note after equation 14.34 in Gordon Bonan's <em>Ecological Climatology</em>.</p>
+<p>The Sunlight, the Sunlight the ground reflects, the air's temperature, the wind and the Earthlight from the sky come from SURFRAD, a network of stations run by NOAA that measure the energy at the ground every minute. The station at Table Mountain is on open grassland north of Boulder, Colorado, at 40.1°&nbsp;N and 1,689&nbsp;m. The model's day is the average of the 11 clear days and nights found within about three weeks of an equinox in 2018 to 2024: noon to noon, with smooth Sunlight on both days and no clouds in the night's infrared. The station's notes give the air's temperature as measured 10&nbsp;m up, and give no height for the wind; the model takes the wind as 10&nbsp;m up too. The data are public domain.</p>
+<p>The soil is moist loam, partway between field capacity, the wettest it stays after rain drains away, and the wilting point, the driest that plants can still draw water from. Its heat capacity, 2&nbsp;million&nbsp;J/m³ per K, and its Bowen ratio, 1.5, are for soil like that. Its conductivity, 1&nbsp;W/m per K, is a normal value for a loam soil. Engineers Edge's table of soils gives loams a normal range of 6 to 17.4&nbsp;Btu·in/h·ft²·°F, which is 0.87 to 2.5&nbsp;W/m per K. With these two numbers the day's warmth reaches about 12&nbsp;cm down before it fades, so the top 10&nbsp;cm of Box 2.2 is about the layer that warms and cools.</p>
+<p>The stirring in steps 5 and 6 follows the equations in Scott Denning's earlier app on the air's resistance, which followed sections 14.5 to 14.7 of Bonan's book. The air's pressure is the standard atmosphere's at the station's height.</p>
+<p class="cite">Augustine, J. A., DeLuisi, J. J., and Long, C. N. (2000). SURFRAD—A national surface radiation budget network for atmospheric research. <em>Bulletin of the American Meteorological Society</em> 81(10), 2341–2357. <a href="https://doi.org/10.1175/1520-0477(2000)081%3C2341:SANSRB%3E2.3.CO;2">doi:10.1175/1520-0477(2000)081&lt;2341:SANSRB&gt;2.3.CO;2</a></p>
+<p class="cite">Augustine, J. A., Hodges, G. B., Cornwall, C. R., Michalsky, J. J., and Medina, C. I. (2005). An update on SURFRAD—The GCOS surface radiation budget network for the continental United States. <em>Journal of Atmospheric and Oceanic Technology</em> 22(10), 1460–1472. <a href="https://doi.org/10.1175/JTECH1806.1">doi:10.1175/JTECH1806.1</a></p>
+<p class="cite">Ye, Z., and Pielke, R. A. (1995). A parameterization of Bowen ratio with respect to soil moisture availability. <em>Advances in Atmospheric Sciences</em> 12(4), 449–474. <a href="https://doi.org/10.1007/BF02657005">doi:10.1007/BF02657005</a></p>
+<p class="cite">Meter Group. Plant available water: how do I determine field capacity and permanent wilting point? <a href="https://metergroup.com/measurement-insights/plant-available-water-how-do-i-determine-field-capacity-and-permanent-wilting-point/">metergroup.com</a></p>
+<p class="cite">Engineers Edge. Thermal Conductivity Rocks and Soil. <a href="https://www.engineersedge.com/heat_transfer/thermal_conductivity_rocks_and_soil_15942.htm">engineersedge.com/heat_transfer/thermal_conductivity_rocks_and_soil_15942.htm</a>, citing Salomone and Marlowe (1989).</p>
+<p class="cite">Wieringa, J. (1992). Updating the Davenport roughness classification. <em>Journal of Wind Engineering and Industrial Aerodynamics</em> 41, 357–368. <a href="https://doi.org/10.1016/0167-6105(92)90434-C">doi:10.1016/0167-6105(92)90434-C</a></p>
+<p class="cite">World Meteorological Organization. Surface roughness (Davenport roughness classification), WIGOS metadata code list. <a href="https://codes.wmo.int/wmdr/SurfaceRoughnessDavenport">codes.wmo.int/wmdr/SurfaceRoughnessDavenport</a></p>
+<p class="cite">Bonan, G. B. (2008). <em>Ecological Climatology: Concepts and Applications</em>, 2nd edition. Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511805530">doi:10.1017/CBO9780511805530</a></p>
+
+<h3 id="physics-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The model, against the ground at Table Mountain.</strong> The station measures the ground's own temperature too, and the model never sees it. Hour by hour, the model's surface is within 3&nbsp;K of it at every hour except 5 to 8&nbsp;p.m. Its afternoon peak is 31.0&nbsp;°C, against the station's 30.6&nbsp;°C. In the early evening it runs warmer, by up to 5.5&nbsp;K at 6&nbsp;p.m.: the station's grass cools quickly at sunset, and the model's top centimeter of soil doesn't. Through the night it runs about 2&nbsp;K warm.</li>
+<li><strong>The code, against a second copy.</strong> The tests have the eight steps written out a second time, in another programming language. On the page as it opens and ten other settings, the two copies give the same temperatures to a millionth of a kelvin.</li>
+<li><strong>The shortcut, against the slow way.</strong> The second copy also runs with no shortcut for the deep layers, for a year of days. It ends within 0.01&nbsp;K of what the shortcut gives in 5 days.</li>
+<li><strong>Energy in, against energy out.</strong> Over a day that repeats, what the surface takes in has to match what it gives out. On the page as it opens, the Sunlight and the Earthlight from the sky bring in 467.2&nbsp;W/m², averaged over the day and the night, and the Earthlight it emits, the heat the air carries away and the water vapor take out 467.2&nbsp;W/m².</li>
+<li><strong>A shorter step, against the usual one.</strong> A time step of 15 seconds gives the same day as 60 seconds, within 0.05&nbsp;K.</li>
+<li><strong>The stirring, against Scott Denning's app.</strong> Step 6's <var>f</var> is the neutral resistance divided by the resistance his app works out for heat, day and night.</li>
+<li><strong>These tabs, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model, and the table of measurements from the station's files.</li>
+</ul>
+</section>
+
+<section id="panel-code" role="tabpanel" aria-labelledby="tab-code" tabindex="0" hidden>
+<h2>The code</h2>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations on the Physics tab.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the eight steps, the measured day, and the loop that runs them until a day repeats.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graphs and the words under them.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/night">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

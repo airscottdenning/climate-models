@@ -38,7 +38,7 @@ import xml.etree.ElementTree as ET
 THIN = '<mspace width="0.17em"/>'
 APPLY = '<mo>&#x2061;</mo>' + THIN       # "function of": sin x
 TIMES = '<mo>&#x2062;</mo>' + THIN       # silent multiplication: a b
-FUNCTIONS = {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'ln': math.log}
+FUNCTIONS = {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'ln': math.log, 'arctan': math.atan}
 
 
 def var(letter):
@@ -63,7 +63,8 @@ def row(*parts):
 
 
 def fn(name, argument):
-    """A named function of something: fn('cos', var('θ')), fn('ln', num('2')). ln is the natural logarithm."""
+    """A named function of something: fn('cos', var('θ')), fn('ln', num('2')). ln is the natural logarithm;
+    arctan is the inverse tangent, in radians."""
     return row('<mi>%s</mi>' % name, APPLY, argument)
 
 
@@ -206,7 +207,7 @@ class _Sum:
         if part.tag == 'mi':
             return self.values[part.text]
         if part.tag == 'msub':
-            return self.values[''.join(child.text for child in part)]
+            return self.values[''.join(part.itertext())]        # a subscript of two, such as z0h, is one name
         if part.tag == 'mrow':
             return _Sum(list(part), self.values).whole()
         if part.tag in ('mfrac', 'msup'):
