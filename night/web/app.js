@@ -29,14 +29,15 @@
   var INK = '#152e3d', SPINE = '#87959e', TICK = '#394b57', GRID = '#e7edf0';
   var NIGHT = '#eef2f5', KEPT = '#5f6d75', STATION = '#d55e00';
   var AIR_LINE = { name: 'Air, 10 m up', color: '#0072b2', width: 2, value: function (run, k) { return run.air[k]; } };
-  var SURFACE_LINE = { name: 'Ground', color: INK, width: 2.4, value: layer(0) };
+  var MAIN_WIDTH = 4;    // the ground's surface is the model's main answer: its line is the boldest on every graph
+  var SURFACE_LINE = { name: 'Ground', color: INK, width: MAIN_WIDTH, main: true, value: layer(0) };
   // The soil graph's lines, drawn in this order: layers 8, 5 and 3 (their middles are 29, 9 and 3 cm down),
   // then layer 1, the surface.
   var SOIL = [
     { name: '29 cm', color: '#8a8a8a', width: 1.8, value: layer(7) },
     { name: '9 cm', color: '#bf812d', width: 1.8, value: layer(4) },
     { name: '3 cm', color: '#8c510a', width: 1.8, value: layer(2) },
-    { name: 'Surface', color: INK, width: 2.4, value: layer(0) }
+    { name: 'Surface', color: INK, width: MAIN_WIDTH, main: true, value: layer(0) }
   ];
   // The energy graph's lines: each flow of energy at the surface, counted as energy coming into it. `up` is the
   // same flow counted the way the arrows draw it: upward is positive. The soil's arrow is under the surface.
@@ -305,7 +306,8 @@
     for (i = 0; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, top + 5 + i * 15);
     ends.forEach(function (end) {
       ctx.lineWidth = 3; segment(ctx, x + 5, end.y, x + 15, end.y, end.color);
-      text(ctx, end.name, x + 19, end.y, { size: 12, baseline: 'middle' });
+      text(ctx, end.name, x + 19, end.y, end.main ? { size: 13, baseline: 'middle', bold: true, color: INK } :
+        { size: 12, baseline: 'middle' });
     });
   }
 
@@ -364,7 +366,7 @@
     var labelled = lines.filter(function (each) { return !each.dash; });
     names(ctx, labelled.map(function (each) {
       var last = each.run.once ? n - 1 : 0;
-      return { name: each.name, color: each.color, y: py(spec.toShown(each.value(each.run, last))) };
+      return { name: each.name, color: each.color, main: each.main, y: py(spec.toShown(each.value(each.run, last))) };
     }), x1, y1, y0);
 
     // The moment being read.
@@ -463,6 +465,9 @@
     });
     ctx.lineWidth = 2;
     segment(ctx, 0, ground, c.w, ground, INK);
+    // The model's main answer, under the surface line where the soil has room: the surface's temperature now.
+    text(ctx, 'Ground surface: ' + degrees(now.T[0][at]), left + 2.5 * column, ground + 26,
+         { align: 'center', size: 20, bold: true, color: INK, halo: '#efe4d2' });
   }
 
   /* The time slider under the arrows: it and the cursor on every graph are the same moment. */
