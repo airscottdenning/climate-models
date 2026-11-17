@@ -17,6 +17,7 @@ Small teaching models from *Climate Change: Simple, Serious, Solvable*, an open 
 | The Push and the Response: Forcing, Feedback and Warming | [simpleserioussolvable.org/models/forcing-feedback/](https://simpleserioussolvable.org/models/forcing-feedback/) | [`forcing-feedback/`](forcing-feedback/) |
 | A Few Degrees: Hot Days, Cold Nights and the Bell Curve | [simpleserioussolvable.org/models/daily-temperatures/](https://simpleserioussolvable.org/models/daily-temperatures/) | [`daily-temperatures/`](daily-temperatures/) |
 | Where the Carbon Goes: Air, Ocean, Land and Warming to the Year 3000 | [simpleserioussolvable.org/models/earthcarbon/](https://simpleserioussolvable.org/models/earthcarbon/) | [`earthcarbon/`](earthcarbon/) |
+| Spending the 21st Century Emission Budget | [simpleserioussolvable.org/models/emission-budget/](https://simpleserioussolvable.org/models/emission-budget/) | [`emission-budget/`](emission-budget/) |
 | Four Factors, One Atmosphere: The Kaya Identity and Economic Convergence | [simpleserioussolvable.org/models/kaya/](https://simpleserioussolvable.org/models/kaya/) | [`kaya/`](kaya/) |
 | Climate Damage: Compounding vs Discounting | [simpleserioussolvable.org/models/discounting/](https://simpleserioussolvable.org/models/discounting/) | [`discounting/`](discounting/) |
 

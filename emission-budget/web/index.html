@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spending the 21st Century Emission Budget</title>
+<meta name="description" content="Cut the world's carbon emissions by the same share every year, starting now, and see the emissions and the warming to 2100. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Toy Models</a></p>
+<h1>Spending the 21st Century Emission Budget</h1>
+<p class="intro standalone-only">Warming grows in step with all the carbon we've ever emitted. So every year's emissions add a little warming that stays with us. Choose how fast the world cuts its emissions, starting now, and see how warm the rest of the century gets.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="true">Emissions and warming</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="Cutting emissions">
+<div class="control">
+<label for="r">Cut emissions by (% a year)</label>
+<div class="pair"><input type="range" id="r-range" min="0" max="10" step="0.1" aria-label="Cut emissions by, slider"><input type="number" id="r" min="0" max="10" step="0.1"></div>
+<p class="hint">The world's carbon emissions from fossil fuels and land use, cut by the same share every year from <span data-live="start">2026</span>. In <span data-live="eyear">2025</span> they were about <span data-live="E0">11.5</span>&nbsp;GtC.</p>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-model" role="tabpanel" aria-labelledby="tab-model" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="line none"></span><span>No cuts: <span data-live="E0">11.5</span>&nbsp;GtC every year</span></li>
+<li><span class="line yours"></span>Your cuts</li>
+<li><span class="line limit"></span>2&nbsp;°C above preindustrial</li>
+</ul>
+<canvas id="graph" class="graph" tabindex="0" role="img" aria-label="Two graphs from now to 2100: the world's carbon emissions from fossil fuels and land use, and the warming since the late 1800s. Each shows two lines, one with no cuts and one with your cuts. A dashed line marks 2 °C of warming. The lines below give the numbers. With the graph selected, the left and right arrow keys move a year at a time, or ten years with Shift."></canvas>
+<p id="readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+</section>
+</div>
+
+<div id="notes">
+<p class="note"><strong>The budget.</strong> Chapter 9 of the book says warming grows by about 2&nbsp;°C for every 1,000&nbsp;GtC emitted. People have emitted about <span data-live="S0-round">757</span>&nbsp;GtC so far. To stay below 2&nbsp;°C, the world can emit only about <span data-live="left-round">244</span>&nbsp;GtC more, ever.</p>
+<p class="note"><strong>This is a very simple model.</strong> It has one slider, one rule for the emissions and one for the warming. The About tab has every equation.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of the world's carbon emissions and the warming they cause, from now to 2100. It rests on one idea from Chapter 9, "The One-Way Thermostat": the warming grows in proportion to all the carbon people have ever emitted. That ratio is the <strong>transient climate response to cumulative emissions</strong>, or <strong>TCRE</strong>. The book's teaching value is 2&nbsp;°C for every 1,000&nbsp;GtC (a GtC is a billion tonnes of carbon).</p>
+<p>So the warming works like an <strong>emission budget</strong>. By the end of <span data-live="eyear">2025</span>, people had emitted about <span data-live="S0">756.5</span>&nbsp;GtC, enough for <span data-live="T0">1.5</span>&nbsp;°C. Staying below 2&nbsp;°C means emitting no more than 1,000&nbsp;GtC in all, so only about <span data-live="left">243.5</span>&nbsp;GtC more, ever. In <span data-live="eyear">2025</span> the world emitted about <span data-live="E0">11.5</span>&nbsp;GtC. At that rate, the warming passes 2&nbsp;°C in <span data-live="none-limit">2048</span>.</p>
+<p>On this page, you choose how fast the world cuts its emissions, by the same share every year. On the page as it opens, they're cut 2% a year. Then the emissions fall to <span data-live="opens-E2100">2.6</span>&nbsp;GtC a year by 2100, the warming passes 2&nbsp;°C in <span data-live="opens-limit">2054</span>, and it reaches <span data-live="opens-T2100">2.4</span>&nbsp;°C (<span data-live="opens-F2100">4.3</span>&nbsp;°F) in 2100. Cut faster, and the warming stays lower. Cut <span data-live="slider">4.8</span>% a year, and it never passes 2&nbsp;°C.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has two graphs. The top one shows the world's carbon emissions from fossil fuels and land use each year, and the bottom one shows the warming since the late 1800s. Each graph has two lines. The gray line keeps the emissions at <span data-live="E0">11.5</span>&nbsp;GtC every year, and the green line uses your cuts. The dashed red line marks 2&nbsp;°C of warming above preindustrial conditions.</p>
+<p>You can change one thing: <strong>how much the emissions are cut each year,</strong> from 0% to 10%. The page opens at 2%.</p>
+<p>Move over a graph to read the numbers for one year. Or select the graph and press the left or right arrow key. The first press starts in 2050, and each press after it moves a year, or ten years with Shift. Home goes to <span data-live="start">2026</span> and End to 2100. Below the graph, a few lines sum up 2100 and say where the warming would end. "Back to where the page opened" puts the slider back at 2%.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the slider, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 9, "The One-Way Thermostat".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is four short equations, and you can follow every one of them with a calculator.</p>
+<p>The model answers one question: <strong>if the world cuts its emissions by the same share every year, how warm does it get?</strong></p>
+<p>You choose one thing: <var>r</var>, how much the emissions are cut, in % a year. The rest is fixed:</p>
+<table class="symbols">
+<thead><tr><th scope="col">What</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row">The model's first year</th><td><span data-live="start">2026</span></td></tr>
+<tr><th scope="row">The emissions in the first year, <var>E</var><sub>0</sub>, from fossil fuels and land use: <span data-live="eyear">2025</span>'s</th><td><span data-live="E0">11.5</span>&nbsp;GtC a year</td></tr>
+<tr><th scope="row">All the carbon emitted from 1850 through <span data-live="eyear">2025</span>, <var>S</var><sub>0</sub></th><td><span data-live="S0">756.5</span>&nbsp;GtC</td></tr>
+<tr><th scope="row">The warming for each GtC emitted (TCRE)</th><td>2&nbsp;°C for every 1,000&nbsp;GtC</td></tr>
+</tbody>
+</table>
+
+<h4>1. How much does the world emit?</h4>
+<p>Each year the emissions are cut by <var>r</var> percent of what they were the year before. So <var>n</var> years after <span data-live="start">2026</span>, the world emits</p>
+<div class="eq" data-eq="emissions"><math displaystyle="true"><mrow><mi mathvariant="normal">E</mi><mo>=</mo><msub><mi mathvariant="normal">E</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mfrac><mi mathvariant="normal">r</mi><mn>100</mn></mfrac><mo stretchy="false">)</mo></mrow><mi mathvariant="normal">n</mi></msup></mrow></math></div>
+<p>GtC a year. Each year's cut is a share of a smaller number, so the cuts get smaller in GtC as the emissions shrink, and the emissions never quite reach zero. It's compound interest running backward. At 2% a year, the emissions halve about every 34&nbsp;years.</p>
+
+<h4>2. How much carbon has been emitted in all?</h4>
+<p>Start with the <span data-live="S0">756.5</span>&nbsp;GtC emitted before <span data-live="start">2026</span>, and add each year's emissions. By the start of year <var>n</var>, the total is</p>
+<div class="eq" data-eq="total"><math displaystyle="true"><mrow><mi mathvariant="normal">S</mi><mo>=</mo><msub><mi mathvariant="normal">S</mi><mn>0</mn></msub><mo>+</mo><mfrac><mrow><mn>100</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>0</mn></msub><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msup><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mfrac><mi mathvariant="normal">r</mi><mn>100</mn></mfrac><mo stretchy="false">)</mo></mrow><mi mathvariant="normal">n</mi></msup><mo stretchy="false">)</mo></mrow></mrow><mi mathvariant="normal">r</mi></mfrac></mrow></math></div>
+<p>GtC. The model adds up the years one at a time. This equation is the shortcut: the sum of numbers that each shrink by the same share, which a calculator can do in one go.</p>
+
+<h4>3. How much warmer does it get?</h4>
+<p>This is TCRE, from Chapter 9: the warming grows in proportion to all the carbon emitted, at 2&nbsp;°C for every 1,000&nbsp;GtC. So the warming is</p>
+<div class="eq" data-eq="warming"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mfrac><mn>2</mn><mn>1,000</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">S</mi></mrow></math></div>
+<p>degrees Celsius above the late 1800s. When the emissions stop, <var>S</var> stops growing, and so does the warming. Each GtC adds 0.002&nbsp;°C that stays with us, so <span data-live="E0">11.5</span>&nbsp;GtC a year adds <span data-live="per-year">0.023</span>&nbsp;°C every year.</p>
+
+<h4>4. Where does it end?</h4>
+<p>The emissions never reach zero, but they shrink so fast that their total doesn't grow forever. If the cuts go on after 2100, all the carbon there will ever be is</p>
+<div class="eq" data-eq="forever"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">S</mi><mn>∞</mn></msub><mo>=</mo><msub><mi mathvariant="normal">S</mi><mn>0</mn></msub><mo>+</mo><mfrac><mrow><mn>100</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">E</mi><mn>0</mn></msub></mrow><mi mathvariant="normal">r</mi></mfrac></mrow></math></div>
+<p>GtC. That's step 2 with the years going on forever: the part in brackets shrinks to nothing. So the carbon still to come, from <span data-live="start">2026</span> on, is <var>E</var><sub>0</sub> times 100/<var>r</var>. At 2% a year, that's 50&nbsp;years of today's emissions. Step 3 turns <var>S</var><sub>∞</sub> into the warming where the line on the graph is heading.</p>
+<p>Turn it around, and it says how fast the cuts must be to stay below 2&nbsp;°C. The budget of <span data-live="left">243.5</span>&nbsp;GtC is 100 × <span data-live="E0">11.5</span> ÷ <var>r</var>, so <var>r</var> = <span data-live="hundred-E0">1,150</span> ÷ <span data-live="left">243.5</span> = <span data-live="needed">4.72</span>% a year. The slider moves in steps of 0.1, so on the slider that's <span data-live="slider">4.8</span>%.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>No cuts.</strong> At <var>r</var> = 0, steps 2 and 4 divide by zero. With no cuts, the world emits <span data-live="E0">11.5</span>&nbsp;GtC every year, so the total is just <var>S</var> = <var>S</var><sub>0</sub> + <span data-live="E0">11.5</span> <var>n</var>, and the warming never stops rising. That's the gray line.</li>
+<li><strong>Only carbon dioxide.</strong> TCRE is the warming from CO₂. Methane, the other gases and the smog that cools (Chapter 4) are left out. The model starts at <span data-live="T0">1.5</span>&nbsp;°C, a little above the 1.4&nbsp;°C the world had warmed by 2025 (Chapter 1).</li>
+<li><strong>A round number for TCRE.</strong> The IPCC's best estimate is about 1.65&nbsp;°C for every 1,000&nbsp;GtC, and it's likely between about 1.0 and 2.3. The book's 2&nbsp;°C makes the arithmetic easy and lies inside that range.</li>
+<li><strong>The same share every year.</strong> Real cuts could be faster or slower from year to year, and could reach zero. Only the total matters for the warming, so any path that emits the same carbon by 2100 ends at the same warming in 2100.</li>
+<li><strong>No removal.</strong> Nothing takes carbon back out of the air on purpose. The total only grows, so the warming never comes down.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave the slider at 2%. Select the graph and press the right arrow key once, to 2050. Here's where the page's numbers come from.</p>
+<ol class="worked">
+<li><strong>The emissions in 2050 (step 1).</strong> 2050 is <span data-live="w-n">24</span> years after <span data-live="start">2026</span>, so <var>n</var> = <span data-live="w-n">24</span>. 1 − 2/100 = 0.98, and 0.98<sup><span data-live="w-n">24</span></sup> = <span data-live="w-power">0.6158</span>. <var>E</var> = <span data-live="E0">11.5</span> × <span data-live="w-power">0.6158</span> = <span data-live="w-E">7.08</span>&nbsp;GtC a year.</li>
+<li><strong>All the carbon emitted by 2050 (step 2).</strong> 1 − <span data-live="w-power">0.6158</span> = <span data-live="w-rest">0.3842</span>. <var>S</var> = <span data-live="S0">756.5</span> + 100 × <span data-live="E0">11.5</span> × <span data-live="w-rest">0.3842</span> ÷ 2 = <span data-live="S0">756.5</span> + <span data-live="w-added">220.9</span> = <span data-live="w-S">977.4</span>&nbsp;GtC.</li>
+<li><strong>The warming in 2050 (step 3).</strong> <var>T</var> = 0.002 × <span data-live="w-S">977.4</span> = <span data-live="w-T">1.95</span>&nbsp;°C.</li>
+</ol>
+<p>The page says that in 2050, with your cuts, the world emits <span data-live="w-E">7.08</span>&nbsp;GtC, <span data-live="w-S-round">977</span>&nbsp;GtC has been emitted in all and the warming is <span data-live="w-T">1.95</span>&nbsp;°C. And step 4 says where it ends: <var>S</var><sub>∞</sub> = <span data-live="S0">756.5</span> + 100 × <span data-live="E0">11.5</span> ÷ 2 = <span data-live="w-forever">1,331.5</span>&nbsp;GtC, and 0.002 × <span data-live="w-forever">1,331.5</span> = <span data-live="w-final">2.66</span>&nbsp;°C.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>The start of each year.</strong> Each year's total and warming count the carbon emitted before that year began. So in <span data-live="start">2026</span> the total is <span data-live="S0">756.5</span>&nbsp;GtC and the warming <span data-live="T0">1.5</span>&nbsp;°C, and the warming in 2100 doesn't yet count the carbon emitted during 2100.</li>
+<li><strong>Fossil fuels and land use together.</strong> The <span data-live="E0">11.5</span>&nbsp;GtC is about <span data-live="fossil">10.4</span> from burning fossil fuels and about <span data-live="land">1.1</span> from clearing land, after counting the forests that grow back. The model cuts both by the same share.</li>
+<li><strong>Live numbers.</strong> Each January, the book brings its fast-changing numbers up to date. This page moves with them: its first year, <var>E</var><sub>0</sub>, <var>S</var><sub>0</sub> and every number on this tab that depends on them.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>No cuts.</strong> Set the slider to 0. The world emits <span data-live="E0">11.5</span>&nbsp;GtC every year, the warming passes 2&nbsp;°C in <span data-live="none-limit">2048</span>, and it reaches <span data-live="none-2100">3.2</span>&nbsp;°C by 2100, still rising <span data-live="per-year">0.023</span>&nbsp;°C a year (steps 2 and 3).</li>
+<li><strong>Slow cuts.</strong> Set the slider to 1. The emissions in 2100 are still <span data-live="slow-E2100">5.5</span>&nbsp;GtC a year, and the warming passes 2&nbsp;°C in <span data-live="slow-limit">2050</span>, only <span data-live="slow-gap">2 years</span> later than with no cuts. If the cuts go on, the warming ends at <span data-live="slow-final">3.8</span>&nbsp;°C (step 4).</li>
+<li><strong>Just enough.</strong> Set the slider to <span data-live="slider">4.8</span>. The warming in 2100 is <span data-live="enough-T2100">1.98</span>&nbsp;°C, and if the cuts go on, it ends at <span data-live="enough-final">1.99</span>&nbsp;°C, just under the dashed line (step 4).</li>
+<li><strong>Fast cuts.</strong> Set the slider to 10. The emissions in 2050 are <span data-live="fast-E2050">0.92</span>&nbsp;GtC a year, and the warming ends at <span data-live="fast-final">1.74</span>&nbsp;°C. Even the fastest cuts on the page add <span data-live="fast-add">115</span>&nbsp;GtC, and <span data-live="fast-addT">0.23</span>&nbsp;°C, to the warming we already have.</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The emissions in <span data-live="eyear">2025</span>, about <span data-live="fossil">10.4</span>&nbsp;GtC from fossil fuels and <span data-live="land">1.1</span> from land use, are the Global Carbon Budget's. So is the <span data-live="prior">745.0</span>&nbsp;GtC emitted from 1850 through <span data-live="prioryear">2024</span>, counting fossil fuels and land use. Add <span data-live="eyear">2025</span>'s <span data-live="E0">11.5</span>&nbsp;GtC, and <var>S</var><sub>0</sub> is <span data-live="S0">756.5</span>&nbsp;GtC. Chapter 9 rounds the total through 2024 to about 750&nbsp;GtC.</p>
+<p class="cite">Friedlingstein, P., et al. (2026). Global Carbon Budget 2025. <em>Earth System Science Data</em>, 18, 3211–3288. <a href="https://doi.org/10.5194/essd-18-3211-2026">doi:10.5194/essd-18-3211-2026</a></p>
+<p>The 2&nbsp;°C for every 1,000&nbsp;GtC is the book's teaching value for TCRE, a round number inside the range the IPCC assessed:</p>
+<p class="cite">IPCC (2021). Summary for Policymakers. In <em>Climate Change 2021: The Physical Science Basis</em>. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. Cambridge University Press. <a href="https://doi.org/10.1017/9781009157896.001">doi:10.1017/9781009157896.001</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the equations written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
+<li><strong>The shortcuts, against the long way.</strong> The equations of steps 2 and 4 are tried against the years added up one at a time, out to thousands of years for step 4.</li>
+<li><strong>The model, against the book.</strong> Its starting numbers are the book's live numbers, and its 2&nbsp;°C for every 1,000&nbsp;GtC is the book's TCRE.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the four steps, and the loop that runs them to 2100.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the slider, the graphs and the lines under them.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/emission-budget">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The model is Scott Denning's design. Claude, from Anthropic, wrote it to run in your browser and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
