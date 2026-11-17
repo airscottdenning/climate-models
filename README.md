@@ -15,6 +15,7 @@ Small teaching models from *Climate Change: Simple, Serious, Solvable*, an open 
 | Panes of Glass: The Layer Model of the Greenhouse Effect | [simpleserioussolvable.org/models/layers/](https://simpleserioussolvable.org/models/layers/) | [`layers/`](layers/) |
 | Leaky and Stirred: Two Layers of Air over Warm Ground | [simpleserioussolvable.org/models/two-layer/](https://simpleserioussolvable.org/models/two-layer/) | [`two-layer/`](two-layer/) |
 | The Push and the Response: Forcing, Feedback and Warming | [simpleserioussolvable.org/models/forcing-feedback/](https://simpleserioussolvable.org/models/forcing-feedback/) | [`forcing-feedback/`](forcing-feedback/) |
+| A Million Years of Ice Ages: Sunlight, Ice and Carbon Dioxide | [simpleserioussolvable.org/models/ice-ages/](https://simpleserioussolvable.org/models/ice-ages/) | [`ice-ages/`](ice-ages/) |
 | A Few Degrees: Hot Days, Cold Nights and the Bell Curve | [simpleserioussolvable.org/models/daily-temperatures/](https://simpleserioussolvable.org/models/daily-temperatures/) | [`daily-temperatures/`](daily-temperatures/) |
 | Where the Carbon Goes: Air, Ocean, Land and Warming to the Year 3000 | [simpleserioussolvable.org/models/earthcarbon/](https://simpleserioussolvable.org/models/earthcarbon/) | [`earthcarbon/`](earthcarbon/) |
 | Spending the 21st Century Emission Budget | [simpleserioussolvable.org/models/emission-budget/](https://simpleserioussolvable.org/models/emission-budget/) | [`emission-budget/`](emission-budget/) |
@@ -53,4 +54,4 @@ The models' own notes mention tests, scripts and a data store. Those live with t
 
 The code is under the MIT licence: see [`LICENSE`](LICENSE). You're welcome to use it, change it and teach with it.
 
-Data files keep the terms of their sources. Each model's `README.md` names them.
+The MIT licence covers the code, not the data. Data files keep the terms of their sources, and each model's `README.md` names them and how to cite them.
