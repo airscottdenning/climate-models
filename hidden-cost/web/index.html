@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Hidden Cost: A Fuel, Its Smoke and a Price on Pollution</title>
+<meta name="description" content="A market for a fuel, drawn as supply and demand. Add the harm its smoke does to people outside the market, then put a price on the pollution, and watch the amount burned, the price paid and the harm avoided. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
+<h1>The Hidden Cost: A Fuel, Its Smoke and a Price on Pollution</h1>
+<p class="intro standalone-only">Buyers and sellers of a fuel settle on a price and an amount. The smoke costs other people something too, but nobody in the market pays for it. Put a price on the pollution and see what changes: how much is burned, what the buyer pays and how much harm is avoided.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="true">The market</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="The harm and the price on it">
+<div class="control">
+<label for="h">Cost that falls on other people ($ a ton)</label>
+<div class="pair"><input type="range" id="h-range" min="0" max="80" step="1" aria-label="Cost that falls on other people, slider"><input type="number" id="h" min="0" max="80" step="1"></div>
+<p class="hint">What each ton's smoke costs people outside the market: sickness, early deaths, soot to clean and, for its CO₂, warming. Nobody in the market pays it.</p>
+</div>
+<div class="control">
+<label for="t">Price on the pollution ($ a ton)</label>
+<div class="pair"><input type="range" id="t-range" min="0" max="80" step="1" aria-label="Price on the pollution, slider"><input type="number" id="t" min="0" max="80" step="1"></div>
+<p class="hint">A tax on each ton burned, which the seller passes on to the buyer as best it can. Economists call it a Pigouvian tax, after Arthur Pigou.</p>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-model" role="tabpanel" aria-labelledby="tab-model" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="line demand"></span>Demand</li>
+<li><span class="line supply"></span>Supply: the seller's cost</li>
+<li><span class="line social"></span>Social cost: the seller's cost plus the harm</li>
+<li><span class="line priced"></span>The seller's cost plus the price</li>
+<li><span class="swatch"></span>How much smaller the pie is</li>
+</ul>
+<canvas id="graph" class="graph" role="img" aria-label="A supply-and-demand graph of a fuel: price in dollars a ton against the amount burned in millions of tons a year. A falling demand line crosses a rising supply line where the market alone settles. A dashed line above the supply line, higher by the harm to other people, is the social cost. When there is a price on the pollution, a third line shows the seller's cost plus the price, and a dot marks where the market now settles. A shaded triangle shows how much smaller the pie is than it could be. The table below gives the numbers."></canvas>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+
+<table class="results">
+<caption>What the market does</caption>
+<tbody>
+<tr><th scope="row">Fuel burned</th><td id="out-burned"></td></tr>
+<tr><th scope="row">The price the buyer pays</th><td id="out-paid"></td></tr>
+<tr><th scope="row">What the seller keeps</th><td id="out-kept"></td></tr>
+<tr><th scope="row">The fuel bill, paid to the sellers</th><td id="out-bill"></td></tr>
+<tr><th scope="row">The price on the pollution brings in</th><td id="out-money"></td></tr>
+<tr><th scope="row">The harm to other people</th><td id="out-harm"></td></tr>
+<tr><th scope="row">Harm avoided, beside the market alone</th><td id="out-avoided"></td></tr>
+<tr><th scope="row">The pie is smaller than it could be by</th><td id="out-lost"></td></tr>
+<tr><th scope="row">The biggest pie burns</th><td id="out-best"></td></tr>
+</tbody>
+</table>
+</section>
+</div>
+
+<div id="notes">
+<p class="note"><strong>The best amount isn't zero.</strong> Where the pie is biggest, some fuel is still burned and some harm is still done. Each of those tons is worth more to its buyer than it costs the seller and the people downwind together.</p>
+<p class="note"><strong>The biggest pie, not fair slices.</strong> The graph says nothing about who gets which slice. The people downwind still bear the harm that's left, unless the money from the price reaches them.</p>
+<p class="note"><strong>This is a made-up market.</strong> Its two straight lines are chosen to be easy to follow, not to match any real fuel. The About tab has every equation.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of a <strong>market externality</strong>: a cost that falls on people outside the market. It draws the supply-and-demand graph of section 14.2 of Chapter 14, "Planetary Prosperity", for a made-up fuel, and it does the arithmetic of a price on pollution.</p>
+<p>Buyers and sellers of the fuel settle where <strong>demand</strong> meets <strong>supply</strong>. The smoke from burning it costs other people something too, but nobody in the market pays that cost, so the market burns too much. The <strong>social cost</strong> of the fuel is the seller's cost plus the harm to other people. Put a price on the pollution equal to the harm, and the market settles where demand meets the social cost: the economists' biggest pie.</p>
+<p>On the page as it opens, each ton burned does $30 of harm to other people, and there's no price on it. The market burns 100 million tons a year at $80 a ton, and the smoke does $3.00 billion of harm a year. Set the price on the pollution to $30 a ton, and the market burns 62.5 million tons at $98.75 a ton. The harm falls to $1.88 billion a year.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the ideas come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>You can change two things: <strong>the cost that falls on other people</strong> for each ton burned, from $0 to $80, and <strong>the price on the pollution</strong> for each ton, from $0 to $80. The page opens at $30 of harm and no price. "Back to where the page opened" puts both back.</p>
+<p>The graph is the supply-and-demand graph of Chapter 14. Price, in dollars a ton, runs up the side, and the amount burned, in millions of tons a year, runs along the bottom. The blue line is demand and the dark line is supply. The red dashed line is the social cost: the supply line raised by the harm. When you put a price on the pollution, a green line shows the seller's cost plus the price. The open circle is where the market alone settles, and the filled dot is where it settles now. The shaded triangle, when there is one, is how much smaller the pie is than it could be.</p>
+<p>Under the graph, a table gives every number. Money is in billions of dollars a year.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the sliders, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 14, "Planetary Prosperity", section 14.2.</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is six short steps, and you can follow every one of them with a calculator.</p>
+<p>The model answers one question: <strong>when burning a fuel harms people outside the market, how much does the market burn, and what does a price on the pollution change?</strong></p>
+<p>You choose two things: <var>E</var>, the cost that falls on other people, in dollars for each ton burned; and <var>t</var>, the price on the pollution, in dollars for each ton. <var>Q</var> is the amount burned, in millions of tons a year. The market itself is made up, and four numbers fix it:</p>
+<table class="symbols">
+<thead><tr><th scope="col">What</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row">What buyers would pay for the very first ton</th><td>$130 a ton</td></tr>
+<tr><th scope="row">How much less they'll pay for each million tons more</th><td>$0.50 a ton</td></tr>
+<tr><th scope="row">What the very first ton costs the seller</th><td>$50 a ton</td></tr>
+<tr><th scope="row">How much more each million tons more costs the seller</th><td>$0.30 a ton</td></tr>
+</tbody>
+</table>
+
+<h4>1. Demand: what is one more ton worth to the buyers?</h4>
+<p>The first tons go to the uses that matter most, and each ton after that to a use that matters a little less. That's section 14.2's diminishing returns. So the most buyers will pay for one more ton falls as more is burned:</p>
+<div class="eq" data-eq="demand"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">P</mi><mtext>demand</mtext></msub><mo>=</mo><mn>130</mn><mo>−</mo><mn>0.5</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi></mrow></math></div>
+<p>dollars a ton. That's the blue line.</p>
+
+<h4>2. Supply: what does one more ton cost the seller?</h4>
+<p>The easiest fuel to dig and ship comes first, and each ton after that costs a little more. So the least sellers will take for one more ton rises as more is burned:</p>
+<div class="eq" data-eq="supply"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">P</mi><mtext>supply</mtext></msub><mo>=</mo><mn>50</mn><mo>+</mo><mn>0.3</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi></mrow></math></div>
+<p>dollars a ton. That's the dark line. It's the seller's own cost, which economists call the private cost.</p>
+
+<h4>3. The social cost: what does one more ton cost everyone?</h4>
+<p>Each ton burned also does <var>E</var> dollars of harm to people outside the market. Add that to the seller's cost, and you get what one more ton costs everyone:</p>
+<div class="eq" data-eq="social"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">P</mi><mtext>social</mtext></msub><mo>=</mo><msub><mi mathvariant="normal">P</mi><mtext>supply</mtext></msub><mo>+</mo><mi mathvariant="normal">E</mi></mrow></math></div>
+<p>dollars a ton. That's the red dashed line: the supply line, raised by <var>E</var>.</p>
+
+<h4>4. Where does the market settle?</h4>
+<p>Buyers keep buying while one more ton is worth more to them than it costs. With a price of <var>t</var> on each ton, a seller needs its own cost plus <var>t</var>. So the market settles where 130 − 0.5 <var>Q</var> = 50 + 0.3 <var>Q</var> + <var>t</var>, which is</p>
+<div class="eq" data-eq="burned"><math displaystyle="true"><mrow><mi mathvariant="normal">Q</mi><mo>=</mo><mfrac><mrow><mn>130</mn><mo>−</mo><mn>50</mn><mo>−</mo><mi mathvariant="normal">t</mi></mrow><mrow><mn>0.5</mn><mo>+</mo><mn>0.3</mn></mrow></mfrac></mrow></math></div>
+<p>million tons a year. The buyer pays the demand line's price at that <var>Q</var>, and the seller keeps that price less <var>t</var>. Notice that <var>E</var> isn't in this equation. The market alone doesn't see the harm at all.</p>
+
+<h4>5. How much harm does the smoke do?</h4>
+<p>Each ton burned does <var>E</var> dollars of harm, so all of it together does</p>
+<div class="eq" data-eq="harm"><math displaystyle="true"><mrow><mi mathvariant="normal">H</mi><mo>=</mo><mi mathvariant="normal">E</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">Q</mi></mrow></math></div>
+<p>million dollars a year. The harm avoided is <var>E</var> times the tons no longer burned.</p>
+
+<h4>6. How big is the pie?</h4>
+<p>Economists measure the pie as everything the fuel is worth to its buyers, less everything it costs the sellers and the people downwind. Each ton adds the gap between the demand line and the social cost line. So the pie is biggest when burning stops where the two lines cross, at</p>
+<div class="eq" data-eq="best"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">Q</mi><mtext>best</mtext></msub><mo>=</mo><mfrac><mrow><mn>130</mn><mo>−</mo><mn>50</mn><mo>−</mo><mi mathvariant="normal">E</mi></mrow><mrow><mn>0.5</mn><mo>+</mo><mn>0.3</mn></mrow></mfrac></mrow></math></div>
+<p>million tons a year. Compare it with step 4: it's the same equation with <var>E</var> in place of <var>t</var>. That's why a price equal to the harm gives the biggest pie. Burn any other amount <var>Q</var>, and the pie is smaller by the shaded triangle between the two lines, whose area is</p>
+<div class="eq" data-eq="lost"><math displaystyle="true"><mrow><mi mathvariant="normal">L</mi><mo>=</mo><mfrac><mrow><mn>0.5</mn><mo>+</mo><mn>0.3</mn></mrow><mn>2</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">Q</mi><mo>−</mo><msub><mi mathvariant="normal">Q</mi><mtext>best</mtext></msub><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></math></div>
+<p>million dollars a year: half its base times its height. Economists call it the deadweight loss. It shrinks if too much is burned, and it shrinks just as surely if the price is set too high and too little is burned.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>A made-up market.</strong> Real demand and supply aren't straight lines, and nobody knows them this exactly. The numbers are chosen so you can check every step by hand.</li>
+<li><strong>One number for the harm.</strong> The model charges every ton the same harm, and it takes that number as known. For CO₂ it's the social cost of carbon, and Chapter 14 shows how widely its estimates spread, mostly with the discount rate.</li>
+<li><strong>Nothing changes but the amount.</strong> A seller facing a price on pollution might also clean up its smoke, and buyers might switch to clean energy, which gets cheaper as more is built. The model leaves those out, and they're much of why a price on pollution works.</li>
+<li><strong>Who gets the slices.</strong> The pie adds everyone's gains and losses together. It doesn't say who pays the price, who gets its money or who still breathes the smoke.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page, leave the harm at $30 a ton and set the price on the pollution to $30. Here's where the table's numbers come from.</p>
+<ol class="worked">
+<li><strong>Where the market settles (step 4).</strong> <var>Q</var> = (130 − 50 − 30) ÷ (0.5 + 0.3) = 50 ÷ 0.8 = 62.5 million tons a year. With no price it was 80 ÷ 0.8 = 100, so 37.5 million tons fewer are burned.</li>
+<li><strong>The price the buyer pays (step 1).</strong> 130 − 0.5 × 62.5 = $98.75 a ton, up from $80. The seller keeps 98.75 − 30 = $68.75.</li>
+<li><strong>The harm (step 5).</strong> <var>H</var> = 30 × 62.5 = 1,875 million dollars, or $1.88 billion a year. The harm avoided is 30 × 37.5 = $1.13 billion a year.</li>
+<li><strong>The money the price brings in.</strong> 30 × 62.5 = $1.88 billion a year, the same as the harm that's left, because the price equals the harm.</li>
+<li><strong>The pie (step 6).</strong> <var>Q</var><sub>best</sub> = (130 − 50 − 30) ÷ 0.8 = 62.5, the amount the market now burns, so <var>L</var> = 0: this is the biggest pie.</li>
+</ol>
+<p>The table says 62.5 million tons a year, $98.75 a ton, $1.88 billion of harm and $1.13 billion avoided, and that the pie is as big as it can be.</p>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>The market doesn't see the harm.</strong> Press "Back to where the page opened" and move the harm from $0 to $80. The red line moves, but the amount burned and the price don't (step 4). Only the harm grows.</li>
+<li><strong>The buyer pays most of the price.</strong> With the harm at $30, set the price to $30. The buyer's price goes up by $18.75 and the seller keeps $11.25 less. Each side's share is the steepness of its own line: 0.5 for the buyers and 0.3 for the sellers, out of 0.8. Buyers who can't easily do without the fuel pay more of the price.</li>
+<li><strong>Too high a price.</strong> With the harm at $30, set the price to $60. Only 25 million tons are burned, and the pie is smaller than it could be by $0.56 billion a year: the same as with no price at all (step 6).</li>
+<li><strong>Underestimating the harm.</strong> Set the harm to $60 and the price to $30. The pie is still $0.56 billion smaller than it could be. A price set by a guess at the harm is only as good as the guess.</li>
+</ol>
+
+<h3 id="about-data">Where the ideas come from</h3>
+<p>The market is made up, so there's no data. The ideas are Chapter 14's. The price on pollution is Arthur Pigou's:</p>
+<p class="cite">Pigou, A. C. (1920). <em>The Economics of Welfare</em>. Macmillan, London.</p>
+<p>The world's real hidden bill for fossil fuels, added up country by country, is the International Monetary Fund's. Chapter 14 uses it in section 14.5, "What fire really costs":</p>
+<p class="cite">Black, S., W. Celniak, A. Garcia Huitron, I. W. H. Parry, P. Schulz Antipa and N. Vernon-Lin (2025). <em>Underpriced and Overused: Fossil Fuel Subsidies Data 2025 Update</em>. IMF Working Paper WP/25/270. International Monetary Fund. <a href="https://doi.org/10.5089/9798229034715.001">doi:10.5089/9798229034715.001</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the six steps written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
+<li><strong>The pie, the long way.</strong> The tests add up the pie ton by ton, as the gap between the demand line and the social cost line, and check that step 6's triangle is what's lost.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the six steps, and the made-up market.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the sliders, the graph and the table.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/hidden-cost">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The ideas are Chapter 14's. Claude, from Anthropic, wrote it to run in your browser and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

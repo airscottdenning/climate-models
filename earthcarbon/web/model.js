@@ -742,6 +742,27 @@
     return out;
   }
 
+  /* =====================================================================
+   * Without the removal: the same scenario with every year of net removal
+   * set to zero. A run with removal, beside a run of this, shows how much of
+   * the carbon taken out stays out of the air, year by year, and how much
+   * comes back out of the ocean and the land.
+   * ===================================================================== */
+  function removes(data, scenario) {
+    return data.scenarios[scenario].fossil.some(function (f) { return f < 0; });
+  }
+
+  function withoutRemoval(data, scenario) {
+    var sc = data.scenarios[scenario], copy = {}, out = {}, all = {}, k;
+    for (k in sc) copy[k] = sc[k];
+    copy.fossil = sc.fossil.map(function (f) { return Math.max(0, f); });
+    for (k in data.scenarios) all[k] = data.scenarios[k];
+    all[scenario] = copy;
+    for (k in data) out[k] = data[k];
+    out.scenarios = all;
+    return out;
+  }
+
   return {
     DEFAULTS: DEFAULTS, GTC_PER_PPM: GTC_PER_PPM, merged: merged,
     landAlone: landAlone, landShares: landShares,
@@ -749,6 +770,7 @@
     constants: constants, chemistry: chemistry, solve: solve,
     co2Growth: co2Growth, tempGrowth: tempGrowth,
     Ocean: Ocean, Climate: Climate, Land: Land, Region: Region,
-    REGIONS: REGIONS, inputsFor: inputsFor, landUseFor: landUseFor, run: run
+    REGIONS: REGIONS, inputsFor: inputsFor, landUseFor: landUseFor, run: run,
+    removes: removes, withoutRemoval: withoutRemoval
   };
 });

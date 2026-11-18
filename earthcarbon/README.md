@@ -6,7 +6,7 @@ Fossil fuel puts carbon into the air. The ocean and the land take some of it bac
 
 1. **The past.** Given only how much fossil fuel was burned each year, the model works out the carbon dioxide in the air and the warming, beside the measurements, and where the carbon went since 1850.
 2. **The future.** Six of the IPCC's scenarios, to 2100, 2300 or 3000.
-3. **Where the carbon goes.** The carbon burned, and how much of it is in the air, the ocean and the land, year by year.
+3. **Where the carbon goes.** The carbon burned, and how much of it is in the air, the ocean and the land, year by year. In the three scenarios that take carbon back out of the air, a dashed line shows the air without the removal (`withoutRemoval()` in `model.js`), so the gap is what stays out: about half by the end of a century of removal, less as the ocean and land keep adjusting for centuries after.
 4. **The land sink.** What the land's uptake is made of: more carbon dioxide, nitrogen from burning, warming, and clearing and logging. Each part has its own reason to stop.
 
 It began as Scott Denning's EarthCarbon, an R Shiny app his students have used for years to make a model match the past and then follow it a thousand years ahead. It was rebuilt in November 2026, first in Python and then for the browser.

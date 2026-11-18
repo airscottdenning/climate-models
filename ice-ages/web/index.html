@@ -9,7 +9,7 @@
 </head>
 <body>
 <main>
-<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Toy Models</a></p>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
 <h1>A Million Years of Ice Ages: Sunlight, Ice and Carbon Dioxide</h1>
 <p class="intro standalone-only">Earth's orbit sets the rhythm of the ice ages, but on its own it can't make them as big as they were. The ice and the carbon dioxide do the heavy lifting. See how a small model of all three matches the last 800,000 years, then add fossil carbon and see what happens to the next ice age.</p>
 <p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
@@ -51,7 +51,7 @@
 <section id="panel-past" role="tabpanel" aria-labelledby="tab-past" tabindex="0">
 <figure>
 <ul class="key" id="key-past"></ul>
-<canvas id="graph-past" class="graph" tabindex="0" role="img" aria-label="Four graphs of the last 800,000 years: the summer Sunlight at 65 °N that drives the model, the ice on land, the carbon dioxide in the air and the world's average temperature. Each of the last three has the model's line, and the first two of them also have a line from records of the past. The lines below give the numbers. With the graph selected, the left and right arrow keys move 1,000 years at a time, or 10,000 years with Shift."></canvas>
+<canvas id="graph-past" class="graph" tabindex="0" role="img" aria-label="Four graphs of the last 800,000 years: the summer Sunlight at 65 °N that drives the model, the ice on land, the carbon dioxide in the air and the world's average temperature. Each of the last three has the model's line and a line from a record of the past. The lines below give the numbers. With the graph selected, the left and right arrow keys move 1,000 years at a time, or 10,000 years with Shift."></canvas>
 <p id="readout-past" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
 <figcaption id="summary-past" class="summary" aria-live="polite"></figcaption>
 </figure>
@@ -89,7 +89,7 @@
 </ul></nav>
 
 <h3 id="about-use">How to use this page</h3>
-<p>The page has two views of the same model. "The last 800,000 years" puts the model beside records of the past: sea level, which shows how much ice there was on land, and the carbon dioxide in bubbles of air trapped in Antarctic ice. "The next million years" starts now. Each view has four graphs: the summer Sunlight at 65&nbsp;°N that drives the model, the ice on land, the carbon dioxide and the temperature.</p>
+<p>The page has two views of the same model. "The last 800,000 years" puts the model beside records of the past: sea level, which shows how much ice there was on land; the carbon dioxide in bubbles of air trapped in Antarctic ice; and the world's average temperature, worked out from the temperature of the sea surface. "The next million years" starts now. Each view has four graphs: the summer Sunlight at 65&nbsp;°N that drives the model, the ice on land, the carbon dioxide and the temperature.</p>
 <p>You can change four things:</p>
 <ul>
 <li><strong>Whether the carbon dioxide follows the temperature and the ice.</strong> Turn it off, and the carbon dioxide stays at 278&nbsp;ppm (plus any fossil carbon).</li>
@@ -174,6 +174,7 @@
 <li><strong>Small pulses.</strong> Lord and colleagues built their response from pulses of 1,000 to 20,000&nbsp;GtC. Smaller pulses, like the 750&nbsp;GtC we've emitted so far, use it a little below the range it was made for.</li>
 <li><strong>A climate sensitivity of 3.85&nbsp;°C.</strong> Doubling <var>C</var> warms the model's world 5.556 × ln&nbsp;2 = <span data-n="ecs">3.85</span>&nbsp;°C, the average of the climate models of the time. The IPCC's best estimate is 3&nbsp;°C (Chapter 4), so the model's temperature changes about <span data-n="ecs-more">28</span>% more for each doubling. Talento and Ganopolski fitted the model's other numbers with the larger one, so it can't simply be swapped here.</li>
 <li><strong>Too little carbon dioxide in the deepest ice ages.</strong> The model's carbon dioxide falls to its floor of 150&nbsp;ppm, while the ice cores never go below about <span data-n="core-low">174</span>&nbsp;ppm. Whenever the model sits on its floor, the ice cores show <span data-n="floor-gap">30</span>&nbsp;ppm or more at the same time, so on the graph its blue line drops below the gray one in the deepest ice ages.</li>
+<li><strong>Warm spells no warmer than today's.</strong> The model's temperature comes only from its ice and its carbon dioxide (step 2), so over the last 800,000 years it's never more than <span data-n="T-high">0.2</span>&nbsp;°C warmer than preindustrial. The temperature record is warmer than that in two of the warm spells between ice ages: <span data-n="rec-warm">1.0</span>&nbsp;°C warmer <span data-n="rec-warm-when">127,000</span> years ago, in the last one before ours, and <span data-n="rec-warm2">1.0</span>&nbsp;°C warmer <span data-n="rec-warm2-when">404,000</span> years ago. In the last ice age, the model is at its coldest <span data-n="coldest">6.4</span>&nbsp;°C below preindustrial, and the record <span data-n="rec-lgm">6.0</span>. Over the 800,000 years, the two go together with a correlation of <span data-n="r-T">0.68</span>.</li>
 <li><strong>Before about 410,000 years ago,</strong> more ice probably stayed on land between the ice ages than there is today. The model can't work that out from the orbit, so it keeps <var>v</var> at 0.05 or more until then.</li>
 <li><strong>Thresholds.</strong> The ice ages hang on thresholds, so a small change can move the end of an ice age from one peak of summer Sunlight to the next. Rounded to three figures instead of four, the model's numbers end some of its ice ages, past and future, at different times.</li>
 </ul>
@@ -214,9 +215,10 @@
 <p class="cite">Lord, N. S., Ridgwell, A., Thorne, M. C., and Lunt, D. J. (2016). An impulse response function for the “long tail” of excess atmospheric CO₂ in an Earth system model. <em>Global Biogeochemical Cycles</em>, 30, 2–17. <a href="https://doi.org/10.1002/2014GB005074">doi:10.1002/2014GB005074</a></p>
 <p>The summer Sunlight is worked out from Earth's orbit in the table that the Milankovitch model uses:</p>
 <p class="cite">Laskar, J., Robutel, P., Joutel, F., Gastineau, M., Correia, A. C. M., and Levrard, B. (2004). A long-term numerical solution for the insolation quantities of the Earth. <em>Astronomy &amp; Astrophysics</em>, 428, 261–285. <a href="https://doi.org/10.1051/0004-6361:20041335">doi:10.1051/0004-6361:20041335</a></p>
-<p>The records drawn beside the model are sea level from up to seven reconstructions put together, and the carbon dioxide in Antarctic ice cores, as in Chapter 5's Figure 5.11. The page shows them every 1,000 years.</p>
+<p>The records drawn beside the model are sea level from up to seven reconstructions put together; the carbon dioxide in Antarctic ice cores, as in Chapter 5's Figure 5.11; and the world's average surface temperature from Clark and colleagues, who put together records of the sea surface's temperature kept in ocean sediments and scaled them to the whole surface with climate models. Its zero is the last few thousand years, which they say may be taken as preindustrial. The page shows each record every 1,000 years, and uses the temperature with the authors' permission.</p>
 <p class="cite">Spratt, R. M., and Lisiecki, L. E. (2016). A Late Pleistocene sea level stack. <em>Climate of the Past</em>, 12, 1079–1092. <a href="https://doi.org/10.5194/cp-12-1079-2016">doi:10.5194/cp-12-1079-2016</a></p>
 <p class="cite">Bereiter, B., Eggleston, S., Schmitt, J., Nehrbass-Ahles, C., Stocker, T. F., Fischer, H., Kipfstuhl, S., and Chappellaz, J. (2015). Revision of the EPICA Dome C CO₂ record from 800 to 600&nbsp;kyr before present. <em>Geophysical Research Letters</em>, 42, 542–549. <a href="https://doi.org/10.1002/2014GL061957">doi:10.1002/2014GL061957</a></p>
+<p class="cite">Clark, P. U., Shakun, J. D., Rosenthal, Y., Köhler, P., and Bartlein, P. J. (2024). Global and regional temperature change over the past 4.5 million years. <em>Science</em>, 383, 884–890. <a href="https://doi.org/10.1126/science.adi1908">doi:10.1126/science.adi1908</a></p>
 
 <h3 id="about-checked">How it was checked</h3>
 <p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>

@@ -44,6 +44,7 @@ The plain strongest summer Sunlight, without the split and the 1.04, drives the 
 
 - **The orbit:** Laskar, J., et al. (2004). A long-term numerical solution for the insolation quantities of the Earth. *Astronomy & Astrophysics*, 428, 261–285. doi:10.1051/0004-6361:20041335. The table `INSOL.LA2004.txt`, kept with the Milankovitch model's sources.
 - **Sea level:** Spratt, R. M., and Lisiecki, L. E. (2016). A Late Pleistocene sea level stack. *Climate of the Past*, 12, 1079–1092. doi:10.5194/cp-12-1079-2016. Turned into v by dividing by its lowest value, as Talento and Ganopolski did.
+- **Temperature:** Clark, P. U., Shakun, J. D., Rosenthal, Y., Köhler, P., and Bartlein, P. J. (2024). Global and regional temperature change over the past 4.5 million years. *Science*, 383, 884–890. doi:10.1126/science.adi1908. Global mean surface temperature from its supplementary Data S1 (column H, area weighted), every 1,000 years over the last 800,000. Its zero is the late Holocene, which the authors say may be taken as preindustrial. Used with Peter Clark's permission (email to Scott Denning, 17 November 2026).
 - **Carbon dioxide:** Bereiter, B., et al. (2015). Revision of the EPICA Dome C CO₂ record from 800 to 600 kyr before present. *Geophysical Research Letters*, 42, 542–549. doi:10.1002/2014GL061957. The Antarctic composite, as processed for the book's Figure 5.11.
 
 ## How it was checked
@@ -60,7 +61,7 @@ The plain strongest summer Sunlight, without the split and the 1.04, drives the 
 - Its steps are 1,000 years long, and the fossil carbon goes in all at once, so its first steps after the pulse overshoot. The page leaves out the carbon dioxide and the temperature for the first 3,000 years after the pulse.
 - Its climate sensitivity is 3.85 °C for a doubling of carbon dioxide, the CMIP6 average the authors chose; the IPCC's best estimate is 3 °C.
 - Its carbon dioxide falls to its floor of 150 ppm in the deepest ice ages, below the ice cores' lowest, about 174 ppm.
-- No temperature record is drawn beside its temperature: none of the 800,000-year reconstructions of the world's average temperature found so far is openly licensed and referenced to preindustrial.
+- Its warm spells are no warmer than today: its temperature comes only from its ice and carbon dioxide, so it never goes above about +0.2 °C, while Clark et al.'s record reaches about +1.0 °C 127,000 and 404,000 years ago.
 - In the Earth system model behind step 5, about 8% of a 1,000 GtC pulse is left in the air after 10,000 years, at the low end of other models.
 - Lord et al. fitted step 5 to pulses of 1,000 to 20,000 GtC. Smaller pulses, including the page's "so far" setting of 750 GtC, use the fit a little below that range.
 

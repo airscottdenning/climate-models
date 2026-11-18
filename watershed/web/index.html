@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rainfall Is Not Water Supply: A Watershed in a Warmer World</title>
+<meta name="description" content="Follow a year of rain and snow through a real watershed into the snowpack, the soil, the air and the river. Warm it, and see the river shrink and its peak come earlier, even with the same rain and snow. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
+<h1>Rainfall Is Not Water Supply: A Watershed in a Warmer World</h1>
+<p class="intro standalone-only">Rain and snow fall on a watershed. Snow waits for spring. The soil soaks up what it can, plants and warm air draw water back out, and what's left runs down to the river. Warm the air, keep the rain and snow the same, and watch what happens to the river.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="true">The year</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="The watershed and its climate">
+<div class="control">
+<label for="place">Watershed</label>
+<select id="place"></select>
+<p class="hint" id="place-hint"></p>
+</div>
+<div class="control">
+<label for="t">Warming (°C)</label>
+<div class="pair"><input type="range" id="t-range" min="0" max="6" step="0.5" aria-label="Warming, slider"><input type="number" id="t" min="0" max="6" step="0.5"></div>
+<p class="hint" id="t-f"></p>
+</div>
+<div class="control">
+<label for="p">Change in rain and snow (%)</label>
+<div class="pair"><input type="range" id="p-range" min="-30" max="30" step="5" aria-label="Change in rain and snow, slider"><input type="number" id="p" min="-30" max="30" step="5"></div>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-model" role="tabpanel" aria-labelledby="tab-model" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="line now"></span>1991–2020</li>
+<li><span class="line later"></span>Warmer</li>
+</ul>
+<canvas id="graph" class="graph" role="img" aria-label="Three graphs of the twelve months: the snowpack, the water in the soil and the runoff to the river. Each has a gray line for 1991–2020 and a colored line for the warmer climate. The table below gives the numbers."></canvas>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+<table class="results">
+<caption>The year</caption>
+<thead><tr><th scope="col"></th><th scope="col">1991–2020</th><th scope="col">Warmer</th></tr></thead>
+<tbody>
+<tr><th scope="row">Precipitation, <var>P</var></th><td id="now-P"></td><td id="later-P"></td></tr>
+<tr><th scope="row">Evapotranspiration, <var>E</var></th><td id="now-E"></td><td id="later-E"></td></tr>
+<tr><th scope="row">Runoff to the river, <var>R</var></th><td id="now-R"></td><td id="later-R"></td></tr>
+<tr><th scope="row">Evaporative demand</th><td id="now-Ep"></td><td id="later-Ep"></td></tr>
+<tr><th scope="row">The deepest snowpack</th><td id="now-snow"></td><td id="later-snow"></td></tr>
+<tr><th scope="row">The month with the most runoff</th><td id="now-peak"></td><td id="later-peak"></td></tr>
+<tr><th scope="row">Months with the soil less than half full</th><td id="now-dry"></td><td id="later-dry"></td></tr>
+</tbody>
+</table>
+<div class="scroll" tabindex="0" role="region" aria-label="The warmer year, month by month">
+<table class="results months">
+<caption>The warmer year, month by month (mm)</caption>
+<thead id="months-head"></thead>
+<tbody id="months-body"></tbody>
+</table>
+</div>
+</section>
+</div>
+
+<div id="notes">
+<p class="note"><strong>The same rain and snow, less river.</strong> Warmer air pulls harder on the water in the soil and in plants, so less is left to run off. And more of the winter's precipitation falls as rain instead of waiting as snow.</p>
+<p class="note"><strong>This is a very simple model.</strong> It's the US Geological Survey's monthly water balance: a few steps a month. The About tab has every one.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>A <strong>watershed</strong> is all the land that drains to one river. Chapter 8 of the book follows the water through one: <var>P</var> − <var>E</var> = <var>R</var> + Δ<var>S</var>. Precipitation, <var>P</var>, minus <strong>evapotranspiration</strong>, <var>E</var>, the water that evaporates or passes through plants, equals <strong>runoff</strong>, <var>R</var>, plus the change in stored water, Δ<var>S</var>, in snow and soil. This page does that sum month by month, with the US Geological Survey's monthly water-balance model, for three real watersheds.</p>
+<p>On the page as it opens, it's the Merced River above Yosemite Valley in California, fed by Sierra Nevada snow, warmed by 3&nbsp;°C with the same rain and snow. The river's yearly runoff falls from 369 to 341&nbsp;mm, its biggest month moves from May to April, the deepest snowpack shrinks from 514 to 220&nbsp;mm, and the soil is less than half full for 3 months of the year instead of none.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the data come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>Choose a <strong>watershed</strong>: one fed by mountain snow, one fed by rain in a humid climate, and one in Mediterranean hills with wet winters and dry summers. Each starts from its average climate of 1991–2020. Then choose the <strong>warming</strong>, from 0 to 6&nbsp;°C, added to every month, and the <strong>change in rain and snow</strong>, from −30% to +30%, applied to every month. The page opens with 3&nbsp;°C of warming and no change in rain and snow.</p>
+<p>The three graphs show the twelve months: the snowpack, the water in the soil, and the runoff to the river. Gray is 1991–2020 and red is the warmer climate. The first table sums up the year, and the second gives the warmer year month by month. "Back to where the page opened" puts everything back. <span class="standalone-only">The address in your browser changes as you work, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 8, "Future Climate Change", sections 8.3 to 8.5.</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But each month is a few short steps, and you can follow one with a calculator. Water is in millimeters: a millimeter of water over the whole watershed.</p>
+<p>The model answers one question: <strong>if the air warms, how much of the rain and snow still reaches the river, and when?</strong></p>
+<p>Each month starts with its average temperature, <var>T</var>, and its precipitation, <var>P</var>. The model runs the same year thirty times, so the snow and soil settle into their usual cycle, and shows the last.</p>
+
+<h4>1. Rain or snow?</h4>
+<p>Above <var>T</var><sub>r</sub> = 3.3&nbsp;°C everything falls as rain. Below <var>T</var><sub>s</sub> everything falls as snow: −1&nbsp;°C for a watershed above 1,000&nbsp;m and −10&nbsp;°C for one below. In between, the share that falls as snow is</p>
+<div class="eq" data-eq="snow"><math displaystyle="true"><mrow><mi mathvariant="normal">s</mi><mo>=</mo><mfrac><mrow><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">r</mi></msub><mo>−</mo><mi mathvariant="normal">T</mi></mrow><mrow><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">r</mi></msub><mo>−</mo><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">s</mi></msub></mrow></mfrac></mrow></math></div>
+<p>A twentieth of the rain runs straight off to the river. The snow joins the snowpack.</p>
+
+<h4>2. How much snow melts?</h4>
+<p>A share of the snowpack melts, more in warmer months, but never more than half of it in one month:</p>
+<div class="eq" data-eq="melt"><math displaystyle="true"><mrow><mi mathvariant="normal">m</mi><mo>=</mo><mn>0.5</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mfrac><mrow><mi mathvariant="normal">T</mi><mo>−</mo><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">s</mi></msub></mrow><mrow><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">r</mi></msub><mo>−</mo><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">s</mi></msub></mrow></mfrac></mrow></math></div>
+<p>The rest of the rain and the meltwater together, <var>W</var>, soak into the soil.</p>
+
+<h4>3. How thirsty is the air?</h4>
+<p>The <strong>evaporative demand</strong>, <var>E</var><sub>p</sub>, is the most water that could evaporate and pass through plants in a month if the ground never ran dry. Hamon's formula gets it from the temperature and the length of the day:</p>
+<div class="eq" data-eq="demand"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">p</mi></msub><mo>=</mo><mn>13.97</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">d</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">D</mi><mn>2</mn></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">ρ</mi></mrow></math></div>
+<p>in millimeters a month, where <var>d</var> is the number of days in the month and <var>D</var> is the hours of daylight, in units of 12. The air's thirst comes in through ρ (rho), which stands for the most water vapor warm air can hold:</p>
+<div class="eq" data-eq="rho"><math displaystyle="true"><mrow><mi mathvariant="normal">ρ</mi><mo>=</mo><mfrac><mrow><mn>4.95</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">e</mi><mrow><mn>0.062</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">T</mi></mrow></msup></mrow><mn>100</mn></mfrac></mrow></math></div>
+<p>It grows by about 6% for each degree of warming. That's the heart of Chapter 8's point: warmer air pulls harder on the water in soil and plants.</p>
+
+<h4>4. What does the soil do?</h4>
+<p>The soil holds up to <var>C</var> = 150&nbsp;mm. In a month when <var>W</var> is more than the demand, plants and the air take all they want, <var>E</var> = <var>E</var><sub>p</sub>, and the rest fills the soil. What the full soil can't hold waits to run off. In a month when <var>W</var> is less, plants and the air take all of <var>W</var> and draw more from the soil, less as it dries:</p>
+<div class="eq" data-eq="draw"><math displaystyle="true"><mrow><mi mathvariant="normal">G</mi><mo>=</mo><mrow><mo stretchy="false">(</mo><msub><mi mathvariant="normal">E</mi><mi mathvariant="normal">p</mi></msub><mo>−</mo><mi mathvariant="normal">W</mi><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><mfrac><mi mathvariant="normal">S</mi><mi mathvariant="normal">C</mi></mfrac></mrow></math></div>
+<p>where <var>S</var> is the water in the soil at the start of the month. Then <var>E</var> = <var>W</var> + <var>G</var>.</p>
+
+<h4>5. How much reaches the river?</h4>
+<p>Half of the water waiting to run off, <var>X</var>, reaches the river each month, with the twentieth of the rain, <var>r</var>, that ran straight off:</p>
+<div class="eq" data-eq="runoff"><math displaystyle="true"><mrow><mi mathvariant="normal">R</mi><mo>=</mo><mn>0.05</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">r</mi><mo>+</mo><mn>0.5</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">X</mi></mrow></math></div>
+<p>Over a whole year the books balance, as in Chapter 8:</p>
+<div class="eq" data-eq="balance"><math displaystyle="true"><mrow><mi mathvariant="normal">P</mi><mo>−</mo><mi mathvariant="normal">E</mi><mo>=</mo><mi mathvariant="normal">R</mi><mo>+</mo><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">S</mi></mrow></mrow></math></div>
+<p>The page's year is a settled one, so its Δ<var>S</var> is zero: every millimeter of <var>P</var> leaves as <var>E</var> or <var>R</var>.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>Temperature alone drives the demand.</strong> Hamon's formula raises the demand about 6% for each degree. Fuller methods count wind, sunshine and humidity too, and a study of 13 climate models found the demand rising by a percentage in the low tens over a century of high emissions. So this page probably makes warming dry the land somewhat faster than it would.</li>
+<li><strong>Plants that save water.</strong> With more CO₂ in the air, plants open their pores less and lose less water. In the climate models, that almost cancels the extra pull of warmer, drier air on the water in plants and soil (Yang and others, 2019). A model like this one leaves it out, so it makes warming dry the land too much. One common drought index, worked out this way, shows drought stress growing over more than 70% of the world's land; the climate models' own water balance shows it over 37% (Swann and others, 2016). This page shows the bookkeeping and the timing well, but not how much drier the land will get. For that, see <a href="/data/water-balance/">the climate models' own water balance</a>.</li>
+<li><strong>Average months.</strong> Real rain comes in storms, and heavier ones in a warmer climate. Every month here gets its average, so the page leaves out floods and the runoff from a cloudburst.</li>
+<li><strong>No groundwater, dams or irrigation.</strong> The soil's 150&nbsp;mm is the only storage below ground, and nothing is pumped or held behind a dam.</li>
+<li><strong>The same change every month.</strong> Real warming and real changes in rain and snow differ by season.</li>
+<li><strong>Slow melting.</strong> At most half the snowpack melts in a month, so snow lingers on the Merced into summer longer than it really does.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Choose the Merced and set the warming to 0. Look at May in the month-by-month table. It started with 504.55&nbsp;mm of snow and a full soil. May averages 3.7&nbsp;°C, and 32&nbsp;mm of precipitation fell.</p>
+<ol class="worked">
+<li><strong>Rain or snow (step 1).</strong> 3.7&nbsp;°C is above 3.3, so all 32&nbsp;mm is rain. A twentieth of it, 1.6&nbsp;mm, runs straight off.</li>
+<li><strong>Melt (step 2).</strong> <var>m</var> = 0.5 × (3.7 + 1) ÷ (3.3 + 1) = 0.55, more than the limit, so half the snowpack melts: 504.55 ÷ 2 = 252.28&nbsp;mm. So <var>W</var> = 32 − 1.6 + 252.28 = 282.68&nbsp;mm.</li>
+<li><strong>Demand (step 3).</strong> In the middle of May at the Merced, the day lasts 14.03 hours, so <var>D</var> = 1.1695. ρ = 4.95 × e<sup>0.062 × 3.7</sup> ÷ 100 = 4.95 × 1.2578 ÷ 100 = 0.06226. <var>E</var><sub>p</sub> = 13.97 × 31 × 1.1695<sup>2</sup> × 0.06226 = 36.88&nbsp;mm.</li>
+<li><strong>The soil (step 4).</strong> <var>W</var> is more than the demand, so <var>E</var> = 36.88&nbsp;mm, and the soil, already full, can't take the other 282.68 − 36.88 = 245.80&nbsp;mm. It waits to run off, with 0.77&nbsp;mm left from April: 246.57&nbsp;mm.</li>
+<li><strong>The river (step 5).</strong> <var>R</var> = 1.6 + 0.5 × 246.57 = 124.88&nbsp;mm.</li>
+</ol>
+<p>The table says May's runoff is 124.9&nbsp;mm, the biggest month of the year.</p>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Snow becomes rain.</strong> On the Merced with 3&nbsp;°C of warming, the deepest snowpack falls from 514 to 220&nbsp;mm. More of the winter's precipitation falls as rain and runs off in winter, and the river's biggest month comes in April instead of May (steps 1 and 2).</li>
+<li><strong>A thirstier summer.</strong> On the French Broad, which gets almost no snow, 3&nbsp;°C of warming still cuts the yearly runoff from 828 to 689&nbsp;mm, because the demand rises from 677 to 816&nbsp;mm (step 3). Add 10% to the rain and snow, and the runoff is back to 840&nbsp;mm.</li>
+<li><strong>Already dry.</strong> In the Sierra Morena hills, the demand is almost twice the rain and snow, so plants and the air take nearly everything and only 24&nbsp;mm a year reaches the streams. With 3&nbsp;°C of warming and 10% less rain, the soil is less than half full in all 12 months (step 4).</li>
+</ol>
+
+<h3 id="about-data">Where the data come from</h3>
+<p>Each watershed's months are the average of 1991–2020 over the TerraClimate grid squares inside it: the middle of the average daily high and low, and the precipitation. TerraClimate is free to use (CC0).</p>
+<p class="cite">Abatzoglou, J. T., S. Z. Dobrowski, S. A. Parks, and K. C. Hegewisch (2018). TerraClimate, a high-resolution global dataset of monthly climate and climatic water balance from 1958–2015. <em>Scientific Data</em>, 5, 170191. <a href="https://doi.org/10.1038/sdata.2017.191">doi:10.1038/sdata.2017.191</a></p>
+<p>The model, its usual numbers and Hamon's formula are from the US Geological Survey's report:</p>
+<p class="cite">McCabe, G. J., and S. L. Markstrom (2007). <em>A Monthly Water-Balance Model Driven by a Graphical User Interface</em>. US Geological Survey Open-File Report 2007-1088. <a href="https://doi.org/10.3133/ofr20071088">doi:10.3133/ofr20071088</a></p>
+<p>The length of the day uses the Sun's angle through the year from:</p>
+<p class="cite">Cooper, P. I. (1969). The absorption of radiation in solar stills. <em>Solar Energy</em>, 12, 333–346. <a href="https://doi.org/10.1016/0038-092X(69)90047-4">doi:10.1016/0038-092X(69)90047-4</a></p>
+<p>How plants' response to CO₂ changes the picture:</p>
+<p class="cite">Swann, A. L. S., F. M. Hoffman, C. D. Koven, and J. T. Randerson (2016). Plant responses to increasing CO₂ reduce estimates of climate impacts on drought severity. <em>Proceedings of the National Academy of Sciences</em>, 113, 10019–10024. <a href="https://doi.org/10.1073/pnas.1604581113">doi:10.1073/pnas.1604581113</a></p>
+<p class="cite">Yang, Y., M. L. Roderick, S. Zhang, T. R. McVicar, and R. J. Donohue (2019). Hydrologic implications of vegetation response to elevated CO₂ in climate projections. <em>Nature Climate Change</em>, 9, 44–48. <a href="https://doi.org/10.1038/s41558-018-0361-0">doi:10.1038/s41558-018-0361-0</a></p>
+<p>How much the demand rises with warming, in fuller methods:</p>
+<p class="cite">Scheff, J., and D. M. W. Frierson (2014). Scaling potential evapotranspiration with greenhouse warming. <em>Journal of Climate</em>, 27, 1539–1558. <a href="https://doi.org/10.1175/JCLI-D-13-00233.1">doi:10.1175/JCLI-D-13-00233.1</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the steps written out a second time, in another programming language, and compare every month at many settings.</li>
+<li><strong>Water, every month.</strong> In every month, what falls equals what evaporates, runs off and changes in storage, and over the settled year the storage ends where it started.</li>
+<li><strong>Against measurements.</strong> The model's runoff is compared, loosely, with TerraClimate's own water balance and with the US Geological Survey's river gauges on the Merced and the French Broad. It gets the timing of the Merced's spring flood and the French Broad's winter-high, summer-low pattern. Its totals are less certain, because TerraClimate's precipitation is too low in high mountains: the Merced's gauge measures almost as much runoff as TerraClimate's precipitation.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's numbers, the worked example is done again from the rounded numbers a calculator would use, and each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the five steps, month by month, and the watersheds' climates.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graphs and the tables.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/watershed">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>. The model is the US Geological Survey's. Claude, from Anthropic, wrote it to run in your browser and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

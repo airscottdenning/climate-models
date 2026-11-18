@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning Beats Digging: Why Clean Energy Keeps Getting Cheaper</title>
+<meta name="description" content="Each time the world doubles all the solar panels or batteries it has ever made, their price falls by about a fifth. Oil doesn't learn. Follow the price over more doublings, see how many years they take, and compare new solar and wind farms with coal and gas. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
+<h1>Learning Beats Digging: Why Clean Energy Keeps Getting Cheaper</h1>
+<p class="intro standalone-only">Solar panels and batteries are made in factories, and they get cheaper the more of them the world makes. Oil has to be dug up and burned, over and over, and it doesn't. See how much each doubling takes off the price, follow it a few doublings ahead, and see how long that takes.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-learning" aria-controls="panel-learning" aria-selected="true">Learning curves</button>
+<button type="button" role="tab" id="tab-costs" aria-controls="panel-costs" aria-selected="false" tabindex="-1">Against coal and gas</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="What to follow, and how far">
+<fieldset class="control">
+<legend>What to follow</legend>
+<label class="choice"><input type="radio" name="tech" value="solar"> Solar panels</label>
+<label class="choice"><input type="radio" name="tech" value="batteries"> Batteries</label>
+<label class="choice"><input type="radio" name="tech" value="oil"> Oil</label>
+</fieldset>
+<div class="control">
+<label for="rate">Price fall with each doubling (%)</label>
+<div class="pair"><input type="range" id="rate-range" min="-20" max="40" step="0.5" aria-label="Price fall with each doubling, slider"><input type="number" id="rate" min="-20" max="40" step="0.5"></div>
+<p class="hint">Chapter 12 says about 20% for solar panels, wind turbines and batteries. Below zero, the price rises with each doubling.</p>
+<p><button type="button" id="own">Use its own past rate</button></p>
+</div>
+<div class="control">
+<label for="n">Doublings still to come</label>
+<div class="pair"><input type="range" id="n-range" min="1" max="6" step="1" aria-label="Doublings still to come, slider"><input type="number" id="n" min="1" max="6" step="1"></div>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-learning" role="tabpanel" aria-labelledby="tab-learning" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="line past"></span>Each year, as measured</li>
+<li><span class="line fit"></span>The straight line through them</li>
+<li><span class="line own"></span>Ahead, at its own past rate</li>
+<li><span class="line chosen"></span>Ahead, at the rate you chose</li>
+</ul>
+<canvas id="graph" class="graph" role="img" aria-label="A graph on logarithmic axes of price against all of it ever made. The points for each year run from the first year on the left to the last on the right, with a dashed straight line through them. From the last point, two lines run on into the future for the doublings you chose: one at the technology's own past rate, one at the rate you chose. The table below gives the numbers."></canvas>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+
+<table class="results">
+<caption id="results-caption">The numbers</caption>
+<tbody>
+<tr><th scope="row">The first year and the last</th><td id="out-span"></td></tr>
+<tr><th scope="row">Doublings between them</th><td id="out-n"></td></tr>
+<tr><th scope="row">Its own past rate: each doubling</th><td id="out-own"></td></tr>
+<tr><th scope="row">The last five years: all of it ever made grew by</th><td id="out-g"></td></tr>
+<tr><th scope="row">The price after these doublings, at its own past rate</th><td id="out-at-own"></td></tr>
+<tr><th scope="row">The price after these doublings, at the rate you chose</th><td id="out-at-rate"></td></tr>
+<tr><th scope="row">All of it ever made, by then</th><td id="out-made"></td></tr>
+<tr><th scope="row">At the last five years' growth, these doublings take</th><td id="out-years"></td></tr>
+</tbody>
+</table>
+</section>
+</div>
+
+<section id="panel-costs" role="tabpanel" aria-labelledby="tab-costs" tabindex="0" hidden>
+<figure>
+<ul class="key">
+<li><span class="line solar"></span>New solar farms</li>
+<li><span class="line wind"></span>New onshore wind farms</li>
+<li><span class="swatch"></span>New coal and gas plants (IRENA's range)</li>
+</ul>
+<canvas id="costs" class="graph" role="img" aria-label="A graph of the cost of electricity from new power plants, in dollars per megawatt-hour, from 2010 to 2025, with a gray band from about 67 to 181 dollars for new coal and gas plants. Solar starts far above the band at about 408 dollars and falls below it by 2020, ending at about 44 dollars. Onshore wind starts inside the band at about 114 dollars and falls below it by 2017, ending at about 33 dollars. The table below gives the numbers."></canvas>
+</figure>
+<table class="results">
+<caption>The cost of electricity from new plants, around the world (2025 dollars a MWh)</caption>
+<thead><tr><th scope="col"></th><th scope="col">2010</th><th scope="col">2025</th><th scope="col">Cheaper by</th><th scope="col">Below coal and gas from</th></tr></thead>
+<tbody>
+<tr><th scope="row">New solar farms</th><td id="cost-solar-first"></td><td id="cost-solar-last"></td><td id="cost-solar-times"></td><td id="cost-solar-below"></td></tr>
+<tr><th scope="row">New onshore wind farms</th><td id="cost-wind-first"></td><td id="cost-wind-last"></td><td id="cost-wind-times"></td><td id="cost-wind-below"></td></tr>
+<tr><th scope="row">New coal and gas plants</th><td colspan="4" id="cost-fossil"></td></tr>
+</tbody>
+</table>
+<p class="note">This is Figure 12.4 of the book. A megawatt-hour (MWh) is a thousand kilowatt-hours, about what an American home uses in a month. The fossil-fuel range is IRENA's for 2020, the latest it stated in words, and new gas plants have cost more since.</p>
+</section>
+
+<div id="notes">
+<p class="note"><strong>Learning, not time.</strong> The graph's bottom axis isn't years: it's all the panels, batteries or oil ever made. A price that learns falls in a straight line on this graph, however fast or slow the doublings come.</p>
+<p class="note"><strong>Doublings get bigger.</strong> Each doubling means making as much again as in all of history so far. At today's speed solar doubles every three years or so, but no curve goes on forever: the About tab says why.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of <strong>learning by doing</strong>: the more of something the world makes, the cheaper each one gets. It goes with section 12.5 of Chapter 12 of the book, "Learning beats digging", and it draws the same data as the chapter's Figures 12.4 and 12.16.</p>
+<p>The rule it uses is a learning curve. Each time the world doubles all it has ever made of something, the price falls by about the same share. That share is the <strong>learning rate</strong>. For solar panels it has been 23.5% for each doubling since 1975. For lithium-ion batteries it has been 19.5% since 1991. Oil has no learning rate: each doubling of all the oil ever produced has raised its price by about 10.0%, after inflation.</p>
+<p>On the page as it opens, solar panels cost $0.265 a watt in 2024. Three more doublings at the chapter's "about 20%" would bring them to $0.136 a watt. At the speed of the last five years, those three doublings take about 8.9 years.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>The page has two views. "Learning curves" plots price against all of it ever made, on logarithmic axes, as Figure 12.16 does. Choose solar panels, batteries or oil. Each year is a point, and a dashed straight line runs through them. From the last point, two lines run on: one at the technology's own past rate, and one at the rate you choose.</p>
+<p>You can change two things: <strong>the price fall with each doubling,</strong> from −20% to 40%, and <strong>the doublings still to come,</strong> from 1 to 6. The page opens on solar panels, at 20% and 3 doublings. "Use its own past rate" sets the slider to the rate the points give. "Back to where the page opened" puts everything back.</p>
+<p>"Against coal and gas" is Figure 12.4: the cost of electricity from new solar and wind farms around the world, 2010 to 2025, against IRENA's range for new coal and gas plants.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the sliders, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 12, "Reinventing Fire", section 12.5.</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is six short steps, and you can follow every one of them with a calculator. The <var>ln</var> key on a calculator is the natural logarithm.</p>
+<p>The model answers one question: <strong>how much does the price fall each time the world doubles all it has ever made, and what happens if that goes on?</strong></p>
+<p>For each year the data give two numbers: <var>X</var>, all of it ever made up to that year, and <var>P</var>, its price that year, after inflation. <var>X</var><sub>0</sub> is the first year's <var>X</var>.</p>
+
+<h4>1. How many times has it doubled?</h4>
+<p>One doubling multiplies <var>X</var> by 2, two multiply it by 4, and <var>n</var> multiply it by 2<sup><var>n</var></sup>. Turned around, the number of doublings from <var>X</var><sub>0</sub> to <var>X</var> is</p>
+<div class="eq" data-eq="doublings"><math displaystyle="true"><mrow><mi mathvariant="normal">n</mi><mo>=</mo><mfrac><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mi mathvariant="normal">X</mi><mo lspace="0" rspace="0">/</mo><msub><mi mathvariant="normal">X</mi><mn>0</mn></msub></mrow></mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mn>2</mn></mrow></mfrac></mrow></math></div>
+<p>That's why the graph's axes are logarithmic: each doubling is the same distance along the bottom.</p>
+
+<h4>2. The straight line through the points</h4>
+<p>On a graph with logarithmic axes, a learning curve is a straight line:</p>
+<div class="eq" data-eq="line"><math displaystyle="true"><mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">P</mi></mrow><mo>=</mo><mi mathvariant="normal">a</mi><mo>+</mo><mi mathvariant="normal">b</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">X</mi></mrow></mrow></math></div>
+<p>The model finds the <var>a</var> and <var>b</var> that bring the line closest to every year's point (a least-squares fit, the method Figure 12.16 uses). <var>b</var> is the line's slope. For solar panels it's −0.387; for oil it's +0.138, a line that rises.</p>
+
+<h4>3. The learning rate</h4>
+<p>Double <var>X</var>, and step 2 adds <var>b</var> ln 2 to ln <var>P</var>, which multiplies the price by 2<sup><var>b</var></sup>. So each doubling takes off a share</p>
+<div class="eq" data-eq="rate"><math displaystyle="true"><mrow><mi mathvariant="normal">L</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mn>2</mn><mi mathvariant="normal">b</mi></msup></mrow></math></div>
+<p>of the price. That's the learning rate. When <var>b</var> is above zero, <var>L</var> is below zero, and the price rises with each doubling.</p>
+
+<h4>4. The price after more doublings</h4>
+<p>Each doubling multiplies the price by 1 − <var>L</var>. After <var>N</var> more of them, starting from the last year's price <var>P</var>, it's</p>
+<div class="eq" data-eq="ahead"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">P</mi><mi mathvariant="normal">N</mi></msub><mo>=</mo><mi mathvariant="normal">P</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">L</mi><mo stretchy="false">)</mo></mrow><mi mathvariant="normal">N</mi></msup></mrow></math></div>
+<p>The page works this out twice: once with the technology's own <var>L</var> from step 3, and once with the <var>L</var> you choose.</p>
+
+<h4>5. How fast is it growing?</h4>
+<p>The model takes today's speed as the average over the last five years. If all of it ever made was <var>X</var><sub>earlier</sub> five years before the last year, it grew each year by</p>
+<div class="eq" data-eq="growth"><math displaystyle="true"><mrow><mi mathvariant="normal">g</mi><mo>=</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">X</mi><mo lspace="0" rspace="0">/</mo><msub><mi mathvariant="normal">X</mi><mtext>earlier</mtext></msub></mrow><mo stretchy="false">)</mo></mrow><mfrac><mn>1</mn><mn>5</mn></mfrac></msup><mo>−</mo><mn>1</mn></mrow></math></div>
+<p>as a share: 0.263 is 26.3% a year.</p>
+
+<h4>6. How long do the doublings take?</h4>
+<p>Growing by <var>g</var> a year, <var>X</var> doubles in ln 2 ÷ ln(1 + <var>g</var>) years. So <var>N</var> doublings take</p>
+<div class="eq" data-eq="years"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mfrac><mrow><mi mathvariant="normal">N</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mn>2</mn></mrow></mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi mathvariant="normal">g</mi><mo stretchy="false">)</mo></mrow></mrow></mfrac></mrow></math></div>
+<p>years. This is the rule of 70 that bankers use for money: at 7% a year, money doubles in about 10 years.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>A curve isn't a law.</strong> A learning curve describes the past. Nothing guarantees the next doublings will cut the price as the last ones did. Prices have gone up for a year or more before: solar panels from 2005 to 2007 and in 2022, and batteries in 2022. The points on the graph show it.</li>
+<li><strong>Doublings get harder.</strong> Each one means building as much again as in all of history. At some point growth has to slow, and the doublings come further apart.</li>
+<li><strong>Panels aren't power plants.</strong> The solar curve is the price of panels. A solar farm also needs land, steel, wiring and labor, which learn more slowly, so the cost of its electricity falls more slowly than its panels' price.</li>
+<li><strong>Different dollars.</strong> Solar and oil are in 2025 dollars, and batteries in 2024 dollars, as in Figure 12.16. The learning rate doesn't depend on the dollar year.</li>
+<li><strong>Oil isn't the whole story.</strong> The book shows oil because its data are open. Coal and gas don't learn either, and the "Against coal and gas" view compares their power plants with solar and wind.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave everything where it is: solar panels, 20% and 3 doublings. Here's where the table's numbers come from.</p>
+<ol class="worked">
+<li><strong>Doublings so far (step 1).</strong> The world had installed 0.00054&nbsp;GW of solar by 1975 and 1,867&nbsp;GW by 2024. <var>n</var> = ln(1,867 ÷ 0.00054) ÷ ln 2 = 15.06 ÷ 0.693 = 21.7 doublings.</li>
+<li><strong>The line (step 2).</strong> The fit gives <var>b</var> = −0.387.</li>
+<li><strong>Solar's own learning rate (step 3).</strong> <var>L</var> = 1 − 2<sup>−0.387</sup> = 1 − 0.765 = 0.235, or 23.5% for each doubling.</li>
+<li><strong>Three more doublings at 20% (step 4).</strong> <var>P</var><sub><var>N</var></sub> = 0.265 × (1 − 0.20)<sup>3</sup> = 0.265 × 0.512 = $0.136 a watt.</li>
+<li><strong>Today's speed (step 5).</strong> The world had installed 580&nbsp;GW by 2019. <var>g</var> = (1,867 ÷ 580)<sup>1/5</sup> − 1 = 0.263, or 26.3% a year.</li>
+<li><strong>How long (step 6).</strong> <var>T</var> = 3 × 0.693 ÷ ln 1.263 = 2.079 ÷ 0.233 = 8.9 years.</li>
+</ol>
+<p>The table says 21.7 doublings, 23.5% for each, 26.3% a year, $0.136 a watt at 20% and 8.9 years.</p>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Solar at its own rate.</strong> Press "Use its own past rate". Three more doublings at 23.5% bring panels to $0.119 a watt, and the world would have installed about 14,900&nbsp;GW of solar by then (step 4).</li>
+<li><strong>Batteries.</strong> Choose batteries. Their own rate is 19.5%, the chapter's "about 20%". All the batteries ever made grew 34.8% a year over the last five years, so each doubling takes about 2.3 years (steps 5 and 6).</li>
+<li><strong>Oil.</strong> Choose oil and press "Use its own past rate". The rate is −10.0%: each doubling has raised the price. And all the oil ever produced grows only 2.1% a year now, so one doubling takes about 34 years (step 6).</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The page draws the same numbers as Figures 12.4 and 12.16 of the book, taken from the files that draw those figures.</p>
+<p>Solar panels: their price in 2025 dollars a watt and all the solar ever installed, 1975 to 2024, compiled by Our World in Data from IRENA, Nemet (2009), and Farmer and Lafond (2016), CC BY 4.0. The chapter's "about 270 times cheaper" is from 1977, when panels cost $72.66 a watt, to 2024.</p>
+<p class="cite">Our World in Data (2026). Solar photovoltaic panel prices vs. cumulative capacity. <a href="https://ourworldindata.org/grapher/solar-pv-prices-vs-cumulative-capacity">ourworldindata.org/grapher/solar-pv-prices-vs-cumulative-capacity</a></p>
+<p>Batteries: the price of lithium-ion cells in 2024 dollars a kilowatt-hour and all the lithium-ion batteries ever made, 1991 to 2023, compiled by Rupert Way (2026) from Ziegler and Trancik (2021), BloombergNEF and Avicenne Energy, via Our World in Data, CC BY 4.0.</p>
+<p class="cite">Ziegler, M. S., and J. E. Trancik (2021). Re-examining rates of lithium-ion battery technology improvement and cost decline. <em>Energy &amp; Environmental Science</em>, 14, 1635–1651. <a href="https://doi.org/10.1039/d0ee02681f">doi:10.1039/d0ee02681f</a></p>
+<p>Oil: the price of crude oil in 2025 dollars a barrel, from the Energy Institute's <em>Statistical Review of World Energy</em> via Our World in Data; all the oil ever produced, from the same source since 1965 and from M. King Hubbert's 1974 report to the US Senate before that. The chapter says a barrel costs about three times what it did in 1890: that compares 1890 with the first ten months of 2026, $96 a barrel. The page stops at the 2025 average, $69.10, which is 2.2 times the 1890 price.</p>
+<p>The cost of electricity from new solar and wind farms, and the range for new coal and gas plants:</p>
+<p class="cite">International Renewable Energy Agency (2026). <em>Renewable Power Generation Costs in 2025</em>. IRENA, Abu Dhabi. Via Our World in Data. Used with acknowledgement of IRENA as the source and copyright holder. The fossil-fuel range is from IRENA's <em>Renewable Power Generation Costs in 2020</em> (2021), converted to 2025 dollars.</p>
+<p>The phrase "learning beats digging" is the title of a chart in Ember's report <em>The Electrotech Revolution</em> (Bond, Walter and Butler-Sloss, 2025). The learning curve itself goes back to an engineer who found in 1936 that each doubling of the airplanes a factory had built cut the work of building the next one by about the same share:</p>
+<p class="cite">Wright, T. P. (1936). Factors affecting the cost of airplanes. <em>Journal of the Aeronautical Sciences</em>, 3, 122–128. <a href="https://doi.org/10.2514/8.155">doi:10.2514/8.155</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The data, against the book's figures.</strong> The page's data file is made from the files that draw Figures 12.4 and 12.16, and each is checked against the fingerprint (a SHA-256) the figure package records. The fit must give the figure's learning rates: 23.5% for solar panels, 19.5% for batteries and about +10% for oil.</li>
+<li><strong>The code, against a second copy.</strong> The tests have the six steps written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model, and the chapter's words are looked up in Chapter 12.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the six steps.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the two graphs and the tables.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a>, <a href="app.js" download><code>app.js</code></a> or the data, <a href="data.json" download><code>data.json</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/learning">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The data are Figures 12.4 and 12.16 of the book. Claude, from Anthropic, wrote the page to run in your browser and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

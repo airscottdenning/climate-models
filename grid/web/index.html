@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keeping the Lights On: A Year of Sun, Wind and Demand</title>
+<meta name="description" content="Run a real power grid for a whole year, hour by hour, on clean electricity. Build solar and wind, add batteries, let some demand wait, wire in a neighbor's weather and add clean firm power, and see when the lights would go out. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
+<h1>Keeping the Lights On: A Year of Sun, Wind and Demand</h1>
+<p class="intro standalone-only">Electricity has to be made the moment it's used, every hour of the year. Take a real grid and a real year of weather. Build solar and wind, then use the five tools of Chapter 12 and see how close you can get to running the whole year on clean power.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="true">The year</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="The grid and the five tools">
+<div class="control">
+<label for="g">The grid</label>
+<select id="g"></select>
+<p class="hint">Its use and its weather, hour by hour, in 2025.</p>
+</div>
+<p><button type="button" id="built">What this grid had in 2025</button></p>
+<div class="control">
+<label for="s">Solar panels (GW)</label>
+<div class="pair"><input type="range" id="s-range" min="0" max="300" step="0.1" aria-label="Solar panels, slider"><input type="number" id="s" min="0" max="300" step="0.1"></div>
+</div>
+<div class="control">
+<label for="w">Wind turbines (GW)</label>
+<div class="pair"><input type="range" id="w-range" min="0" max="300" step="0.1" aria-label="Wind turbines, slider"><input type="number" id="w" min="0" max="300" step="0.1"></div>
+</div>
+<div class="control">
+<label for="e">Batteries (GWh)</label>
+<div class="pair"><input type="range" id="e-range" min="0" max="2000" step="10" aria-label="Batteries, slider"><input type="number" id="e" min="0" max="2000" step="10"></div>
+<p class="hint" id="e-power"></p>
+</div>
+<div class="control">
+<label for="d">Use that can wait (% of each day's)</label>
+<div class="pair"><input type="range" id="d-range" min="0" max="30" step="1" aria-label="Use that can wait, slider"><input type="number" id="d" min="0" max="30" step="1"></div>
+<p class="hint">Charging cars, heating water: use that can move to the hours of the same day with the most spare clean power.</p>
+</div>
+<div class="control">
+<label for="far">Where the solar and wind are</label>
+<select id="far"></select>
+<p class="hint">Half built in a neighbor's weather and wired in, with no losses on the way.</p>
+</div>
+<div class="control">
+<label for="c">Clean firm power (GW)</label>
+<div class="pair"><input type="range" id="c-range" min="0" max="60" step="0.1" aria-label="Clean firm power, slider"><input type="number" id="c" min="0" max="60" step="0.1"></div>
+<p class="hint">Nuclear, hydropower or geothermal, running every hour.</p>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-model" role="tabpanel" aria-labelledby="tab-model" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="swatch firm"></span>Clean firm power</li>
+<li><span class="swatch wind"></span>Wind</li>
+<li><span class="swatch sun"></span>Sun</li>
+<li><span class="swatch give"></span>Batteries</li>
+<li><span class="swatch short"></span>Short of clean power</li>
+<li><span class="line use"></span>Use</li>
+</ul>
+<canvas id="year" class="graph" role="img" aria-label="A graph of the year, day by day: the average use of each day as a line, with the clean power that meets it stacked underneath (clean firm power, wind, Sun and batteries) and the shortfall in red. The table below gives the numbers."></canvas>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+
+<div class="week">
+<div class="pick"><label for="week">One week</label> <select id="week"></select> <button type="button" id="worst">The worst week</button></div>
+<canvas id="hours" class="graph week-graph" role="img" aria-label="The same graph for one week, hour by hour. Clean power above the line of use charges the batteries or is thrown away."></canvas>
+<p class="note small">Clean power above the line of use charges the batteries, or is thrown away when they're full.</p>
+</div>
+
+<table class="results">
+<caption>The year</caption>
+<tbody>
+<tr><th scope="row">Clean power meets</th><td id="out-clean"></td></tr>
+<tr><th scope="row">Short of clean power</th><td id="out-short"></td></tr>
+<tr><th scope="row">The biggest shortfall in one hour</th><td id="out-biggest"></td></tr>
+<tr><th scope="row">Thrown away</th><td id="out-thrown"></td></tr>
+<tr><th scope="row">Use</th><td id="out-use"></td></tr>
+</tbody>
+</table>
+</section>
+</div>
+
+<div id="notes">
+<p class="note"><strong>Short of clean power</strong> is what something else has to make. In 2025 that was mostly gas and coal. The biggest shortfall in one hour is how much of that backup the grid has to keep ready.</p>
+<p class="note"><strong>This is a very simple model.</strong> It's five steps of bookkeeping, hour by hour, with one real year of weather. It has no prices. The About tab has every step.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>A power grid has to make electricity at the same moment people use it, every hour of the year. Sunshine and wind come and go with the weather, and people's use goes up and down too. Chapter 12 of the book calls matching them <strong>grid integration</strong>, and names five tools for it: manage demand, mix sources that peak at different times, store energy, send it far, and add a small share of clean firm power. This page lets you try all five on a real grid, with every hour of 2025.</p>
+<p>The page opens on MISO, the grid that runs much of the Midwest, with what it had in 2025: 16.7&nbsp;GW of solar panels, 32.6&nbsp;GW of wind turbines and 11.6&nbsp;GW of nuclear and hydropower. Clean power met 34.7% of the year's use. The rest came from other power plants, mostly burning gas and coal.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the data come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>Choose <strong>a grid</strong>: MISO (the Midwest), PJM (the Mid-Atlantic) or CISO (California). "What this grid had in 2025" sets the solar, wind and clean firm power it had, with no batteries, no use that waits and nothing wired in. Then use the tools:</p>
+<ul>
+<li><strong>Mix sources.</strong> Set the <strong>solar panels</strong> and <strong>wind turbines</strong>, in gigawatts (GW) of capacity, from 0 to 300 each.</li>
+<li><strong>Store energy.</strong> Set the <strong>batteries</strong>, in gigawatt-hours (GWh), from 0 to 2,000. Each holds four hours of its power, so 400&nbsp;GWh of batteries can give 100&nbsp;GW for four hours.</li>
+<li><strong>Manage demand.</strong> Set the share of each day's use that <strong>can wait</strong>, from 0 to 30%.</li>
+<li><strong>Send it far.</strong> Choose <strong>where the solar and wind are</strong>: all here, or half built in one of the other two grids' weather and wired in.</li>
+<li><strong>Clean firm power.</strong> Set the gigawatts of nuclear, hydropower or geothermal that run every hour, from 0 to 60.</li>
+</ul>
+<p>The top graph shows the year, day by day. The black line is each day's average use. Under it, stacked, is the clean power that meets it: clean firm power, wind, Sun and the batteries. Red is the shortfall. The second graph shows one week, hour by hour. Choose the week, or press "The worst week" to see the week with the biggest shortfall. The table gives the year's numbers. "Back to where the page opened" puts everything back.</p>
+<p><span class="standalone-only">The address in your browser changes as you work, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 12, "Reinventing Fire", section 12.4.</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is bookkeeping, one hour at a time, and you can follow any hour with a calculator.</p>
+<p>The model answers one question: <strong>with this much clean power, storage and flexibility, how much of a real year's electricity could be clean?</strong></p>
+<p>Power is in gigawatts. One gigawatt for one hour is a gigawatt-hour. The data give, for each of the 8,760 hours of 2025, what people used, <var>D</var>, and how hard the grid's solar panels and wind turbines worked: their <strong>capacity factors</strong>, the share of their full power they made that hour.</p>
+
+<h4>1. How hard do the Sun and the wind work?</h4>
+<p>The capacity factor this hour is the grid's own, <var>c</var><sub>h</sub>, unless a share <var>f</var> of the panels and turbines is built in a neighbor's weather, with capacity factor <var>c</var><sub>n</sub>:</p>
+<div class="eq" data-eq="factor"><math displaystyle="true"><mrow><mi mathvariant="normal">c</mi><mo>=</mo><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi mathvariant="normal">f</mi><mo stretchy="false">)</mo></mrow><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">h</mi></msub><mo>+</mo><mi mathvariant="normal">f</mi><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">n</mi></msub></mrow></math></div>
+<p>The page builds either nothing or half far away, so <var>f</var> is 0 or 0.5. When it's cloudy here and sunny there, the mix is less cloudy than either.</p>
+
+<h4>2. How much clean power is made?</h4>
+<p><var>P</var><sub>s</sub> gigawatts of solar panels working at <var>c</var><sub>s</sub>, <var>P</var><sub>w</sub> of wind turbines at <var>c</var><sub>w</sub>, and <var>F</var> of clean firm power running all the time make</p>
+<div class="eq" data-eq="clean"><math displaystyle="true"><mrow><mi mathvariant="normal">C</mi><mo>=</mo><msub><mi mathvariant="normal">P</mi><mi mathvariant="normal">s</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">s</mi></msub><mo>+</mo><msub><mi mathvariant="normal">P</mi><mi mathvariant="normal">w</mi></msub><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">c</mi><mi mathvariant="normal">w</mi></msub><mo>+</mo><mi mathvariant="normal">F</mi></mrow></math></div>
+<p>gigawatts this hour.</p>
+
+<h4>3. When do people use it?</h4>
+<p>A share <var>w</var> of each day's use can wait: cars that can charge later, water heaters that can heat earlier. The model takes that share out of every hour of the day and puts it back where there's spare clean power that day, more where there's more. What doesn't fit stays where it was. The day's total use doesn't change. This is the first of Chapter 12's tools, managing demand, in a simple form: nothing moves from one day to the next.</p>
+
+<h4>4. What do the batteries do?</h4>
+<p>Batteries holding <var>E</var> gigawatt-hours can charge or give power at</p>
+<div class="eq" data-eq="power"><math displaystyle="true"><mrow><mi mathvariant="normal">P</mi><mo>=</mo><mfrac><mi mathvariant="normal">E</mi><mn>4</mn></mfrac></mrow></math></div>
+<p>gigawatts: they empty in four hours, like Box 12.2's battery of 50&nbsp;MW and 200&nbsp;MWh. In an hour when the clean power is more than the use, the extra charges the batteries, as fast as their power allows, until they're full. Whatever's left is <strong>thrown away</strong>: the grid can't use it, and the chapter calls that curtailment. In an hour when the clean power falls short, the batteries give what they can, <var>B</var>, as fast as their power allows, until they're empty. Whatever's still missing is the <strong>shortfall</strong>:</p>
+<div class="eq" data-eq="short"><math displaystyle="true"><mrow><mi mathvariant="normal">S</mi><mo>=</mo><mi mathvariant="normal">D</mi><mo>−</mo><mi mathvariant="normal">C</mi><mo>−</mo><mi mathvariant="normal">B</mi></mrow></math></div>
+<p>gigawatts this hour. Something else has to make it: on today's grids, mostly power plants that burn gas or coal. The batteries start the year half full.</p>
+
+<h4>5. How clean is the year?</h4>
+<p>Add up every hour's shortfall, <var>S</var><sub>y</sub>, and every hour's use, <var>D</var><sub>y</sub>. The share of the year's use met by clean power is</p>
+<div class="eq" data-eq="share"><math displaystyle="true"><mrow><mi mathvariant="normal">K</mi><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><msub><mi mathvariant="normal">S</mi><mi mathvariant="normal">y</mi></msub><msub><mi mathvariant="normal">D</mi><mi mathvariant="normal">y</mi></msub></mfrac></mrow></math></div>
+<p>The table shows <var>K</var> as a percentage, and also the hours with a shortfall, the biggest shortfall in any one hour, and the share of the clean power made that was thrown away.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>No prices.</strong> The page says what works, not what it costs. Chapter 12 has the costs.</li>
+<li><strong>2025's use.</strong> Electric cars, heat pumps and data centers will add to it. The page uses the year as it was.</li>
+<li><strong>The weather of one year.</strong> Another year would have different calm, cloudy weeks.</li>
+<li><strong>Perfect wires and batteries.</strong> Each grid is treated as one place: the model doesn't track power lines inside it. The wire to a neighbor carries any amount, loses nothing on the way and costs nothing. A real line to California would be thousands of kilometers long. The batteries lose nothing in a round trip, and real ones lose a little.</li>
+<li><strong>The Sun and wind of 2025's fleets.</strong> More panels and turbines work like the ones already built. In California, where some solar power was already thrown away in 2025, the capacity factors are a little lower than the panels could have made.</li>
+<li><strong>2025's batteries.</strong> Real grids already had some batteries in 2025, California most of all. "What this grid had in 2025" leaves them out.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page. It's MISO with what it had in 2025, and no batteries. In this year, MISO's clean power never once ran past its use, so nothing was thrown away and the sum is short: the clean share is all the clean power made, divided by all the use. The data give each in gigawatt-hours.</p>
+<ol class="worked">
+<li><strong>The solar panels (Box 12.1).</strong> They made 29,751&nbsp;GWh. A year has 8,760 hours, so 16.7&nbsp;GW of panels at full power all year would have made 16.7 × 8,760 = 146,292&nbsp;GWh. Their capacity factor was 29,751 ÷ 146,292 = 20.3%.</li>
+<li><strong>The wind turbines.</strong> They made 98,946&nbsp;GWh: 98,946 ÷ (32.6 × 8,760) = 34.6%.</li>
+<li><strong>Clean firm power.</strong> Nuclear made 91,677&nbsp;GWh and hydropower 9,877. Together that's 101,554&nbsp;GWh, or 101,554 ÷ 8,760 = 11.6&nbsp;GW every hour.</li>
+<li><strong>All the clean power.</strong> 29,751 + 98,946 + 101,554 = 230,251&nbsp;GWh.</li>
+<li><strong>The clean share (step 5).</strong> People used 663,827&nbsp;GWh. 230,251 ÷ 663,827 = 0.347, so <var>K</var> is 34.7%.</li>
+</ol>
+<p>The table says clean power meets 34.7% of the year's use.</p>
+
+<h3 id="about-try">See the equations at work</h3>
+<p>Start each from "What this grid had in 2025" on MISO.</p>
+<ol>
+<li><strong>Solar alone.</strong> Set the wind and the clean firm power to 0 and the solar panels to 150&nbsp;GW, nine times what MISO had. Clean power meets only 36.3% of the year's use, and 9.8% of what the panels make is thrown away: the Sun sets every night, and on most days the panels make more at noon than anyone uses.</li>
+<li><strong>Add wind.</strong> Now set the wind turbines to 150&nbsp;GW too. Clean power meets 81.6%. The wind often blows at night and in winter, when the Sun doesn't help (step 2).</li>
+<li><strong>Add batteries.</strong> Set the batteries to 400&nbsp;GWh. Clean power meets 89.6%, but the biggest shortfall is still 90.5&nbsp;GW. Press "The worst week": it starts on September 17. That week MISO's wind turbines worked at 12% of their full power, against 35% over the year. Four-hour batteries can't fill a calm week (step 4).</li>
+<li><strong>Send it far.</strong> Build half in California's weather. Clean power meets 94.5%. Build half in the Mid-Atlantic's instead, and it meets only 86.6%. The Mid-Atlantic's wind rises and falls with the Midwest's, so it's calm when the Midwest is calm, while California's wind has its own rhythm (step 1).</li>
+<li><strong>Add clean firm power.</strong> Go back to building it all here, and set the clean firm power to 15&nbsp;GW. Clean power meets 96.5%, and the biggest shortfall shrinks to 73.1&nbsp;GW.</li>
+</ol>
+
+<h3 id="about-data">Where the data come from</h3>
+<p>Every hour of 2025 for each grid is from the US Energy Information Administration's Hourly Electric Grid Monitor: what people used, and what the grid's solar panels and wind turbines made. Each hour's capacity factor is what the panels or turbines made, divided by how many were built at the time, from the EIA's monthly list of every generator in the country. The year's nuclear and hydropower are from the same hourly records. The year runs on Eastern Standard Time.</p>
+<p>A few hours needed repair, and each repair is recorded: a few hours missing from the record, filled in from the hours on either side; single hours far from both their neighbors, replaced by their neighbors' average; the last hour of each day in PJM's wind record from January 1 to February 11, which carried other days' readings; and California's solar panels drawing a little power at night, set to zero.</p>
+<p class="cite">US Energy Information Administration (2026). Hourly Electric Grid Monitor (Form EIA-930), six-month balance files for 2025. <a href="https://www.eia.gov/electricity/gridmonitor/">eia.gov/electricity/gridmonitor</a></p>
+<p class="cite">US Energy Information Administration (2026). Preliminary Monthly Electric Generator Inventory (Form EIA-860M), September 2026. <a href="https://www.eia.gov/electricity/data/eia860m/">eia.gov/electricity/data/eia860m</a></p>
+<p>The EIA's data are a US government work, in the public domain.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the steps written out a second time, in another programming language, and run whole years with both. They agree to within a millionth.</li>
+<li><strong>Energy, every hour.</strong> The clean power made plus what the batteries give equals the use met plus what charges the batteries plus what's thrown away, in every hour; and the batteries never hold less than nothing or more than they can.</li>
+<li><strong>The year as it was.</strong> Set to what each grid had in 2025, the model gives back the clean share the EIA's records show, to within a tenth of a percent for MISO and PJM. (California's is lower, because the model throws away the few hours when its clean power ran past its use.)</li>
+<li><strong>The data, against the EIA's files.</strong> Every file is checked against its fingerprint, and the data file is made again from them.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers, the worked example is done again from the data, and each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the five steps, hour by hour.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graphs and the table.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a>, <a href="app.js" download><code>app.js</code></a> or <a href="data.json" download><code>data.json</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/grid">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>Claude, from Anthropic, wrote the model to run in your browser, from Chapter 12 and the EIA's data, and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

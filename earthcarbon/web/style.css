@@ -72,6 +72,7 @@ canvas { cursor: crosshair; touch-action: pan-y; }
 .key .line.measured { border-top: 2px solid #87959e; }
 .key .line.burned { border-top: 2px dashed #152e3d; }
 .key .line.air { border-top-color: #d55e00; }
+.key .line.air.without { border-top: 2px dashed #d55e00; }
 .key .line.ocean { border-top-color: #0072b2; }
 .key .line.land { border-top-color: #009e73; }
 .key .line.net { border-top: 3px solid #152e3d; }

@@ -21,6 +21,12 @@ Small teaching models from *Climate Change: Simple, Serious, Solvable*, an open 
 | Spending the 21st Century Emission Budget | [simpleserioussolvable.org/models/emission-budget/](https://simpleserioussolvable.org/models/emission-budget/) | [`emission-budget/`](emission-budget/) |
 | Four Factors, One Atmosphere: The Kaya Identity and Economic Convergence | [simpleserioussolvable.org/models/kaya/](https://simpleserioussolvable.org/models/kaya/) | [`kaya/`](kaya/) |
 | Climate Damage: Compounding vs Discounting | [simpleserioussolvable.org/models/discounting/](https://simpleserioussolvable.org/models/discounting/) | [`discounting/`](discounting/) |
+| Too Hot to Work: Heat, Humidity and the Human Body | [simpleserioussolvable.org/models/heat-and-work/](https://simpleserioussolvable.org/models/heat-and-work/) | [`heat-and-work/`](heat-and-work/) |
+| Keeping the Lights On: A Year of Sun, Wind and Demand | [simpleserioussolvable.org/models/grid/](https://simpleserioussolvable.org/models/grid/) | [`grid/`](grid/) |
+| Learning Beats Digging: Why Clean Energy Keeps Getting Cheaper | [simpleserioussolvable.org/models/learning/](https://simpleserioussolvable.org/models/learning/) | [`learning/`](learning/) |
+| Rainfall Is Not Water Supply: A Watershed in a Warmer World | [simpleserioussolvable.org/models/watershed/](https://simpleserioussolvable.org/models/watershed/) | [`watershed/`](watershed/) |
+| The Mop and the Bill: What It Costs to Take Carbon Back Out of the Air | [simpleserioussolvable.org/models/removal-bill/](https://simpleserioussolvable.org/models/removal-bill/) | [`removal-bill/`](removal-bill/) |
+| The Hidden Cost: A Fuel, Its Smoke and a Price on Pollution | [simpleserioussolvable.org/models/hidden-cost/](https://simpleserioussolvable.org/models/hidden-cost/) | [`hidden-cost/`](hidden-cost/) |
 
 More are on the way.
 

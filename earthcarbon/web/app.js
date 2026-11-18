@@ -68,6 +68,20 @@
       return M.run(data, state.scenario, settings(), state.until);
     });
   }
+  /* The chosen scenario with no carbon taken back out of the air, or null if
+   * it never takes any out. Drawn dashed on the third view, to compare. */
+  function withoutRemoval() {
+    if (!M.removes(data, state.scenario)) return null;
+    var key = settingsKey() + state.scenario + state.until;
+    return cached('without', key, function () {
+      return M.run(M.withoutRemoval(data, state.scenario), state.scenario, settings(), state.until);
+    });
+  }
+  /* How much carbon the chosen run has taken back out of the air by each year, beside the run without it. */
+  function removedSoFar(run, without) {
+    var t = 0;
+    return run.fossil.map(function (f, i) { t += without.fossil[i] - f; return t; });
+  }
   /* Every scenario, for the second view. */
   function every() {
     var key = settingsKey() + state.until;
@@ -396,14 +410,19 @@
   }
 
   function drawCarbon() {
-    var c = prepare($('carbon-graph')), b = boxes(c, 2), run = chosen();
+    var c = prepare($('carbon-graph')), b = boxes(c, 2), run = chosen(), without = withoutRemoval();
     var from = 1850, to = state.until, first = run.year[0];
-    var top = panel(c.ctx, b[0], from, to, [
+    var lines = [
       { values: cumulative(run.fossil), first: first, color: INK, width: 2, dash: [6, 4] },
       { values: run.airC, first: first, color: AIR, width: 2.6 },
       { values: run.oceanC, first: first, color: OCEAN, width: 2.6 },
       { values: run.landC, first: first, color: LAND, width: 2.6 }
-    ], ['Carbon added since 1750 (billion tonnes)', 'Carbon added (billion tonnes)'], true, false);
+    ];
+    // The air without the removal: the gap between it and the solid air line is what stays out.
+    if (without) lines.push({ values: without.airC, first: first, color: AIR, width: 1.8, dash: [3, 4] });
+    $('key-without').hidden = !without;
+    var top = panel(c.ctx, b[0], from, to, lines,
+      ['Carbon added since 1750 (billion tonnes)', 'Carbon added (billion tonnes)'], true, false);
     var low = panel(c.ctx, b[1], from, to, [
       { values: run.ocean, first: first, color: OCEAN, width: 2.2 },
       { values: run.land, first: first, color: LAND, width: 2.2 }
@@ -421,7 +440,19 @@
       'In the air ' + fixed(run.airC[i], 0) + ', in the ocean ' + fixed(run.oceanC[i], 0) +
       ', in the land ' + fixed(run.landC[i], 0) + '. This year the ocean took up ' +
       fixed(run.ocean[i], 2) + ' and the land ' + fixed(run.land[i], 2) + NB +
-      'billion tonnes.';
+      'billion tonnes.' + comparedWords(run, i);
+  }
+
+  /* The run beside the same run without the removal, at one year, in words. */
+  function comparedWords(run, i) {
+    var without = withoutRemoval();
+    if (!without) return '';
+    var removed = removedSoFar(run, without)[i];
+    if (removed < 0.5) return '';
+    var out = without.airC[i] - run.airC[i];
+    return ' Taken back out of the air so far: ' + fixed(removed, 0) + '. Without that, the air would hold ' +
+      fixed(without.airC[i], 0) + ', so ' + fixed(out, 0) + ' (' + fixed(100 * out / removed, 0) +
+      '%) stays out and ' + fixed(removed - out, 0) + ' has come back.';
   }
 
   function carbonSummary() {
@@ -430,7 +461,23 @@
     return 'Of the carbon burned since 1750, ' +
       fixed(100 * run.airC[i2024] / burned[i2024], 0) + '% was still in the air in ' +
       data.record.last + ', and ' + fixed(100 * run.airC[last] / burned[last], 0) +
-      '% is in ' + run.year[last] + ' (' + data.scenarios.names[state.scenario] + ').';
+      '% is in ' + run.year[last] + ' (' + data.scenarios.names[state.scenario] + ').' + removalSummary(run);
+  }
+
+  /* For a scenario that takes carbon back out: how much, and how much of it stays out as the years go by. */
+  function removalSummary(run) {
+    var without = withoutRemoval();
+    if (!without) return '';
+    var removed = removedSoFar(run, without), last = run.year.length - 1, start = null, end = null;
+    run.fossil.forEach(function (f, i) {
+      if (f < 0) { if (start === null) start = i; end = i; }
+    });
+    if (start === null) return '';
+    function share(i) { return fixed(100 * (without.airC[i] - run.airC[i]) / removed[i], 0) + '%'; }
+    return ' This scenario takes ' + fixed(removed[last], 0) + NB + 'billion tonnes of carbon back out of the air, ' +
+      'from ' + run.year[start] + ' to ' + run.year[Math.min(end, last)] + '. Beside the same scenario without ' +
+      'the removal, the air holds ' + share(Math.min(end, last)) + ' of it out in ' + run.year[Math.min(end, last)] +
+      ' and ' + share(last) + ' in ' + run.year[last] + '. The rest has come back out of the ocean and the land.';
   }
 
   // ---- 4. The land sink ----

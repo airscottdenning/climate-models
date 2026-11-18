@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Too Hot to Work: Heat, Humidity and the Human Body</title>
+<meta name="description" content="Choose a hot afternoon somewhere in the world, warm it, and see how many minutes of each hour a person can safely work, in the Sun, in the shade or indoors with air conditioning. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
+<h1>Too Hot to Work: Heat, Humidity and the Human Body</h1>
+<p class="intro standalone-only">Your body makes heat all the time, and working makes more. In hot, humid air it gets hard to shed. Pick a hot afternoon somewhere in the world, warm it a few degrees, and see how many minutes of each hour a person can safely work.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="true">The afternoon</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="The place, the warming and where the person works">
+<div class="control">
+<label for="place">Place</label>
+<select id="place"></select>
+<p class="hint">Each is the average afternoon of the place's hottest month, 1991–2020. Change the temperature or the humidity, and the place becomes "Your own numbers".</p>
+</div>
+<div class="control">
+<label for="t">Afternoon air temperature (°C)</label>
+<div class="pair"><input type="range" id="t-range" min="15" max="50" step="0.1" aria-label="Afternoon air temperature, slider"><input type="number" id="t" min="15" max="50" step="0.1"></div>
+<p class="hint" id="t-f"></p>
+</div>
+<div class="control">
+<label for="h">Relative humidity (%)</label>
+<div class="pair"><input type="range" id="h-range" min="5" max="99" step="1" aria-label="Relative humidity, slider"><input type="number" id="h" min="5" max="99" step="1"></div>
+</div>
+<div class="control">
+<label for="w">Warming of the afternoon air (°C)</label>
+<div class="pair"><input type="range" id="w-range" min="0" max="6" step="0.5" aria-label="Warming of the afternoon air, slider"><input type="number" id="w" min="0" max="6" step="0.5"></div>
+<p class="hint">Land warms faster than the world as a whole. The relative humidity stays the same.</p>
+</div>
+<fieldset class="control where">
+<legend>Where the person works</legend>
+<label><input type="radio" name="where" value="sun"> Outdoors in full Sun</label>
+<label><input type="radio" name="where" value="shade"> Outdoors in the shade</label>
+<label><input type="radio" name="where" value="room"> Indoors, air-conditioned</label>
+</fieldset>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-model" role="tabpanel" aria-labelledby="tab-model" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="mark now"></span>Now</li>
+<li><span class="mark later"></span>With the warming</li>
+</ul>
+<ul class="key shades" aria-label="Minutes of work allowed in each hour">
+<li>Work allowed in each hour:</li>
+<li><span class="swatch m60"></span>60&nbsp;min</li>
+<li><span class="swatch m45"></span>45</li>
+<li><span class="swatch m30"></span>30</li>
+<li><span class="swatch m15"></span>15</li>
+<li><span class="swatch m0"></span>none</li>
+</ul>
+<canvas id="graph" class="graph" role="img" aria-label="A scale of wet-bulb globe temperature from 18 to 40 °C, with one strip each for light, moderate and heavy work. Each strip is shaded by how many minutes of each hour the classic work/rest table allows. Two marks show the afternoon now and with the warming. The lines below give the numbers."></canvas>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+
+<div class="hours">
+<h3>Minutes of work in each hour</h3>
+<ul id="hours"></ul>
+</div>
+
+<table class="results">
+<caption>The afternoon, now and with the warming</caption>
+<thead><tr><th scope="col"></th><th scope="col">Now</th><th scope="col">With the warming</th></tr></thead>
+<tbody>
+<tr><th scope="row">Air temperature</th><td id="now-t"></td><td id="later-t"></td></tr>
+<tr><th scope="row">Relative humidity</th><td id="now-h"></td><td id="later-h"></td></tr>
+<tr><th scope="row">Wet-bulb temperature</th><td id="now-tw"></td><td id="later-tw"></td></tr>
+<tr><th scope="row">Black globe</th><td id="now-g"></td><td id="later-g"></td></tr>
+<tr><th scope="row">WBGT</th><td id="now-w"></td><td id="later-w"></td></tr>
+</tbody>
+</table>
+
+<div class="scroll" tabindex="0" role="region" aria-label="Every place on the page">
+<table class="results places">
+<caption>Every place on the page, where the person works now</caption>
+<thead><tr><th scope="col">Place</th><th scope="col">Hottest month</th><th scope="col">WBGT now</th><th scope="col">With the warming</th><th scope="col">Heavy work, minutes an hour</th></tr></thead>
+<tbody id="places"></tbody>
+</table>
+</div>
+</section>
+</div>
+
+<div id="notes">
+<p class="note"><strong>An average afternoon is not a heat wave.</strong> Each place is the average afternoon of its hottest month. The hottest days are worse, and Chapter 10's maps show those.</p>
+<p class="note"><strong>Who gets to rest?</strong> The table says how much rest keeps a worker safe. Taking it needs permission to stop and pay that doesn't stop, and somewhere cooler to go.</p>
+<p class="note"><strong>This is a very simple model.</strong> It's three short steps and a table. The About tab has every one.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>Your body is a furnace that makes about 100&nbsp;watts of heat while you sit still, and much more while you work. To stay near 37&nbsp;°C, you have to get rid of that heat as fast as you make it. Sweat does most of the work in hot weather: it evaporates and cools your skin. Humid air slows the evaporation, and sunshine heats your skin. This page puts those together the way workplace safety rules do. It works out the <strong>wet-bulb globe temperature</strong>, or <strong>WBGT</strong>, and then looks up how many minutes of each hour a person can safely work. It goes with section 10.3 of the book.</p>
+<p>On the page as it opens, it's an average June afternoon in Dhaka, Bangladesh: 32.6&nbsp;°C (90.7&nbsp;°F) with 67% humidity, in the shade. The WBGT is 29.0&nbsp;°C. The table allows a full hour of light work, but only 30&nbsp;minutes of moderate work and 15 of heavy work in each hour. Warm the afternoon by 3&nbsp;°C, and the WBGT is 31.9&nbsp;°C: 15&nbsp;minutes of light work, and no regular moderate or heavy work at all.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>Choose a <strong>place</strong> from the list. Each is the average afternoon of that place's hottest month: the average daily high temperature, and the humidity that goes with it. Or set your own <strong>air temperature</strong> and <strong>relative humidity</strong>. Then choose how much to <strong>warm the afternoon air</strong>, from 0 to 6&nbsp;°C, and <strong>where the person works</strong>: outdoors in full Sun, outdoors in the shade, or indoors with air conditioning. The page opens on Dhaka, warmed by 3&nbsp;°C, in the shade.</p>
+<p>The graph is a scale of WBGT. Its three strips are light, moderate and heavy work. Each strip is shaded by how many minutes of each hour the work/rest table allows, from a full hour on the left to none on the right. The dark mark is the afternoon now, and the red mark is the afternoon with the warming. Under the graph, a bar for each kind of work shows the minutes of work and of rest in each hour. Then a table gives every number, now and with the warming, and a second table lists every place on the page for the same choices.</p>
+<p>"Back to where the page opened" puts everything back. <span class="standalone-only">The address in your browser changes as you work, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 10, "Climate Justice and Ethics".</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the model is three short steps and a table, and you can follow every one of them with a calculator.</p>
+<p>The model answers one question: <strong>on a hot afternoon, how many minutes of each hour can a person safely work?</strong></p>
+<p>You choose the afternoon's air temperature, <var>T</var><sub>0</sub>, in °C; its relative humidity, <var>H</var>, in %; the warming, Δ<var>T</var>, in °C; and where the person works. Where they work sets two things:</p>
+<table class="symbols">
+<thead><tr><th scope="col">Where</th><th scope="col">The air</th><th scope="col">The black globe, <var>G</var></th></tr></thead>
+<tbody>
+<tr><th scope="row">Outdoors in full Sun</th><td>the afternoon's</td><td>10&nbsp;°C hotter than the air</td></tr>
+<tr><th scope="row">Outdoors in the shade</th><td>the afternoon's</td><td>the same as the air</td></tr>
+<tr><th scope="row">Indoors, air-conditioned</th><td>25&nbsp;°C (77&nbsp;°F) and 50% humidity, whatever it's like outside</td><td>the same as the air</td></tr>
+</tbody>
+</table>
+
+<h4>1. How warm is the air?</h4>
+<p>Add the warming to the afternoon:</p>
+<div class="eq" data-eq="warmed"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><msub><mi mathvariant="normal">T</mi><mn>0</mn></msub><mo>+</mo><mrow><mo lspace="0" rspace="0">Δ</mo><mi mathvariant="normal">T</mi></mrow></mrow></math></div>
+<p>The relative humidity stays the same. Warm air can hold more water vapor, about 7% more for each degree, so holding the relative humidity steady means the air gets more humid as it warms. That's roughly what happens over the whole globe, though not everywhere: over land, the relative humidity has fallen a little since 2000.</p>
+
+<h4>2. How cool can sweat get?</h4>
+<p>Wrap a thermometer in a wet cloth and fan it. Water evaporates and cools it, until it reads the <strong>wet-bulb temperature</strong>, <var>T</var><sub>w</sub>. The drier the air, the faster the water evaporates and the lower the reading. In air that's completely saturated, at 100% humidity, nothing evaporates, and the wet bulb reads the same as the air. Your sweaty skin plays the same trick. A meteorologist, Roland Stull, found a formula that gives the wet-bulb temperature from the air's temperature and relative humidity:</p>
+<div class="eq" data-eq="wetbulb"><math displaystyle="true"><mrow><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">w</mi></msub><mo>=</mo><mi mathvariant="normal">T</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>arctan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>0.151977</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">H</mi><mo>+</mo><mn>8.313659</mn><mo stretchy="false">)</mo></mrow><mfrac><mn>1</mn><mn>2</mn></mfrac></msup><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mi>arctan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">T</mi><mo>+</mo><mi mathvariant="normal">H</mi><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><mi>arctan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">H</mi><mo>−</mo><mn>1.676331</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mn>0.00391838</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msup><mi mathvariant="normal">H</mi><mfrac><mn>3</mn><mn>2</mn></mfrac></msup><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>arctan</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mn>0.023101</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">H</mi><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mn>4.686035</mn></mrow></math></div>
+<p>It isn't physics you can see in it. It's a fit: a formula found by a computer search to match the exact answer. Each arctan in it is an inverse tangent, in radians (set your calculator to radians). It's good to within about a degree for humidities from 5% to 99% and temperatures from −20 to 50&nbsp;°C, at sea level.</p>
+
+<h4>3. How hard is it to shed heat?</h4>
+<p>Workplace safety rules measure heat with three thermometers. One is a wet bulb, for sweating. One is a hollow black <strong>globe</strong> with a thermometer inside, for sunshine and hot surroundings. And one is an ordinary thermometer, for the air. Mix them, mostly the wet bulb, and you get the WBGT:</p>
+<div class="eq" data-eq="wbgt"><math displaystyle="true"><mrow><mi mathvariant="normal">W</mi><mo>=</mo><mn>0.7</mn><mo>&#x2062;</mo><mspace width="0.17em"/><msub><mi mathvariant="normal">T</mi><mi mathvariant="normal">w</mi></msub><mo>+</mo><mn>0.2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">T</mi><mo>+</mo><mi mathvariant="normal">G</mi><mo stretchy="false">)</mo></mrow><mo>+</mo><mn>0.1</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">T</mi></mrow></math></div>
+<p>where <var>T</var> + <var>G</var> is the black globe's temperature. In the shade the globe reads about the same as the air, so <var>G</var> = 0 and the WBGT is 0.7&nbsp;<var>T</var><sub>w</sub> + 0.3&nbsp;<var>T</var>. In full Sun the globe runs about 10&nbsp;°C hotter than the air, so the Sun adds 0.2 × 10 = 2&nbsp;°C to the WBGT.</p>
+
+<h4>4. How much of each hour can a person work?</h4>
+<p>Resting lets the body's furnace burn lower, so the heat can catch up. Workplace guidance links the share of each hour a person can work to the WBGT, for work that's light, moderate or heavy. Chapter 10 quotes this classic table. Each number is the highest WBGT, in °C, at which that schedule is allowed:</p>
+<table class="symbols worktable">
+<thead><tr><th scope="col">Work in each hour</th><th scope="col">Light</th><th scope="col">Moderate</th><th scope="col">Heavy</th></tr></thead>
+<tbody>
+<tr><th scope="row">60 minutes</th><td>30.0</td><td>26.7</td><td>25.0</td></tr>
+<tr><th scope="row">45 minutes, 15 of rest</th><td>30.6</td><td>28.0</td><td>25.9</td></tr>
+<tr><th scope="row">30 minutes, 30 of rest</th><td>31.4</td><td>29.4</td><td>27.9</td></tr>
+<tr><th scope="row">15 minutes, 45 of rest</th><td>32.2</td><td>31.1</td><td>30.0</td></tr>
+</tbody>
+</table>
+<p>The model rounds the WBGT to a tenth of a degree, as the table is written, and takes the first row whose number it doesn't pass. Past the last row, the table has no schedule for regular work, and the page says 0&nbsp;minutes.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>An average afternoon.</strong> The places are monthly averages of the daily high. A heat wave is hotter, and Chapter 10's maps use the hottest hours of each place's hottest month.</li>
+<li><strong>A shaded, fanned wet bulb.</strong> Stull's formula gives the wet-bulb temperature of a thermometer in the shade with air blowing past it. The real WBGT uses a wet bulb out in the Sun and the still air of the place, which can read several degrees higher in sunshine. So the page, if anything, makes the heat look a little milder than it is.</li>
+<li><strong>One number for the Sun.</strong> How much hotter the black globe runs depends on how high the Sun is, the clouds and the wind. The page uses one typical number, 10&nbsp;°C.</li>
+<li><strong>The table's people.</strong> Its limits are for healthy workers used to the heat, in light clothing, drinking enough water, and resting where it's about as hot as where they work. A cooler place to rest protects them more, and the page doesn't count that.</li>
+<li><strong>Not a safety tool.</strong> The page teaches how heat, humidity and work fit together. It isn't a guide for any real workplace.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and set the warming to 0. It's an average June afternoon in Dhaka, in the shade: <var>T</var> = 32.6&nbsp;°C and <var>H</var> = 67%. Set your calculator to radians.</p>
+<ol class="worked">
+<li><strong>The air (step 1).</strong> With no warming, <var>T</var> = 32.6&nbsp;°C.</li>
+<li><strong>The first term of step 2.</strong> 67 + 8.313659 = 75.313659, and its square root is 8.6783. Times 0.151977 that's 1.3189, and arctan(1.3189) = 0.9221. Times 32.6, that's 30.06.</li>
+<li><strong>The next two terms.</strong> arctan(32.6 + 67) = arctan(99.6) = 1.5608, and arctan(67 − 1.676331) = arctan(65.3237) = 1.5555.</li>
+<li><strong>The fourth term.</strong> 67<sup>1.5</sup> = 548.42. 0.023101 × 67 = 1.5478, and arctan(1.5478) = 0.9972. So 0.00391838 × 548.42 × 0.9972 = 2.1429.</li>
+<li><strong>The wet-bulb temperature.</strong> <var>T</var><sub>w</sub> = 30.06 + 1.5608 − 1.5555 + 2.1429 − 4.686035 = 27.52&nbsp;°C.</li>
+<li><strong>The WBGT (step 3).</strong> In the shade, <var>W</var> = 0.7 × 27.52 + 0.3 × 32.6 = 19.26 + 9.78 = 29.04&nbsp;°C, which rounds to 29.0.</li>
+<li><strong>The minutes (step 4).</strong> 29.0 is below 30.0, so light work gets 60&nbsp;minutes. For moderate work it's past 28.0 but below 29.4: 30&nbsp;minutes. For heavy work it's past 27.9 but below 30.0: 15&nbsp;minutes.</li>
+</ol>
+<p>The table on the page says a wet-bulb temperature of 27.5&nbsp;°C and a WBGT of 29.0&nbsp;°C, and the bars say 60, 30 and 15&nbsp;minutes.</p>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>Dry heat and humid heat.</strong> Set the warming to 0 and compare Jacobabad, Pakistan, with Dhaka. Jacobabad's June afternoon is 44.4&nbsp;°C, almost 12 degrees hotter than Dhaka's, but its air is much drier, so its wet bulb is only 28.9&nbsp;°C. Its WBGT is still higher: 33.6&nbsp;°C, past the table's last row (steps 2 and 3).</li>
+<li><strong>Into the Sun.</strong> Choose "Outdoors in full Sun". Every WBGT on the page goes up by 2&nbsp;°C, and in Dhaka, light work drops to 30&nbsp;minutes an hour (step 3).</li>
+<li><strong>A cool room.</strong> Choose "Indoors, air-conditioned". Wherever the place, the WBGT is 20.1&nbsp;°C, and everyone can work all hour (step 3, with the room's air).</li>
+<li><strong>The city on Chapter 10's lending map.</strong> Choose New Haven, Connecticut, in the shade, and warm it by 3&nbsp;°C. Its July afternoon goes from 24.0 to 26.7&nbsp;°C WBGT, and heavy work drops from 60 to 30&nbsp;minutes an hour (step 4).</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>The places' afternoons are from TerraClimate, a map of the world's climate on a grid about 4&nbsp;km apart. For each place, the page takes the grid square that holds it and that square's averages for 1991–2020: the average daily high temperature for each month, and the vapor pressure, the amount of water vapor in the air. The relative humidity is the vapor pressure divided by the most the air could hold at the daily high, 0.6106 × exp(17.27&nbsp;<var>T</var> ÷ (237.3 + <var>T</var>)) kilopascals. The vapor pressure is an average over the day and night, but it changes much less through the day than the temperature does. The place's month is the one whose afternoon has the highest WBGT in the shade. TerraClimate is free to use (CC0).</p>
+<p class="cite">Abatzoglou, J. T., S. Z. Dobrowski, S. A. Parks, and K. C. Hegewisch (2018). TerraClimate, a high-resolution global dataset of monthly climate and climatic water balance from 1958–2015. <em>Scientific Data</em>, 5, 170191. <a href="https://doi.org/10.1038/sdata.2017.191">doi:10.1038/sdata.2017.191</a></p>
+<p>The formula for the wet-bulb temperature:</p>
+<p class="cite">Stull, R. (2011). Wet-bulb temperature from relative humidity and air temperature. <em>Journal of Applied Meteorology and Climatology</em>, 50, 2267–2269. <a href="https://doi.org/10.1175/JAMC-D-11-0143.1">doi:10.1175/JAMC-D-11-0143.1</a></p>
+<p>The WBGT formulas, the kinds of wet bulb, and the formula for how much water vapor the air can hold:</p>
+<p class="cite">Lemke, B., and T. Kjellstrom (2012). Calculating workplace WBGT from meteorological data: A tool for climate change assessment. <em>Industrial Health</em>, 50, 267–278. <a href="https://doi.org/10.2486/indhealth.MS1352">doi:10.2486/indhealth.MS1352</a></p>
+<p>The black globe in full Sun: in sugarcane fields in Costa Rica, measured over twelve working days, the globe ran 6 to 14&nbsp;°C hotter than the air, about 10 on average.</p>
+<p class="cite">Crowe, J., J. M. Moya-Bonilla, B. Román-Solano, and A. Robles-Ramírez (2010). Heat exposure in sugarcane workers in Costa Rica during the non-harvest season. <em>Global Health Action</em>, 3, 5619. <a href="https://doi.org/10.3402/gha.v3i0.5619">doi:10.3402/gha.v3i0.5619</a></p>
+<p>The work/rest table is the American Conference of Governmental Industrial Hygienists' threshold limits, which Chapter 10 quotes from a report by the US National Institute for Occupational Safety and Health. This paper prints the whole table:</p>
+<p class="cite">Heidari, H., F. Golbabaei, A. Shamsipour, A. Rahimi Forushani, and A. Gaeini (2015). Outdoor occupational environments and heat stress in IRAN. <em>Journal of Environmental Health Science and Engineering</em>, 13, 48. <a href="https://doi.org/10.1186/s40201-015-0199-6">doi:10.1186/s40201-015-0199-6</a></p>
+<p>The relative humidity in a warmer world:</p>
+<p class="cite">Douville, H., K. Raghavan, J. Renwick, et al. (2021). Water cycle changes. In <em>Climate Change 2021: The Physical Science Basis</em>. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. Cambridge University Press, 1055–1210. <a href="https://doi.org/10.1017/9781009157896.010">doi:10.1017/9781009157896.010</a></p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the steps written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth, and give the same minutes.</li>
+<li><strong>The places, against TerraClimate.</strong> The places are made again from the numbers TerraClimate sent, and each answer's fingerprint is checked.</li>
+<li><strong>The model, against the book.</strong> The table's last row, the 100&nbsp;watts and the 37&nbsp;°C are looked up in Chapter 10.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the four steps, the table and the places.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the controls, the graph, the bars and the tables.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/heat-and-work">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>Claude, from Anthropic, wrote the model to run in your browser, from Chapter 10 and the sources above, and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

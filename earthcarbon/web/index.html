@@ -9,7 +9,7 @@
 </head>
 <body>
 <main>
-<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Toy Models</a></p>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
 <h1>Where the Carbon Goes: Air, Ocean, Land and Warming to the Year 3000</h1>
 <p class="intro standalone-only">Every year we burn fossil fuel, and the carbon goes into the air. The ocean and the land take some of it back out. The rest warms the world. Set how the ocean, the land and the climate respond, see whether the model matches the past, then follow the carbon a thousand years ahead.</p>
 <p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
@@ -167,6 +167,7 @@
 <li><span class="line air"></span>Still in the air</li>
 <li><span class="line ocean"></span>In the ocean</li>
 <li><span class="line land"></span>In the land</li>
+<li id="key-without" hidden><span class="line air without"></span>In the air, without the removal</li>
 </ul>
 <canvas id="carbon-graph" tabindex="0" role="img" aria-label="Two graphs, one above the other, from 1850 to the year chosen, for the chosen scenario. The upper one shows carbon added since 1750, in billions of tonnes: all the fossil carbon burned so far, and how much of it is in the air, the ocean and the land. The lower one shows carbon taken up each year by the ocean and by the land, in billions of tonnes a year. The lines of text below give the numbers. With the graph selected, the left and right arrow keys move through the years one at a time, or ten at a time with Shift."></canvas>
 <p id="carbon-readout" class="readout" aria-live="polite">Move over the graph, or select it and use the arrow keys, to read values.</p>
@@ -174,6 +175,7 @@
 </figure>
 </div>
 <p class="note"><strong>Much of it stays in the air</strong> while emissions are rising: more than half of the fossil carbon burned so far, because clearing forests has added carbon too. The ocean takes up most of the rest. When emissions fall, the share in the air falls, but slowly: the ocean takes centuries to mix the carbon down, and some of it stays in the air for thousands of years.</p>
+<p class="note"><strong>What does "comes back" mean?</strong> Three scenarios take carbon back out of the air late in the century: SSP1-1.9, SSP1-2.6 and SSP5-3.4-overshoot. For those, a thin dashed line shows the air as it would be without the removal, and the gap between the two air lines is what stays out. As CO₂ in the air falls, the ocean and the land take up less than they would have, or give some back. That takes centuries, as the deep ocean and the forests catch up, so the share that comes back keeps growing long after the removal stops.</p>
 <p class="note"><strong>The land can give carbon back.</strong> When emissions stop, the land's yearly uptake drops below zero in most scenarios. Look at the lower graph after 2100.</p>
 <p class="next"><button type="button" data-view="land">Next: 4. The land sink</button></p>
 </section>
@@ -218,7 +220,7 @@
 
 <h3 id="about-use">How to use this page</h3>
 <p><strong>"1. The past"</strong> runs the model from 1750 to 2024 and draws its carbon dioxide and warming beside the measurements. The table under it says where the carbon burned since 1850 went. The settings are in groups. <strong>The climate:</strong> how much the world warms for doubled carbon dioxide, and how much smog cools it. <strong>The ocean:</strong> how fast the warm surface mixes with the water below. <strong>The land:</strong> how much faster plants grow with more carbon dioxide, how much wood a forest can hold, how short of nitrogen plants are, how fast dead matter rots when it's warmer, how warming changes growth, and how much clearing and logging there was. <strong>The record:</strong> whether the world burned less than it reported.</p>
-<p><strong>"2. The future"</strong> carries on to 2100, 2300 or 3000 in six scenarios. <strong>"3. Where the carbon goes"</strong> follows the chosen scenario's carbon into the air, the ocean and the land. <strong>"4. The land sink"</strong> splits the land's uptake into its causes. The group called <strong>The future</strong> picks the scenario and the last year shown.</p>
+<p><strong>"2. The future"</strong> carries on to 2100, 2300 or 3000 in six scenarios. <strong>"3. Where the carbon goes"</strong> follows the chosen scenario's carbon into the air, the ocean and the land. In the three scenarios that take carbon back out of the air (SSP1-1.9, SSP1-2.6 and SSP5-3.4-overshoot), a thin dashed line shows the air as it would be without the removal, and the lines under the graph say how much of what was taken out stays out. <strong>"4. The land sink"</strong> splits the land's uptake into its causes. The group called <strong>The future</strong> picks the scenario and the last year shown.</p>
 <p>Move over a graph, or select it and use the arrow keys, to read the numbers for one year. The line of text under it gives them. <span class="standalone-only">The address in your browser keeps your view and settings, so you can share them or come back to them.</span></p>
 <p class="standalone-only">The model goes with Chapter 9, "The One-Way Thermostat", of <em>Climate Change: Simple, Serious, Solvable</em>.</p>
 

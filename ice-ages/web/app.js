@@ -252,6 +252,7 @@
       var run = runWith(0);
       ice.series.push({ values: recordOn('ice', span), color: GRAY, width: 1.6 });
       co2.series.push({ values: recordOn('co2', span), color: GRAY, width: 1.6 });
+      temp.series.push({ values: recordOn('gmst', span), color: GRAY, width: 1.6 });
       ice.series.push({ values: slice(run.v, run, span), color: MODEL, width: 2.4 });
       co2.series.push({ values: slice(run.co2, run, span), color: MODEL, width: 2.4 });
       temp.series.push({ values: slice(run.T, run, span), color: MODEL, width: 2.4 });
@@ -280,7 +281,7 @@
     if (cursor === null) return 'Move over the graph, or select it and use the arrow keys, to read values.';
     if (state.view === 'past') {
       var run = runWith(0), k = M.at(run, cursor), rec = {};
-      ['ice', 'co2'].forEach(function (name) {
+      ['ice', 'co2', 'gmst'].forEach(function (name) {
         var r = data.record[name];
         rec[name] = cursor - r.first >= 0 && cursor - r.first < r.values.length ? r.values[cursor - r.first] : null;
       });
@@ -289,7 +290,8 @@
       words += rec.ice !== null ? ', and ' + commas(rec.ice, 2) + ' in the sea-level record. ' : '. ';
       words += 'Carbon dioxide: ' + commas(run.co2[k], 0) + NB + 'ppm in the model';
       words += rec.co2 !== null ? ', and ' + commas(rec.co2, 0) + NB + 'ppm in the ice cores. ' : '. ';
-      return words + 'Temperature: ' + degrees(run.T[k]) + ' in the model.';
+      words += 'Temperature: ' + degrees(run.T[k]) + ' in the model';
+      return words + (rec.gmst !== null ? ', and ' + degrees(rec.gmst) + ' in the temperature record.' : '.');
     }
     var none = runWith(0), yours = runWith(state.E), j = M.at(yours, cursor);
     var head = when(cursor) + '. Summer Sunlight at 65' + NB + '°N: ' + commas(yours.f[j], 0) + NB + 'W/m². ';
@@ -324,11 +326,14 @@
       var pairs = [[], []];
       rec.forEach(function (v, k) { if (v !== null) { pairs[0].push(model[k]); pairs[1].push(v); } });
       var r = M.correlation(pairs[0], pairs[1]), most = Math.max.apply(null, model);
-      var co2 = slice(run.co2, run, span);
+      var co2 = slice(run.co2, run, span), temps = slice(run.T, run, span), gmst = recordOn('gmst', span);
+      var rT = M.correlation(temps.filter(function (t, k) { return gmst[k] !== null; }),
+        gmst.filter(function (t) { return t !== null; }));
       return 'Over the last 800,000 years, the ice in the model and in the sea-level record rise and fall together ' +
         'with a correlation of ' + commas(r, 2) + ' (1 would be a perfect match). The model\'s ice grows as big as ' +
         commas(most, 2) + ', and its carbon dioxide stays between ' + commas(Math.min.apply(null, co2), 0) + ' and ' +
-        commas(Math.max.apply(null, co2), 0) + NB + 'ppm.';
+        commas(Math.max.apply(null, co2), 0) + NB + 'ppm. Its temperature and the temperature record go together ' +
+        'with a correlation of ' + commas(rT, 2) + '.';
     }
     var words = 'With no fossil carbon, ' + nextIceAge(runWith(0)) + '. With ' + commas(state.E, 0) + NB +
       'GtC of fossil carbon, ' + nextIceAge(runWith(state.E)) + '.';

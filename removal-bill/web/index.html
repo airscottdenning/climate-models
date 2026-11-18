@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mop and the Bill: What It Costs to Take Carbon Back Out of the Air</title>
+<meta name="description" content="Choose how much carbon dioxide to capture from the air each year, for how long and at what price. See the bill in dollars and in energy, how far the CO₂ in the air falls and how much the planet cools. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
+<h1>The Mop and the Bill: What It Costs to Take Carbon Back Out of the Air</h1>
+<p class="intro standalone-only">Burning carbon is a running faucet, and taking CO₂ back out of the air is mopping the floor. Choose how much carbon to mop up each year, for how long and at what price. See the bill in dollars and in energy, and how much cooler it makes the planet.</p>
+<p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
+
+<div class="tabs" role="tablist" aria-label="Views">
+<button type="button" role="tab" id="tab-model" aria-controls="panel-model" aria-selected="true">The bill</button>
+<button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" tabindex="-1">About</button>
+</div>
+
+<div class="layout" id="workbench">
+<form class="controls" aria-label="The capture, its price and its energy">
+<div class="control">
+<label for="r">Carbon captured and stored (GtC a year)</label>
+<div class="pair"><input type="range" id="r-range" min="0" max="12" step="0.1" aria-label="Carbon captured and stored, slider"><input type="number" id="r" min="0" max="12" step="0.1"></div>
+<p class="hint">A GtC is a billion tons of carbon. In 2025 the world emitted about 11.5&nbsp;GtC and captured about 0.0005. The IPCC's scenarios that hold warming to 2&nbsp;°C count on about 1.6 a year by 2050.</p>
+</div>
+<div class="control">
+<label for="n">For how many years</label>
+<div class="pair"><input type="range" id="n-range" min="1" max="100" step="1" aria-label="For how many years, slider"><input type="number" id="n" min="1" max="100" step="1"></div>
+</div>
+<div class="control">
+<label for="p">Price for each ton of CO₂ ($)</label>
+<div class="pair"><input type="range" id="p-range" min="10" max="1000" step="10" aria-label="Price for each ton of CO₂, slider"><input type="number" id="p" min="10" max="1000" step="10"></div>
+<p class="hint">Chapter 13's prices: often $50 to $200 for BECCS, $1,000 or more for direct air capture today, and $230 to $540 projected for a large industry.</p>
+</div>
+<div class="control">
+<label for="e">Energy for each ton of CO₂ (kWh)</label>
+<div class="pair"><input type="range" id="e-range" min="0" max="5000" step="10" aria-label="Energy for each ton of CO₂, slider"><input type="number" id="e" min="0" max="5000" step="10"></div>
+<p class="hint">Direct air capture takes about 2,630 to 4,380&nbsp;kWh a ton with today's solvent design, most of it heat, and about 1,390 if hopes for efficiency come true. BECCS makes energy instead of using it: set this to 0.</p>
+</div>
+<div class="presets">
+<button type="button" id="preset-hopeful">Chapter 13's hopeful numbers</button>
+<button type="button" id="preset-today">Direct air capture today</button>
+</div>
+<p><button type="button" id="reset">Back to where the page opened</button></p>
+</form>
+
+<section id="panel-model" role="tabpanel" aria-labelledby="tab-model" tabindex="0">
+<figure>
+<ul class="key">
+<li><span class="line captured"></span>Carbon captured and stored</li>
+<li><span class="swatch"></span>Comes back out of the land and ocean</li>
+<li><span class="line air"></span>How far the carbon in the air has fallen</li>
+</ul>
+<canvas id="graph" class="graph" role="img" aria-label="A graph of carbon against the years of capture. One line rises with all the carbon captured and stored. A second line, half as steep, shows how far the carbon in the air has fallen. The band between them is the carbon that comes back out of the land and ocean. The table below gives the numbers."></canvas>
+<figcaption id="summary" class="summary" aria-live="polite"></figcaption>
+</figure>
+
+<div class="bars">
+<h3>The bill, beside things you know</h3>
+<ul id="dollars"></ul>
+<p class="more">The bar for dimming the Sun is the price of a program of aircraft, not of the same cooling. It leaves the CO₂ in the air. The About tab says more.</p>
+</div>
+
+<div class="bars">
+<h3>The energy each year, beside the world's electricity</h3>
+<ul id="power"></ul>
+</div>
+
+<table class="results">
+<caption>What it takes, and what it buys</caption>
+<tbody>
+<tr><th scope="row">Carbon captured and stored</th><td id="out-captured"></td></tr>
+<tr><th scope="row">Comes back out of the land and ocean</th><td id="out-back"></td></tr>
+<tr><th scope="row">The CO₂ in the air falls by</th><td id="out-air"></td></tr>
+<tr><th scope="row">The planet cools by</th><td id="out-cooling"></td></tr>
+<tr><th scope="row">The bill</th><td id="out-bill"></td></tr>
+<tr><th scope="row">The energy each year</th><td id="out-energy"></td></tr>
+<tr><th scope="row">At this price, lowering the CO₂ in the air by 1&nbsp;ppm costs</th><td id="out-ppm"></td></tr>
+<tr><th scope="row">At this price, cooling the planet by a tenth of a degree costs</th><td id="out-tenth"></td></tr>
+<tr><th scope="row">Your capture, beside the faucet</th><td id="out-faucet"></td></tr>
+</tbody>
+</table>
+</section>
+</div>
+
+<div id="notes">
+<p class="note"><strong>Half comes back.</strong> The land and ocean soaked up about half of the carbon we emitted on the way up, and they push back on the way down. For every two tons captured, the CO₂ in the air falls by about one. No price quoted for removal counts that.</p>
+<p class="note"><strong>Turn off the water first.</strong> This page shows what the mop does alone. While the faucet runs, the CO₂ in the air keeps rising, only more slowly.</p>
+<p class="note"><strong>This is a very simple model.</strong> It's six short sums from Chapter 13 of the book. The About tab has every one.</p>
+</div>
+
+<section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+<h2>About this model</h2>
+<p>This is a very simple model of <strong>carbon dioxide removal</strong>: capturing CO₂ from the air and storing it where it can't get back. It does the arithmetic of Chapter 13 of the book, "Cleaning Up the Mess": what removal would cost, in dollars and in energy, and how much good it would do.</p>
+<p>Three ideas from the book are built in. One part per million (ppm) of CO₂ in the air weighs about 7.81 billion tons. About half of whatever is taken out of the air comes back out of the land and ocean. And the planet cools by about 2&nbsp;°C for every 1,000&nbsp;GtC taken out and kept out (a GtC is a billion tons of carbon). That's the same rule that says how much it warms when the carbon goes in.</p>
+<p>On the page as it opens, the world captures 1&nbsp;GtC a year for 50&nbsp;years, at $100 for each ton of CO₂. That's 50&nbsp;GtC, or 183 billion tons of CO₂, and the bill is $18.3 trillion. The CO₂ in the air falls by 11.7&nbsp;ppm, and the planet cools by 0.10&nbsp;°C (0.18&nbsp;°F). Chapter 13 calls that the price of a tenth of a degree.</p>
+
+<nav class="jump" aria-label="On this tab"><ul>
+<li><a href="#about-use">How to use this page</a></li>
+<li><a href="#about-equations">The equations</a></li>
+<li><a href="#about-try">See the equations at work</a></li>
+<li><a href="#about-data">Where the numbers come from</a></li>
+<li><a href="#about-checked">How it was checked</a></li>
+<li><a href="#about-code">The code</a></li>
+</ul></nav>
+
+<h3 id="about-use">How to use this page</h3>
+<p>You can change four things: <strong>how much carbon is captured and stored each year,</strong> from 0 to 12&nbsp;GtC; <strong>for how many years,</strong> from 1 to 100; <strong>the price of capturing and storing each ton of CO₂,</strong> from $10 to $1,000; and <strong>the energy each ton takes,</strong> from 0 to 5,000&nbsp;kilowatt-hours (kWh). The page opens at 1&nbsp;GtC a year for 50&nbsp;years, at $100 and 1,390&nbsp;kWh a ton.</p>
+<p>Two buttons set the price and the energy together. "Chapter 13's hopeful numbers" sets $100 and 1,390&nbsp;kWh a ton. "Direct air capture today" sets $1,000 and 4,380&nbsp;kWh a ton. "Back to where the page opened" puts all four back.</p>
+<p>The graph shows the carbon as the years go by. The dark line is all the carbon captured and stored. The green line, half as steep, is how far the carbon in the air has fallen. The band between them is what came back out of the land and ocean.</p>
+<p>Under the graph, the first set of bars holds your bill up against things you know: what the world spends on phones and phone service in a year, what it would cost to build every paved road on Earth, and one estimate of a program to dim the Sun. The second set holds the energy your capture uses each year against all the electricity the world made in 2025. Then a table gives every number, and two prices that depend only on your price for a ton: what it costs to lower the CO₂ in the air by 1&nbsp;ppm, and what it costs to cool the planet by a tenth of a degree.</p>
+<p><span class="standalone-only">The address in your browser changes as you move the sliders, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
+<p class="standalone-only">This page is part of the website for <a href="/"><em>Climate Change: Simple, Serious, Solvable</em></a>, an open textbook by Scott Denning. It goes with Chapter 13, "Cleaning Up the Mess", and its Table 13.1.</p>
+
+<h3 id="about-equations">The equations</h3>
+<p>You don't need any of this to use the page. But the whole model is six short sums, and you can follow every one of them with a calculator.</p>
+<p>The model answers one question: <strong>if the world captures carbon from the air and stores it, what does that cost, and how much does it cool the planet?</strong></p>
+<p>You choose four things: <var>R</var>, the carbon captured and stored, in GtC a year; <var>N</var>, the number of years; <var>p</var>, the price, in dollars for each ton of CO₂; and <var>e</var>, the energy, in kWh for each ton of CO₂. The rest is fixed:</p>
+<table class="symbols">
+<thead><tr><th scope="col">What</th><th scope="col">Its value</th></tr></thead>
+<tbody>
+<tr><th scope="row">What a carbon atom weighs, beside a molecule of CO₂ and an average molecule of air</th><td>12, 44 and 29</td></tr>
+<tr><th scope="row">All the air there is</th><td>5.15&nbsp;×&nbsp;10<sup>18</sup>&nbsp;kg</td></tr>
+<tr><th scope="row">What one ppm of CO₂ in the air weighs, <var>m</var> (step 5)</th><td>7.81 billion tons</td></tr>
+<tr><th scope="row">The share of captured carbon that comes back out of the land and ocean</th><td>about half</td></tr>
+<tr><th scope="row">The cooling for each GtC taken out and kept out (TCRE)</th><td>2&nbsp;°C for every 1,000&nbsp;GtC</td></tr>
+<tr><th scope="row">All the electricity the world made in 2025</th><td>31,800&nbsp;TWh</td></tr>
+</tbody>
+</table>
+
+<h4>1. How much carbon is captured?</h4>
+<p>Capture <var>R</var> GtC every year for <var>N</var> years, and in all you've captured</p>
+<div class="eq" data-eq="captured"><math displaystyle="true"><mrow><mi mathvariant="normal">C</mi><mo>=</mo><mi mathvariant="normal">R</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">N</mi></mrow></math></div>
+<p>GtC. Picture Chapter 9's pile of coal on the National Mall: each GtC is one of those piles, put back.</p>
+
+<h4>2. How much CO₂ is that?</h4>
+<p>The carbon in the air isn't coal. Burning hooked each carbon atom to two oxygen atoms. A carbon atom weighs 12 and an oxygen atom 16, so a molecule of CO₂ weighs 12 + 16 + 16 = 44. Each ton of carbon is 44/12 = 3.67&nbsp;tons of CO₂, and it's the CO₂ that has to be caught and stored:</p>
+<div class="eq" data-eq="co2"><math displaystyle="true"><mrow><mi mathvariant="normal">M</mi><mo>=</mo><mfrac><mn>44</mn><mn>12</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">C</mi></mrow></math></div>
+<p>billion tons of CO₂. Prices for removal are quoted for a ton of CO₂, not a ton of carbon, so the bill needs <var>M</var>.</p>
+
+<h4>3. What does it cost?</h4>
+<p>Every ton costs the same price, <var>p</var>. So the bill is</p>
+<div class="eq" data-eq="bill"><math displaystyle="true"><mrow><mi mathvariant="normal">B</mi><mo>=</mo><mi mathvariant="normal">p</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">M</mi></mrow></math></div>
+<p>billion dollars: dollars a ton, times billions of tons. A thousand billion is a trillion.</p>
+
+<h4>4. How much energy does it take?</h4>
+<p>Each year the capture handles 44/12 × <var>R</var> billion tons of CO₂, and each ton takes <var>e</var> kilowatt-hours. So each year it uses</p>
+<div class="eq" data-eq="energy"><math displaystyle="true"><mrow><mi mathvariant="normal">W</mi><mo>=</mo><mi mathvariant="normal">e</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mfrac><mn>44</mn><mn>12</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">R</mi></mrow></math></div>
+<p>terawatt-hours (TWh). A terawatt-hour is a billion kilowatt-hours: one kilowatt-hour for each of a billion tons. The page compares <var>W</var> with all the electricity the world made in 2025, about 31,800&nbsp;TWh. That's a comparison of size only: most of the energy direct air capture needs is heat, not electricity.</p>
+
+<h4>5. How far does the CO₂ in the air fall?</h4>
+<p>First, what does one ppm weigh? One ppm is a millionth of the air's molecules. All the air weighs 5.15&nbsp;×&nbsp;10<sup>18</sup>&nbsp;kg, and a molecule of CO₂ weighs 44 where an average molecule of air weighs 29. So one ppm of CO₂ weighs 1/1,000,000 × 5.15&nbsp;×&nbsp;10<sup>18</sup>&nbsp;kg × 44/29 = 7.81&nbsp;×&nbsp;10<sup>12</sup>&nbsp;kg. That's <var>m</var> = 7.81 billion tons of CO₂, or 2.13&nbsp;GtC.</p>
+<p>Now the half that comes back. The land and ocean took up about half of what we emitted, and Chapter 9 explains why they give carbon back when the CO₂ in the air falls. So lowering the air's CO₂ by one ton takes about two tons captured, and the CO₂ in the air falls by</p>
+<div class="eq" data-eq="air"><math displaystyle="true"><mrow><mi mathvariant="normal">x</mi><mo>=</mo><mfrac><mi mathvariant="normal">M</mi><mrow><mn>2</mn><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">m</mi></mrow></mfrac></mrow></math></div>
+<p>ppm. The 2 under the line is the half that comes back. Without it, the same capture would lower the CO₂ twice as far.</p>
+
+<h4>6. How much cooler does it get?</h4>
+<p>Chapter 9's rule of thumb is about 2&nbsp;°C of warming for every 1,000&nbsp;GtC emitted. Taking carbon out undoes about what putting it in did, so the cooling is</p>
+<div class="eq" data-eq="cooling"><math displaystyle="true"><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mfrac><mn>2</mn><mn>1,000</mn></mfrac><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">C</mi></mrow></math></div>
+<p>degrees Celsius. Don't halve this one. The rule was measured with the land and ocean doing their part, so it already counts the half that comes back. It uses <var>C</var>, all the carbon captured.</p>
+
+<h4>The two prices in the table</h4>
+<p>Turn steps 3 and 5 around, and you get the price of 1&nbsp;ppm. Lowering the CO₂ in the air by 1&nbsp;ppm takes 2 × 7.81 = 15.6 billion tons captured. At $100 a ton, that's $1.56 trillion. Lowering it by 100&nbsp;ppm would cost $156 trillion.</p>
+<p>Turn steps 2, 3 and 6 around, and you get the price of a tenth of a degree. A tenth of a degree takes 0.1 ÷ 0.002 = 50&nbsp;GtC, which is 183 billion tons of CO₂. At $100 a ton, that's $18.3 trillion. Both prices go up and down in step with <var>p</var>, and neither depends on how fast the carbon is captured.</p>
+
+<h4>Where the equations stop</h4>
+<ul>
+<li><strong>The mop alone.</strong> The page shows what removal does, and leaves out the faucet. In 2025 the world emitted about 11.5&nbsp;GtC, 10.4 of it from fossil fuels. Unless those emissions stop, the CO₂ in the air keeps rising, only more slowly, and the planet keeps warming.</li>
+<li><strong>Round numbers.</strong> Half is a round number. So is 2&nbsp;°C for every 1,000&nbsp;GtC, the book's teaching value. With the IPCC's best estimate, about 1.65&nbsp;°C for every 1,000&nbsp;GtC, a tenth of a degree takes about 60&nbsp;GtC, not 50.</li>
+<li><strong>One price for every ton.</strong> The model charges the first ton and the last ton the same. It doesn't ask whether there's enough land, rock, energy or storage for the amount you choose. Table 13.1 in the book says what 1&nbsp;GtC a year would take for each method.</li>
+<li><strong>Every ton stays stored.</strong> The model counts each ton once and assumes it never leaks. A forest that burns gives its carbon back.</li>
+<li><strong>No other gases.</strong> The cooling is from CO₂ alone.</li>
+</ul>
+
+<h4>A worked example</h4>
+<p>Open the page and leave everything where it is: 1&nbsp;GtC a year for 50&nbsp;years, at $100 and 1,390&nbsp;kWh a ton. Here's where the table's numbers come from.</p>
+<ol class="worked">
+<li><strong>The carbon captured (step 1).</strong> <var>C</var> = 1 × 50 = 50&nbsp;GtC.</li>
+<li><strong>The CO₂ (step 2).</strong> <var>M</var> = 44 ÷ 12 × 50 = 183.3 billion tons of CO₂.</li>
+<li><strong>The bill (step 3).</strong> <var>B</var> = 100 × 183.3 = 18,330 billion dollars, which is $18.3 trillion.</li>
+<li><strong>The energy each year (step 4).</strong> <var>W</var> = 1,390 × 44 ÷ 12 × 1 = 5,097&nbsp;TWh a year. And 5,097 ÷ 31,800 = 0.16, so that's as much energy as 16% of the world's electricity.</li>
+<li><strong>How far the CO₂ falls (step 5).</strong> <var>x</var> = 183.3 ÷ (2 × 7.81) = 183.3 ÷ 15.62 = 11.7&nbsp;ppm.</li>
+<li><strong>The cooling (step 6).</strong> <var>T</var> = 2 ÷ 1,000 × 50 = 0.10&nbsp;°C.</li>
+</ol>
+<p>The table says 50&nbsp;GtC (183 billion tons of CO₂), a bill of $18.3 trillion, 5,097&nbsp;TWh a year, 11.7&nbsp;ppm and 0.10&nbsp;°C.</p>
+
+<h4>A few details</h4>
+<ul>
+<li><strong>Tons.</strong> A ton here is a metric ton, 1,000&nbsp;kg. A billion is a thousand million, and a trillion is a thousand billion.</li>
+<li><strong>Kilowatt-hours.</strong> Chapter 13 gives direct air capture's energy as 300 to 500 megawatts, around the clock, for each million tons of CO₂ a year. A year has 8,760 hours, so 500 megawatts is 4,380&nbsp;kWh for each ton, and 300 is 2,630. The hopeful 1,390&nbsp;kWh is 5 billion joules a ton: about half the energy that burning coal gave us when it made that ton of CO₂.</li>
+<li><strong>Dollars.</strong> The prices are for capturing and storing a ton, as the studies quote them. Nothing is discounted or adjusted for inflation: the bill is the price times the tons.</li>
+</ul>
+
+<h3 id="about-try">See the equations at work</h3>
+<ol>
+<li><strong>One ppm in a year.</strong> Set the carbon to 4.3&nbsp;GtC a year and the years to 1. The CO₂ in the air falls by 1.0&nbsp;ppm, the bill is $1.58 trillion, and the capture uses 21,916&nbsp;TWh: as much energy as 69% of the world's electricity (steps 3, 4 and 5). Chapter 13 says about two-thirds.</li>
+<li><strong>Today's machines.</strong> Press "Back to where the page opened", then "Direct air capture today". The price is ten times higher, so the bill for a tenth of a degree is $183 trillion. Each GtC a year uses 16,060&nbsp;TWh: as much energy as 51% of the world's electricity (step 4).</li>
+<li><strong>Mopping as fast as the faucet runs.</strong> Press "Back to where the page opened", then set the carbon to 10.4&nbsp;GtC a year, what the world emitted from fossil fuels in 2025. Even at the hopeful 1,390&nbsp;kWh a ton, the capture uses 53,005&nbsp;TWh a year: as much energy as 1.7 times all the world's electricity (step 4).</li>
+<li><strong>A century of mopping.</strong> Press "Back to where the page opened", then set the years to 100. The world captures 100&nbsp;GtC and pays $36.7 trillion, and the planet cools by 0.20&nbsp;°C (step 6).</li>
+</ol>
+
+<h3 id="about-data">Where the numbers come from</h3>
+<p>Every number in the model is Chapter 13's, and the chapter gives its sources. The sum for one ppm is from the chapter's section on carbon arithmetic, which Scott Denning credits to Morey Wolfson. These are the sources behind the numbers this page leans on most.</p>
+<p>The weight of all the air (the chapter rounds 5.148 to 5.15):</p>
+<p class="cite">Trenberth, K. E., and L. Smith (2005). The mass of the atmosphere: A constraint on global analyses. <em>Journal of Climate</em>, 18, 864–875. <a href="https://doi.org/10.1175/JCLI-3299.1">doi:10.1175/JCLI-3299.1</a></p>
+<p>The 2&nbsp;°C for every 1,000&nbsp;GtC is the book's teaching value for TCRE, a round number inside the range the IPCC assessed:</p>
+<p class="cite">IPCC (2021). Summary for Policymakers. In <em>Climate Change 2021: The Physical Science Basis</em>. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change. Cambridge University Press. <a href="https://doi.org/10.1017/9781009157896.001">doi:10.1017/9781009157896.001</a></p>
+<p>The energy that direct air capture takes, 300 to 500 megawatts for each million tons of CO₂ a year:</p>
+<p class="cite">National Academies of Sciences, Engineering, and Medicine (2019). <em>Negative Emissions Technologies and Reliable Sequestration: A Research Agenda</em>. The National Academies Press. <a href="https://doi.org/10.17226/25259">doi:10.17226/25259</a></p>
+<p>What direct air capture costs today, and the $230 to $540 a ton projected for a large industry:</p>
+<p class="cite">Sievert, K., T. S. Schmidt, and B. Steffen (2024). Considering technology characteristics to project future costs of direct air capture. <em>Joule</em>, 8, 979–999. <a href="https://doi.org/10.1016/j.joule.2024.02.005">doi:10.1016/j.joule.2024.02.005</a></p>
+<p>All the electricity the world made in 2025, 31,779&nbsp;TWh, which the chapter rounds to 31,800:</p>
+<p class="cite">Ember (2026). <em>Global Electricity Review 2026</em>. <a href="https://ember-energy.org/latest-insights/global-electricity-review-2026/">ember-energy.org/latest-insights/global-electricity-review-2026</a></p>
+<p>The world's emissions in 2025, 10.4&nbsp;GtC from fossil fuels and 1.1 from land use:</p>
+<p class="cite">Friedlingstein, P., et al. (2026). Global Carbon Budget 2025. <em>Earth System Science Data</em>, 18, 3211–3288. <a href="https://doi.org/10.5194/essd-18-3211-2026">doi:10.5194/essd-18-3211-2026</a></p>
+<p>The bar for dimming the Sun is from a 2018 study of a program of purpose-built aircraft that would carry sulfur into the stratosphere. It put the cost at about $2.25 billion a year, on average, over the program's first 15 years. The bar shows 15 × 2.25 = $33.8 billion. That isn't the price of the same cooling as your capture: the study priced a program, not a tenth of a degree. And it buys something different. Dimming the Sun leaves the CO₂ in the air, so the ocean keeps turning more acidic, and the particles fall out within a year or two, so the flights have to go on for as long as the CO₂ stays. Chapter 13 calls it a band-aid.</p>
+<p class="cite">Smith, W., and G. Wagner (2018). Stratospheric aerosol injection tactics and costs in the first 15 years of deployment. <em>Environmental Research Letters</em>, 13, 124001. <a href="https://doi.org/10.1088/1748-9326/aae98d">doi:10.1088/1748-9326/aae98d</a></p>
+<p>The two other things the bill is held up against are from Chapter 1 of the book: the world spends about $1.7 trillion a year on phones and phone service, and building all the world's paved roads at 2025 prices would cost something like $35 to $70 trillion.</p>
+
+<h3 id="about-checked">How it was checked</h3>
+<p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
+<ul>
+<li><strong>The code, against a second copy.</strong> The tests have the six sums written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
+<li><strong>The model, against the book.</strong> The model's numbers are looked up in the chapters' own sentences. And the model has to give Chapter 13's answers: about $1.6 trillion for 1&nbsp;ppm, about $18 trillion for a tenth of a degree, about $160 trillion for 100&nbsp;ppm, and the chapter's four comparisons with the world's electricity: a sixth, a half, two-thirds and 1.7 times.</li>
+<li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
+</ul>
+
+<h3 id="about-code">The code</h3>
+<p>The code is small enough to read. Two files do all the work, and they use no outside software. The comments in <code>model.js</code> use the same step numbers and letters as the equations above.</p>
+<details class="code" data-src="model.js"><summary><code>model.js</code> is the science: the six steps, and the numbers from the book.</summary><pre tabindex="0" role="region" aria-label="The code in model.js"></pre></details>
+<details class="code" data-src="app.js"><summary><code>app.js</code> is the page: the sliders, the graph, the bars and the table.</summary><pre tabindex="0" role="region" aria-label="The code in app.js"></pre></details>
+<p>To keep a copy, save <a href="model.js" download><code>model.js</code></a> or <a href="app.js" download><code>app.js</code></a>.</p>
+<p>All of the model's code is on GitHub, at <a href="https://github.com/airscottdenning/climate-models/tree/main/removal-bill">github.com/airscottdenning/climate-models</a>. You're free to use it, change it and teach with it.</p>
+
+<h3>Credits</h3>
+<p>By Scott Denning, for <em>Climate Change: Simple, Serious, Solvable</em>.</p>
+<p>The arithmetic is Chapter 13's. Claude, from Anthropic, wrote it to run in your browser and checked it against the book.</p>
+</section>
+
+<noscript><p>This model needs JavaScript.</p></noscript>
+</main>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
