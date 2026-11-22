@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Climate Damage: Compounding vs Discounting</title>
-<meta name="description" content="Slow the growth of income per person by a hair, add up the damage for a century and discount it to today. Change the growth rates and the discount rate. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
+<meta name="description" content="Slow the growth of income per person a little, add up the damage over a working life and discount it to today. Change the growth rates and the discount rate. An interactive model from Climate Change: Simple, Serious, Solvable, by Scott Denning.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
 <p class="crumb standalone-only"><a href="/">Climate Change: Simple, Serious, Solvable</a> › <a href="/models/">Models and Data</a></p>
 <h1>Climate Damage: Compounding vs Discounting</h1>
-<p class="intro standalone-only">Suppose climate change slows the growth of people's incomes by a hair, every year. A century later the average person in the hotter world is only a little poorer than in the cooler one. What's all that damage worth today? Change the growth rates and the discount rate, and see how much it would pay to spend now to avoid it.</p>
+<p class="intro standalone-only">Suppose climate change slows the growth of people's incomes a little, every year. The loss compounds like interest: over one working life, the average person in the hotter world ends up about a tenth poorer than in the cooler one. What's all that damage worth today? Change the growth rates and the discount rate, and see how much it would pay to spend here and now to avoid it.</p>
 <p class="embed-only"><a id="open-link" href="./" target="_blank" rel="noopener">Open in a new window</a></p>
 
 <div class="tabs" role="tablist" aria-label="Views">
@@ -50,7 +50,7 @@
 </div>
 <div class="control">
 <label for="years">Years to add up</label>
-<div class="pair"><input type="range" id="years-range" min="50" max="300" step="10" aria-label="Years to add up, slider"><input type="number" id="years" min="50" max="300" step="10"></div>
+<div class="pair"><input type="range" id="years-range" min="10" max="300" step="10" aria-label="Years to add up, slider"><input type="number" id="years" min="10" max="300" step="10"></div>
 </div>
 <p><button type="button" id="reset">Back to the book's example</button></p>
 </form>
@@ -74,7 +74,7 @@
 <h2>About this model</h2>
 <p>This is a very simple model of economic growth, climate damage and discounting. It compares two worlds. In the <strong>cooler world</strong>, climate change is avoided and the average person's income grows at a steady rate. In the <strong>hotter world</strong>, climate damage makes it grow a little more slowly. The gap between the two incomes, year by year, is the <strong>damage</strong>. Everything is per person, so the model never needs to know how many people there are.</p>
 <p>Then the model asks what all that future damage is worth today. Economists answer with <strong>discounting</strong>, which is compound interest run backward: a dollar of damage counts for less the farther in the future it is. Add up every year's damage, discounted to today, and you get the most it would be worth spending this year, for each person, to avoid it. Spend less than that, and you come out ahead.</p>
-<p>The page opens on the example in Box 14.1 of Chapter 14, "Planetary Prosperity". Income per person is $10,000 a year. It grows at 2.50% a year in the cooler world and at 2.49% in the hotter one. A century from now income per person in the hotter world is only 1.0% lower. But discount every year's loss at a hefty 4.5% a year and add them up, and the damage is worth $1,481 a person today.</p>
+<p>The page opens on the example in Box 14.1 of Chapter 14, "Planetary Prosperity". Income per person is $14,700 a year, about the world's average in 2025. It grows at 2.5% a year in the cooler world and at 2.2% in the hotter one, and the page adds up one working life, 40 years. By then income per person in the hotter world is 11.3% lower. Added up, the losses come to $67,612 a person. But a cost-benefit analysis discounts every year's loss first. At 2.5% a year, the damage is worth $33,910 a person today. That's the most it would be worth spending here and now, for each person, to avoid it.</p>
 <p>Most of the models economists use to price carbon treat damage differently. Damage there takes a bite out of each year's income, but it doesn't slow the growth that follows, and income growing exponentially soon outruns it. Several groups of economists have found that damage that slows growth itself changes the answer dramatically. Chapter 14 tells that debate, and it says why the discount rate is an ethical choice as well as a technical one.</p>
 
 <nav class="jump" aria-label="On this tab"><ul>
@@ -91,10 +91,10 @@
 <p>You can change five things:</p>
 <ul>
 <li><strong>Growth in a cooler world,</strong> from 1% to 5% a year. The page opens at 2.5%.</li>
-<li><strong>How much slower a hotter world grows,</strong> from 0.01 to 1 percentage point. The page opens at 0.01, so the hotter world grows at 2.49% a year.</li>
-<li><strong>The discount rate,</strong> from 0% to 7% a year. The page opens at 4.5%. Three buttons under it set rates that economists have argued for, which Chapter 14 describes: "Stern's 1.4%", "The experts' median, 2%" and "Nordhaus's 5.5%".</li>
-<li><strong>Income per person this year,</strong> from $500 to $100,000 a year. The page opens at $10,000.</li>
-<li><strong>The years to add up,</strong> from 50 to 300. The page opens at 100.</li>
+<li><strong>How much slower a hotter world grows,</strong> from 0.01 to 1 percentage point. The page opens at 0.3, so the hotter world grows at 2.2% a year.</li>
+<li><strong>The discount rate,</strong> from 0% to 7% a year. The page opens at 2.5%. Three buttons under it set rates that economists have argued for, which Chapter 14 describes: "Stern's 1.4%", "The experts' median, 2%" and "Nordhaus's 5.5%".</li>
+<li><strong>Income per person this year,</strong> from $500 to $100,000 a year. The page opens at $14,700.</li>
+<li><strong>The years to add up,</strong> from 10 to 300. The page opens at 40, one working life.</li>
 </ul>
 <p>Move over the graph to read the numbers for one year. Or select the graph and press the left or right arrow key. The first press starts halfway along, and each press after it moves a year, or ten years with Shift. Below the graph, a few lines give the incomes at the end, the damage added up and its value today. "Back to the book's example" puts every control back where it started.</p>
 <p><span class="standalone-only">The address in your browser changes as you move the controls, so you can bookmark a view or send it to someone. </span>Nothing is sent anywhere as you work.</p>
@@ -106,7 +106,7 @@
 <p>You choose five things:</p>
 <ul>
 <li><var>r</var><sub>cool</sub>, the <strong>growth rate in the cooler world</strong>, as a fraction a year: 2.5% a year is 0.025</li>
-<li><var>p</var>, the <strong>penalty</strong>: how much slower the hotter world grows, as a fraction a year, so 0.01 percentage point is 0.0001</li>
+<li><var>p</var>, the <strong>penalty</strong>: how much slower the hotter world grows, as a fraction a year, so 0.3 percentage point is 0.003</li>
 <li><var>r</var><sub>disc</sub>, the <strong>discount rate</strong>, as a fraction a year</li>
 <li><var>y</var><sub>0</sub>, the <strong>income per person this year</strong>, in dollars a year</li>
 <li><var>T</var>, the <strong>number of years</strong> to add up</li>
@@ -127,7 +127,7 @@
 <div class="eq" data-eq="damage"><math displaystyle="true"><mrow><mi mathvariant="normal">D</mi><mo>=</mo><msub><mi mathvariant="normal">y</mi><mtext>cool</mtext></msub><mo>−</mo><msub><mi mathvariant="normal">y</mi><mtext>hot</mtext></msub></mrow></math></div>
 <p>dollars a person. That's the middle graph. The damage grows for two reasons: the gap between the growth rates compounds, and it compounds on an income that keeps getting bigger. As a share of the cooler world's income, the damage is <var>s</var> = <var>D</var> ÷ <var>y</var><sub>cool</sub>, which works out to</p>
 <div class="eq" data-eq="shortfall"><math displaystyle="true"><mrow><mi mathvariant="normal">s</mi><mo>=</mo><mn>1</mn><mo>−</mo><msup><mi mathvariant="normal">e</mi><mrow><mo form="prefix">−</mo><mi mathvariant="normal">p</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mi mathvariant="normal">t</mi></mrow></msup></mrow></math></div>
-<p>The share depends only on the penalty and the time, not on how fast incomes grow or how rich people are. With a penalty of 0.0001, after 100 years <var>p</var><var>t</var> is 0.01, and <var>s</var> is 1.0%: income per person in the hotter world is 1.0% lower.</p>
+<p>The share depends only on the penalty and the time, not on how fast incomes grow or how rich people are. With a penalty of 0.003, after 40 years <var>p</var><var>t</var> is 0.12, and <var>s</var> is 11.3%: income per person in the hotter world is 11.3% lower.</p>
 
 <h4>3. What is one year's damage worth today?</h4>
 <p>This is Chapter 14's formula for discounting: the present value is the future value times <var>e</var><sup>−<var>r</var><var>t</var></sup>. Here the future value is the damage in year <var>t</var>, so its value today is</p>
@@ -141,45 +141,46 @@
 <p>The two fractions are nearly the same size, and <var>V</var> is the small gap between them. So keep plenty of digits until you subtract, as the worked example below does.</p>
 
 <h4>Where the equations stop</h4>
-<p>When the discount rate equals one of the growth rates, the bottom of one fraction in step 4 is zero, and so is its top. The formula then reads 0 ÷ 0, which has no value. But the sum it stands for is easy: each year's income, discounted, is just <var>y</var><sub>0</sub>, and <var>T</var> years of that is <var>y</var><sub>0</sub> × <var>T</var>. So the model uses <var>T</var> for that fraction. Try a discount rate right next to the growth rate, and the formula comes out very close to <var>T</var> too.</p>
+<p>When the discount rate equals one of the growth rates, the bottom of one fraction in step 4 is zero, and so is its top. The formula then reads 0 ÷ 0, which has no value. But the sum it stands for is easy: each year's income, discounted, is just <var>y</var><sub>0</sub>, and <var>T</var> years of that is <var>y</var><sub>0</sub> × <var>T</var>. So the model uses <var>T</var> for that fraction. The page as it opens is just such a case: the book's discount rate, 2.5% a year, equals the cooler world's growth. Try a discount rate right next to the growth rate, and the formula comes out very close to <var>T</var> too.</p>
 <p>This is a toy, and it leaves a lot out.</p>
 <ul>
 <li><strong>No temperature and no emissions.</strong> The penalty starts today and never changes. Real warming builds up over decades, and so would the damage it does to growth.</li>
 <li><strong>No cost of avoiding the damage.</strong> The cooler world gets its faster growth for free. <var>V</var> is the most it would be worth spending, not what avoiding the damage would cost. Many economic models assume the opposite of this page: that money spent cutting emissions comes out of investment, so the world that avoids climate change grows a little more slowly. Chapter 14 tells that side too.</li>
 <li><strong>One average person.</strong> The model follows the average income per person. It leaves out how many people there are and how unequally income is shared, and the same loss weighs far more on a poor person than on a rich one.</li>
 <li><strong>One discount rate for every year.</strong> Many economists favor discount rates that fall over time, for the longest horizons.</li>
-<li><strong>Steady growth for centuries.</strong> When the discount rate is no higher than the cooler world's growth, every year's damage is worth more today than the year before. Then the total keeps growing for as many years as you add up, and the number of years matters as much as anything else on the page.</li>
+<li><strong>Steady growth for centuries.</strong> When the discount rate is no higher than the cooler world's growth, every year's damage is worth more today than the year before. Then the total keeps growing for as many years as you add up, and the number of years matters as much as anything else on the page. The book's example is one of these. That's why Box 14.1 adds up one working life and then says what comes after it.</li>
 </ul>
 
 <h4>A worked example</h4>
-<p>Open the page and leave the controls alone. The summary under the graph says the damage is worth $1,481 a person today. Here's where that comes from.</p>
+<p>Open the page and leave the controls alone. The summary under the graph says the damage is worth $33,910 a person today. Here's where that comes from.</p>
 <ol class="worked">
-<li><strong>The hotter world's growth (step 1).</strong> <var>r</var><sub>hot</sub> = 0.025 − 0.0001 = 0.0249.</li>
-<li><strong>The cooler world, discounted and added up (step 4).</strong> <var>r</var><sub>cool</sub> − <var>r</var><sub>disc</sub> = 0.025 − 0.045 = −0.02. Times 100 years, that's −2, and <var>e</var><sup>−2</sup> = 0.135335. So the first fraction is (0.135335 − 1) ÷ (−0.02) = 43.2332.</li>
-<li><strong>The hotter world, the same way (step 4).</strong> <var>r</var><sub>hot</sub> − <var>r</var><sub>disc</sub> = 0.0249 − 0.045 = −0.0201. Times 100 years, that's −2.01, and <var>e</var><sup>−2.01</sup> = 0.133989. So the second fraction is (0.133989 − 1) ÷ (−0.0201) = 43.0851.</li>
-<li><strong>The gap (step 4).</strong> 43.2332 − 43.0851 = 0.1481. Times <var>y</var><sub>0</sub>, which is 10,000, that's <var>V</var> = 1,481.</li>
+<li><strong>The hotter world's growth (step 1).</strong> <var>r</var><sub>hot</sub> = 0.025 − 0.003 = 0.022.</li>
+<li><strong>The cooler world, discounted and added up (step 4).</strong> <var>r</var><sub>cool</sub> − <var>r</var><sub>disc</sub> = 0.025 − 0.025 = 0. That's the 0 ÷ 0 of the part called Where the equations stop, so the first fraction is just <var>T</var>, which is 40.</li>
+<li><strong>The hotter world, the same way (step 4).</strong> <var>r</var><sub>hot</sub> − <var>r</var><sub>disc</sub> = 0.022 − 0.025 = −0.003. Times 40 years, that's −0.12, and <var>e</var><sup>−0.12</sup> = 0.88692044. So the second fraction is (0.88692044 − 1) ÷ (−0.003) = 37.6932.</li>
+<li><strong>The gap (step 4).</strong> 40 − 37.6932 = 2.3068. Times <var>y</var><sub>0</sub>, which is 14,700, that's <var>V</var> = 33,910.</li>
 </ol>
-<p>That's $1,481, the number in the summary under the graph, and about the $1,500 in Box 14.1.</p>
+<p>That's $33,910, the number in the summary under the graph, and about the $34,000 in Box 14.1. Keep eight decimal places in the exponential here: the second fraction divides by a small number, 0.003, which magnifies any rounding.</p>
 
 <h4>A few details</h4>
 <ul>
-<li><strong>Smooth, not year by year.</strong> The model grows, discounts and adds up smoothly. Adding up whole years instead, from this year to year 99, gives $1,474 on the page as it opens, against the model's $1,481.</li>
+<li><strong>Smooth, not year by year.</strong> The model grows, discounts and adds up smoothly. Adding up whole years instead, from this year to year 39, gives $33,079 on the page as it opens, against the model's $33,910.</li>
 <li><strong>Money.</strong> All of it is in today's dollars, per person. The discount rate is over and above any adjustment for inflation, as Chapter 14 says.</li>
 <li><strong>The graphs.</strong> They're drawn a year at a time. When a graph's numbers pass a million dollars, it counts in millions, or in billions.</li>
 </ul>
 
 <h3 id="about-try">See the equations at work</h3>
 <ol>
-<li><strong>A loss that rises and falls.</strong> On the page as it opens, read the bottom graph. Each year's damage, valued today, rises to $18.35 a person in year 50 and falls to $13.47 by year 100. The damage itself keeps growing, but after year 50 the discount shrinks it faster (step 3).</li>
-<li><strong>The discount rate decides.</strong> Press the three buttons under the discount rate. At "Nordhaus's 5.5%" the damage is worth $888 a person today. At "The experts' median, 2%" it's $7,001, and at "Stern's 1.4%" it's $10,708, 12 times as much. Nothing else changed.</li>
-<li><strong>No discounting at all.</strong> Set the discount rate to 0. Every year's damage now counts in full, and over 100 years they add up to $30,718 a person, which is the same total the summary gives as the damage not discounted.</li>
-<li><strong>Ten times the penalty.</strong> Go back to the book's example and set the penalty to 0.1 percentage point. After 100 years income per person in the hotter world is 9.5% lower, and the damage is worth $14,454 a person today. Set the discount rate to 2% too, and it's $67,881: these are the settings Scott's first version of this model opened on.</li>
-<li><strong>Today's world.</strong> Go back to the book's example and set income per person to $14,700, about the world's average in 2025. Everything scales with <var>y</var><sub>0</sub> (step 4), and the damage is worth $2,177 a person today, about the $2,200 that Box 14.1 gives.</li>
-<li><strong>A longer future.</strong> Go back to the book's example and add up 300 years instead of 100. The total rises only from $1,481 to $2,445, because at 4.5% a year the far future hardly counts. Now set the discount rate to 2% as well. The total is $128,204, against $7,001 for 100 years at 2%, because at 2% the damage grows faster than the discount shrinks it.</li>
+<li><strong>A loss that keeps growing.</strong> On the page as it opens, read the bottom graph. Each year's damage, valued today, rises every year, to $1,662 a person in year 40. The discount rate equals the cooler world's growth, so the discount never catches up with the damage (step 3).</li>
+<li><strong>The discount rate decides.</strong> Press the three buttons under the discount rate. At "Nordhaus's 5.5%" the damage is worth $15,957 a person today. At "The experts' median, 2%" it's $38,764, and at "Stern's 1.4%" it's $45,646, about 3 times as much. Nothing else changed. Over one working life the rate matters less than over a century, as the last item shows.</li>
+<li><strong>No discounting at all.</strong> Set the discount rate to 0. Every year's damage now counts in full, and over 40 years they add up to $67,612 a person, which is the same total the summary gives as the damage not discounted.</li>
+<li><strong>A hair slower.</strong> Go back to the book's example and set the penalty to 0.01 percentage point. After 40 years income per person in the hotter world is 0.4% lower, and the damage is worth $1,174 a person today.</li>
+<li><strong>Everything scales with income.</strong> Go back to the book's example and set income per person to $90,000, about the United States' average in 2025. Every dollar amount grows by the same factor (step 4), and the damage is worth $207,613 a person today.</li>
+<li><strong>Scott's first version.</strong> Set the penalty to 0.1 percentage point, the discount rate to 2%, income per person to $10,000 and the years to 100. These are the settings Scott's first version of this model opened on, with income per person in place of the world's income, and the damage is worth $67,881 a person today.</li>
+<li><strong>The next generation.</strong> Go back to the book's example and add up 100 years instead of 40. The total jumps from $33,910 to $200,009, because at 2.5% a year the discount never catches up with the growing damage: the losses after this working life count too. Now set the discount rate to 4.5% as well. The total over 100 years is $60,477, because at 4.5% a year the far future hardly counts.</li>
 </ol>
 
 <h3 id="about-data">Where the numbers come from</h3>
-<p>The model has no data. Its numbers are the ones in Box 14.1 of Chapter 14. Income of $10,000 a person is a round number. The International Monetary Fund put the world's average at about $14,700 a person in 2025, and the United States' at about $90,000. The three discount rates under the slider are the ones Chapter 14 describes: about 1.4% a year from the Stern Review, about 5.5% from William Nordhaus, and 2%, the median that more than 200 experts on discounting recommended for the long term when Moritz Drupp and colleagues surveyed them.</p>
+<p>The model has no data. Its numbers are the ones in Box 14.1 of Chapter 14. Income of $14,700 a person is the International Monetary Fund's estimate of the world's average in 2025; the United States' was about $90,000. The two growth rates, the book's discount rate of 2.5% a year and the 40-year working life are the book's example, not forecasts. The three discount rates under the slider are the ones Chapter 14 describes: about 1.4% a year from the Stern Review, about 5.5% from William Nordhaus, and 2%, the median that more than 200 experts on discounting recommended for the long term when Moritz Drupp and colleagues surveyed them.</p>
 <p>The idea of damage that slows growth isn't new to this page. These papers explore it with full economic models:</p>
 <p class="cite">Moyer, E. J., Woolley, M. D., Matteson, N. J., Glotter, M. J., and Weisbach, D. A. (2014). Climate impacts on economic growth as drivers of uncertainty in the social cost of carbon. <em>Journal of Legal Studies</em> 43(2), 401–425. <a href="https://doi.org/10.1086/678140">doi:10.1086/678140</a></p>
 <p class="cite">Dietz, S., and Stern, N. (2015). Endogenous growth, convexity of damage and climate risk: how Nordhaus' framework supports deep cuts in carbon emissions. <em>The Economic Journal</em> 125(583), 574–620. <a href="https://doi.org/10.1111/ecoj.12188">doi:10.1111/ecoj.12188</a></p>
@@ -191,8 +192,8 @@
 <ul>
 <li><strong>The code, against a second copy.</strong> The tests have the equations written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
 <li><strong>The formula in step 4, against adding up the long way.</strong> The tests cut the years into 100,000 thin slices and add up the area under the bottom graph slice by slice. The two agree to within a millionth, including when the discount rate equals a growth rate.</li>
-<li><strong>The model, against its first version.</strong> Scott's first version of this model was a web app written in R. The tests hold this page to what that app worked out at 144 settings, and they agree to within a millionth, except at the 58 settings where the app had a mistake. When a growth rate came within 1 percentage point of the discount rate, the app swapped in a gap of 1 percentage point, to avoid dividing by zero. That's right only when the gap really is 1 percentage point. That app worked with the world's whole income, $100&nbsp;trillion a year, instead of income per person. On its own opening settings it said $1,569&nbsp;trillion, where the right answer is $678.8&nbsp;trillion, or $67,881 a person on this page. This page uses the formula's true value there instead, as the part called Where the equations stop explains.</li>
-<li><strong>The model, against the book.</strong> Box 14.1 and its figure give about $1,500 a person today, incomes about $1,200 a year apart after a century, and a yearly loss, valued today, that rises to about $18 a person. The page as it opens gives $1,481, $1,212 and $18.35.</li>
+<li><strong>The model, against its first version.</strong> Scott's first version of this model was a web app written in R. The tests hold this page to what that app worked out at 144 settings, and they agree to within a millionth, except at the 58 settings where the app had a mistake. When a growth rate came within 1 percentage point of the discount rate, the app swapped in a gap of 1 percentage point, to avoid dividing by zero. That's right only when the gap really is 1 percentage point. That app worked with the world's whole income, $100&nbsp;trillion a year, instead of income per person. On its own opening settings it said $1,569&nbsp;trillion, where the right answer is $678.8&nbsp;trillion, or $67,881 a person on this page, starting from $10,000 a person and adding up 100 years. This page uses the formula's true value there instead, as the part called Where the equations stop explains.</li>
+<li><strong>The model, against the book.</strong> Box 14.1 and its figure give incomes of about $40,000 and $35,400 a year in 2065, about 11% lower, about $68,000 lost and about $34,000 worth spending today. The page as it opens gives $39,959, $35,440, 11.3%, $67,612 and $33,910.</li>
 <li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model.</li>
 </ul>
 

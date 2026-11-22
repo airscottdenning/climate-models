@@ -7,7 +7,7 @@
   var VIEWS = ['damage', 'about'];
   // What the page shows when the address says nothing: the example in Box 14.1 of the book. Rates are in
   // percent a year, as on the controls; model.js gets them as fractions.
-  var DEFAULTS = { view: 'damage', cool: 2.5, penalty: 0.01, disc: 4.5, income: 10000, years: 100 };
+  var DEFAULTS = { view: 'damage', cool: 2.5, penalty: 0.3, disc: 2.5, income: 14700, years: 40 };
   var PLACES = { cool: 1, penalty: 2, disc: 1, income: 0, years: 0 };   // decimal places on each control
   var INK = '#152e3d', SPINE = '#87959e', TICK = '#394b57', GRID = '#e7edf0';
   var COOL = '#0072b2', HOT = '#d55e00', DAMAGE = '#7a4a14', VALUE = '#00795a';
@@ -164,7 +164,7 @@
         text(ctx, tickText(v, gap), x0 - 7, y, { align: 'right', baseline: 'middle' });
       }
       line(x0, y1, x0, y0, SPINE);
-      var tickGap = T > 150 ? 50 : 25;
+      var tickGap = T > 150 ? 50 : T > 60 ? 25 : 10;   // one working life (40 years) reads 0, 10, 20, 30, 40
       for (var year = 0; year <= T; year += tickGap) {
         line(px(year), y0, px(year), y0 + 5, SPINE);
         text(ctx, String(year), px(year), y0 + 18, { align: 'center' });
