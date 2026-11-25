@@ -35,7 +35,7 @@
 
   // Things to hold the bill up against, from Chapters 1 and 13.
   var PHONES = 1700;                    // $ billion a year: phones and service
-  var ROADS = [35000, 70000];           // $ billion: every paved road on Earth
+  var ROADS = 50000;                    // $ billion: the paved roads (Chapter 1)
   var SUN = { yearly: 2.25, years: 15 };  // $ billion a year: aircraft that
                                           // dim the Sun, a 2018 estimate
 

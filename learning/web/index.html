@@ -98,8 +98,8 @@
 <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
 <h2>About this model</h2>
 <p>This is a very simple model of <strong>learning by doing</strong>: the more of something the world makes, the cheaper each one gets. It goes with section 12.5 of Chapter 12 of the book, "Learning beats digging", and it draws the same data as the chapter's Figures 12.4 and 12.16.</p>
-<p>The rule it uses is a learning curve. Each time the world doubles all it has ever made of something, the price falls by about the same share. That share is the <strong>learning rate</strong>. For solar panels it has been 23.5% for each doubling since 1975. For lithium-ion batteries it has been 19.5% since 1991. Oil has no learning rate: each doubling of all the oil ever produced has raised its price by about 10.0%, after inflation.</p>
-<p>On the page as it opens, solar panels cost $0.265 a watt in 2024. Three more doublings at the chapter's "about 20%" would bring them to $0.136 a watt. At the speed of the last five years, those three doublings take about 8.9 years.</p>
+<p>The rule it uses is a learning curve. Each time the world doubles all it has ever made of something, the price falls by about the same share. That share is the <strong>learning rate</strong>. For solar panels it has been 24.3% for each doubling since 1975. For lithium-ion batteries it has been 19.5% since 1991. Oil has no learning rate: each doubling of all the oil ever produced has raised its price by about 10.0%, after inflation.</p>
+<p>On the page as it opens, solar panels cost $0.120 a watt in 2025. Three more doublings at the chapter's "about 20%" would bring them to $0.0616 a watt. At the speed of the last five years, those three doublings take about 8.6 years.</p>
 
 <nav class="jump" aria-label="On this tab"><ul>
 <li><a href="#about-use">How to use this page</a></li>
@@ -130,7 +130,7 @@
 <h4>2. The straight line through the points</h4>
 <p>On a graph with logarithmic axes, a learning curve is a straight line:</p>
 <div class="eq" data-eq="line"><math displaystyle="true"><mrow><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">P</mi></mrow><mo>=</mo><mi mathvariant="normal">a</mi><mo>+</mo><mi mathvariant="normal">b</mi><mo>&#x2062;</mo><mspace width="0.17em"/><mrow><mi>ln</mi><mo>&#x2061;</mo><mspace width="0.17em"/><mi mathvariant="normal">X</mi></mrow></mrow></math></div>
-<p>The model finds the <var>a</var> and <var>b</var> that bring the line closest to every year's point (a least-squares fit, the method Figure 12.16 uses). <var>b</var> is the line's slope. For solar panels it's −0.387; for oil it's +0.138, a line that rises.</p>
+<p>The model finds the <var>a</var> and <var>b</var> that bring the line closest to every year's point (a least-squares fit, the method Figure 12.16 uses). <var>b</var> is the line's slope. For solar panels it's −0.402; for oil it's +0.138, a line that rises.</p>
 
 <h4>3. The learning rate</h4>
 <p>Double <var>X</var>, and step 2 adds <var>b</var> ln 2 to ln <var>P</var>, which multiplies the price by 2<sup><var>b</var></sup>. So each doubling takes off a share</p>
@@ -145,7 +145,7 @@
 <h4>5. How fast is it growing?</h4>
 <p>The model takes today's speed as the average over the last five years. If all of it ever made was <var>X</var><sub>earlier</sub> five years before the last year, it grew each year by</p>
 <div class="eq" data-eq="growth"><math displaystyle="true"><mrow><mi mathvariant="normal">g</mi><mo>=</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mi mathvariant="normal">X</mi><mo lspace="0" rspace="0">/</mo><msub><mi mathvariant="normal">X</mi><mtext>earlier</mtext></msub></mrow><mo stretchy="false">)</mo></mrow><mfrac><mn>1</mn><mn>5</mn></mfrac></msup><mo>−</mo><mn>1</mn></mrow></math></div>
-<p>as a share: 0.263 is 26.3% a year.</p>
+<p>as a share: 0.273 is 27.3% a year.</p>
 
 <h4>6. How long do the doublings take?</h4>
 <p>Growing by <var>g</var> a year, <var>X</var> doubles in ln 2 ÷ ln(1 + <var>g</var>) years. So <var>N</var> doublings take</p>
@@ -164,29 +164,29 @@
 <h4>A worked example</h4>
 <p>Open the page and leave everything where it is: solar panels, 20% and 3 doublings. Here's where the table's numbers come from.</p>
 <ol class="worked">
-<li><strong>Doublings so far (step 1).</strong> The world had installed 0.00054&nbsp;GW of solar by 1975 and 1,867&nbsp;GW by 2024. <var>n</var> = ln(1,867 ÷ 0.00054) ÷ ln 2 = 15.06 ÷ 0.693 = 21.7 doublings.</li>
-<li><strong>The line (step 2).</strong> The fit gives <var>b</var> = −0.387.</li>
-<li><strong>Solar's own learning rate (step 3).</strong> <var>L</var> = 1 − 2<sup>−0.387</sup> = 1 − 0.765 = 0.235, or 23.5% for each doubling.</li>
-<li><strong>Three more doublings at 20% (step 4).</strong> <var>P</var><sub><var>N</var></sub> = 0.265 × (1 − 0.20)<sup>3</sup> = 0.265 × 0.512 = $0.136 a watt.</li>
-<li><strong>Today's speed (step 5).</strong> The world had installed 580&nbsp;GW by 2019. <var>g</var> = (1,867 ÷ 580)<sup>1/5</sup> − 1 = 0.263, or 26.3% a year.</li>
-<li><strong>How long (step 6).</strong> <var>T</var> = 3 × 0.693 ÷ ln 1.263 = 2.079 ÷ 0.233 = 8.9 years.</li>
+<li><strong>Doublings so far (step 1).</strong> The world had installed 0.00054&nbsp;GW of solar by 1975 and 2,378&nbsp;GW by 2025. <var>n</var> = ln(2,378 ÷ 0.00054) ÷ ln 2 = 15.30 ÷ 0.693 = 22.1 doublings.</li>
+<li><strong>The line (step 2).</strong> The fit gives <var>b</var> = −0.402.</li>
+<li><strong>Solar's own learning rate (step 3).</strong> <var>L</var> = 1 − 2<sup>−0.402</sup> = 1 − 0.757 = 0.243, or 24.3% for each doubling.</li>
+<li><strong>Three more doublings at 20% (step 4).</strong> <var>P</var><sub><var>N</var></sub> = 0.12022 × (1 − 0.20)<sup>3</sup> = 0.12022 × 0.512 = $0.0616 a watt.</li>
+<li><strong>Today's speed (step 5).</strong> The world had installed 711&nbsp;GW by 2020. <var>g</var> = (2,378 ÷ 711)<sup>1/5</sup> − 1 = 0.273, or 27.3% a year.</li>
+<li><strong>How long (step 6).</strong> <var>T</var> = 3 × 0.693 ÷ ln 1.273 = 2.079 ÷ 0.241 = 8.6 years.</li>
 </ol>
-<p>The table says 21.7 doublings, 23.5% for each, 26.3% a year, $0.136 a watt at 20% and 8.9 years.</p>
+<p>The table says 22.1 doublings, 24.3% for each, 27.3% a year, $0.0616 a watt at 20% and 8.6 years.</p>
 
 <h3 id="about-try">See the equations at work</h3>
 <ol>
-<li><strong>Solar at its own rate.</strong> Press "Use its own past rate". Three more doublings at 23.5% bring panels to $0.119 a watt, and the world would have installed about 14,900&nbsp;GW of solar by then (step 4).</li>
+<li><strong>Solar at its own rate.</strong> Press "Use its own past rate". Three more doublings at 24.3% bring panels to $0.0521 a watt, and the world would have installed about 19,000&nbsp;GW of solar by then (step 4).</li>
 <li><strong>Batteries.</strong> Choose batteries. Their own rate is 19.5%, the chapter's "about 20%". All the batteries ever made grew 34.8% a year over the last five years, so each doubling takes about 2.3 years (steps 5 and 6).</li>
 <li><strong>Oil.</strong> Choose oil and press "Use its own past rate". The rate is −10.0%: each doubling has raised the price. And all the oil ever produced grows only 2.1% a year now, so one doubling takes about 34 years (step 6).</li>
 </ol>
 
 <h3 id="about-data">Where the numbers come from</h3>
 <p>The page draws the same numbers as Figures 12.4 and 12.16 of the book, taken from the files that draw those figures.</p>
-<p>Solar panels: their price in 2025 dollars a watt and all the solar ever installed, 1975 to 2024, compiled by Our World in Data from IRENA, Nemet (2009), and Farmer and Lafond (2016), CC BY 4.0. The chapter's "about 270 times cheaper" is from 1977, when panels cost $72.66 a watt, to 2024.</p>
+<p>Solar panels: their price in 2025 dollars a watt and all the solar ever installed, 1975 to 2025, compiled by Our World in Data from IRENA, Nemet (2009), and Farmer and Lafond (2016), CC BY 4.0. The chapter's "about 600 times cheaper" is from 1977, when panels cost $72.66 a watt, to 2025.</p>
 <p class="cite">Our World in Data (2026). Solar photovoltaic panel prices vs. cumulative capacity. <a href="https://ourworldindata.org/grapher/solar-pv-prices-vs-cumulative-capacity">ourworldindata.org/grapher/solar-pv-prices-vs-cumulative-capacity</a></p>
 <p>Batteries: the price of lithium-ion cells in 2024 dollars a kilowatt-hour and all the lithium-ion batteries ever made, 1991 to 2023, compiled by Rupert Way (2026) from Ziegler and Trancik (2021), BloombergNEF and Avicenne Energy, via Our World in Data, CC BY 4.0.</p>
 <p class="cite">Ziegler, M. S., and J. E. Trancik (2021). Re-examining rates of lithium-ion battery technology improvement and cost decline. <em>Energy &amp; Environmental Science</em>, 14, 1635–1651. <a href="https://doi.org/10.1039/d0ee02681f">doi:10.1039/d0ee02681f</a></p>
-<p>Oil: the price of crude oil in 2025 dollars a barrel, from the Energy Institute's <em>Statistical Review of World Energy</em> via Our World in Data; all the oil ever produced, from the same source since 1965 and from M. King Hubbert's 1974 report to the US Senate before that. The chapter says a barrel costs about three times what it did in 1890: that compares 1890 with the first ten months of 2026, $96 a barrel. The page stops at the 2025 average, $69.10, which is 2.2 times the 1890 price.</p>
+<p>Oil: the price of crude oil in 2025 dollars a barrel, from the Energy Institute's <em>Statistical Review of World Energy</em> via Our World in Data; all the oil ever produced, from the same source since 1965 and from M. King Hubbert's 1974 report to the US Senate before that. The chapter says a barrel costs more than twice what it did in 1890. The page stops at the 2025 average, $69.10, which is 2.2 times the 1890 price. The chapter's figure adds the first ten months of 2026, $96 a barrel, about three times the 1890 price.</p>
 <p>The cost of electricity from new solar and wind farms, and the range for new coal and gas plants:</p>
 <p class="cite">International Renewable Energy Agency (2026). <em>Renewable Power Generation Costs in 2025</em>. IRENA, Abu Dhabi. Via Our World in Data. Used with acknowledgement of IRENA as the source and copyright holder. The fossil-fuel range is from IRENA's <em>Renewable Power Generation Costs in 2020</em> (2021), converted to 2025 dollars.</p>
 <p>The phrase "learning beats digging" is the title of a chart in Ember's report <em>The Electrotech Revolution</em> (Bond, Walter and Butler-Sloss, 2025). The learning curve itself goes back to an engineer who found in 1936 that each doubling of the airplanes a factory had built cut the work of building the next one by about the same share:</p>
@@ -195,7 +195,7 @@
 <h3 id="about-checked">How it was checked</h3>
 <p>A set of tests comes with the model, and they run every time the page changes. Here's what they hold it to.</p>
 <ul>
-<li><strong>The data, against the book's figures.</strong> The page's data file is made from the files that draw Figures 12.4 and 12.16, and each is checked against the fingerprint (a SHA-256) the figure package records. The fit must give the figure's learning rates: 23.5% for solar panels, 19.5% for batteries and about +10% for oil.</li>
+<li><strong>The data, against the book's figures.</strong> The page's data file is made from the files that draw Figures 12.4 and 12.16, and each is checked against the fingerprint (a SHA-256) the figure package records. The fit must give the figure's learning rates: 24.3% for solar panels, 19.5% for batteries and about +10% for oil.</li>
 <li><strong>The code, against a second copy.</strong> The tests have the six steps written out a second time, in another programming language. At every setting they try, the two copies agree to within a billionth.</li>
 <li><strong>This tab, against the model.</strong> Every equation above is tried with the model's own numbers. The worked example is done again from the rounded numbers a calculator would use. And each number in the text is worked out again from the model, and the chapter's words are looked up in Chapter 12.</li>
 </ul>

@@ -4,7 +4,7 @@ A page for teaching how a push on the climate turns into warming. The reader set
 
 - **Public address:** `/models/forcing-feedback/` on simpleserioussolvable.org.
 - **It's a page of its own.** The models aren't embedded in the book's chapters (Scott, 12 November 2026).
-- **Everything runs in the reader's browser.** There's no server, no build step and no outside library. The data is one file of 29 kB.
+- **Everything runs in the reader's browser.** There's no server, no build step and no outside library. The data are in one file of 29 kB.
 - **The whole model is eight equations,** and `web/model.js` is about 150 lines. A student can read all of it.
 - **The pattern every model follows** is in [`models/README.md`](../README.md).
 

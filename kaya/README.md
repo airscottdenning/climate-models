@@ -29,7 +29,7 @@ It starts from the world in 2024, the latest year with all four Kaya factors mea
 - **the Python copy,** at nine settings, to within a billionth;
 - **Scott's first version.** A Python copy of the R app's own code reproduces its runs (`tests/kaya-oracle.json`, six settings) to within a billionth. The tests then show each of the three changes below doing what this README says;
 - **the data:** the first year's people, income, energy and fossil carbon are within 1% of Chapter 11's 2024 data (`figures/chapter-11/kaya-and-emissions-data/derived-data/world-intensities.csv`), and the 2000–2024 paces are worked out from the same file;
-- **the book:** 426 ppm is the live number in `_variables.yml` (the test fails when the yearly update moves it on, which is the signal to move this model's start), and 1.4 °C is Chapter 1's;
+- **the book:** 426 ppm is the live number in `_variables.yml` (the test fails when the yearly update moves it on, which is the signal to move this model's start), and 1.4 °C is 2025's single year, 1.39 °C in Chapter 6;
 - **the About tab:** its equations, read back from the page and tried with the model's numbers for every group and year; its worked example, from a calculator's rounded numbers; and every number in its text.
 
 ## What changed from the Shiny app

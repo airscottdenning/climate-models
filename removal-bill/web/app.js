@@ -180,14 +180,14 @@
 
   function drawBars(out) {
     var sun = M.SUN.yearly * M.SUN.years;
-    var most = Math.max(out.B, M.ROADS[1]);
+    var most = Math.max(out.B, M.ROADS);
     var dollars = $('dollars'), power = $('power');
     dollars.textContent = ''; power.textContent = '';
     dollars.appendChild(bar('Your bill', money(out.B), out.B / most, 'yours'));
     dollars.appendChild(bar('A year of the world\'s phones and phone service', '$' + commas(M.PHONES / 1000, 1) +
       ' trillion', M.PHONES / most, 'other'));
-    dollars.appendChild(bar('Every paved road on Earth', '$' + commas(M.ROADS[0] / 1000, 0) + ' to $' +
-      commas(M.ROADS[1] / 1000, 0) + ' trillion', M.ROADS[0] / most, 'other', M.ROADS[1] / most));
+    dollars.appendChild(bar('The world\'s paved roads, built from scratch', '$' + commas(M.ROADS / 1000, 0) +
+      ' trillion or more', M.ROADS / most, 'other'));
     dollars.appendChild(bar('Dimming the Sun from aircraft for ' + M.SUN.years + ' years (a 2018 estimate)', money(sun),
       sun / most, 'other'));
     var top = Math.max(out.W, M.ELECTRICITY);

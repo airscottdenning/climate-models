@@ -62,7 +62,7 @@ The plain strongest summer Sunlight, without the split and the 1.04, drives the 
 - Its climate sensitivity is 3.85 °C for a doubling of carbon dioxide, the CMIP6 average the authors chose; the IPCC's best estimate is 3 °C.
 - Its carbon dioxide falls to its floor of 150 ppm in the deepest ice ages, below the ice cores' lowest, about 174 ppm.
 - Its warm spells are no warmer than today: its temperature comes only from its ice and carbon dioxide, so it never goes above about +0.2 °C, while Clark et al.'s record reaches about +1.0 °C 127,000 and 404,000 years ago.
-- In the Earth system model behind step 5, about 8% of a 1,000 GtC pulse is left in the air after 10,000 years, at the low end of other models.
+- In the Earth system model behind step 5, about 8% of a 1,000 GtC pulse is left in the air after 10,000 years, a little below the IPCC's range of 10 to 25% (Chapter 9).
 - Lord et al. fitted step 5 to pulses of 1,000 to 20,000 GtC. Smaller pulses, including the page's "so far" setting of 750 GtC, use the fit a little below that range.
 
 ## Rebuilding the data

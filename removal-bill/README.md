@@ -4,7 +4,7 @@ A teaching model for Chapter 13, "Cleaning Up the Mess", of *Climate Change: Sim
 
 ## What it does
 
-Burning carbon is a running faucet, and carbon dioxide removal is mopping the floor. The reader chooses how much carbon to capture from the air and store each year, for how many years, the price of each ton of CO₂ and the energy each ton takes. The page shows the bill in dollars and in energy, how far the CO₂ in the air falls and how much the planet cools. It holds the bill up against things a reader knows: a year of the world's phones and phone service, every paved road on Earth, and one estimate of a program to dim the Sun. It holds the energy up against all the electricity the world made in 2025.
+Burning carbon is a running faucet, and carbon dioxide removal is mopping the floor. The reader chooses how much carbon to capture from the air and store each year, for how many years, the price of each ton of CO₂ and the energy each ton takes. The page shows the bill in dollars and in energy, how far the CO₂ in the air falls and how much the planet cools. It holds the bill up against things a reader knows: a year of the world's phones and phone service, the world's paved roads built from scratch, and one estimate of a program to dim the Sun. It holds the energy up against all the electricity the world made in 2025.
 
 The page opens on the chapter's own example: 1 GtC a year for 50 years, at $100 a ton of CO₂. That's 50 GtC, or 183 billion tons of CO₂, for a bill of $18.3 trillion. The CO₂ in the air falls by 11.7 ppm, and the planet cools by 0.10 °C.
 
