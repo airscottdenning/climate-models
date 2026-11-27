@@ -30,7 +30,7 @@ The model has no data file. It leaves out temperature, emissions and the cost of
 - **a second copy of the equations in Python,** at 16 settings, to within a billionth;
 - **the long way:** step 4's closed form against the area under step 3's curve by the trapezoid rule, with 100,000 slices, to within a millionth, including where the discount rate equals a growth rate;
 - **Scott's first version,** an R Shiny app. Its `climate.damage.R` was run at 144 settings (`tests/discounting-oracle.json`; the whole set, and the R script that made it, are in the data store, below). Every yearly series agrees. The totals agree to within a millionth, except at 58 settings where the app's answer was wrong (see below);
-- **the book:** Box 14.1 and Figure 14.11 (from 2025's world average of about $14,700 a person: about $45 lost in the first year; about $40,000 and $35,400 a year in 2065, about 11% lower and about $4,500 apart; about $68,000 lost, not discounted; 2065's loss worth about $1,700 today; about $34,000 a person in all);
+- **the book:** Box 14.1 and Figure 14.12 (from 2025's world average of about $14,700 a person: about $45 lost in the first year; about $40,000 and $35,400 a year in 2065, about 11% lower and about $4,500 apart; about $68,000 lost, not discounted; 2065's loss worth about $1,700 today; about $34,000 a person in all);
 - **the About tab:** its equations, read back from the page and tried with the model's numbers; its worked example, done exactly and from a calculator's rounded numbers; and every number in its text.
 
 ## What changed from the Shiny app
